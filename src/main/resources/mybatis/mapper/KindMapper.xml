@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chii.demo.mapper.KindMapper">
+  <resultMap id="BaseResultMap" type="com.chii.demo.pojo.Kind">
+    <constructor>
+      <idArg column="k_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_main" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    k_ID, k_name, k_main
+  </sql>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from kind
+  </select>
+  <select id="selectSome" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from kind
+    where k_ID LIKE "%"#{kId,jdbcType=VARCHAR}"%" and k_Name LIKE "%"#{kName,jdbcType=VARCHAR}"%"
+    and k_main LIKE "%"#{kMain,jdbcType=VARCHAR}"%"
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kind
+    where k_ID = #{kId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from kind
+    where k_ID = #{kId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chii.demo.pojo.Kind">
+    insert into kind (k_ID, k_name, k_main
+      )
+    values (#{kId,jdbcType=VARCHAR}, #{kName,jdbcType=VARCHAR}, #{kMain,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chii.demo.pojo.Kind">
+    insert into kind
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kId != null">
+        k_ID,
+      </if>
+      <if test="kName != null">
+        k_name,
+      </if>
+      <if test="kMain != null">
+        k_main,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kId != null">
+        #{kId,jdbcType=VARCHAR},
+      </if>
+      <if test="kName != null">
+        #{kName,jdbcType=VARCHAR},
+      </if>
+      <if test="kMain != null">
+        #{kMain,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chii.demo.pojo.Kind">
+    update kind
+    <set>
+      <if test="kName != null">
+        k_name = #{kName,jdbcType=VARCHAR},
+      </if>
+      <if test="kMain != null">
+        k_main = #{kMain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where k_ID = #{kId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chii.demo.pojo.Kind">
+    update kind
+    set k_name = #{kName,jdbcType=VARCHAR},
+      k_main = #{kMain,jdbcType=VARCHAR}
+    where k_ID = #{kId,jdbcType=VARCHAR}
+  </update>
+</mapper>

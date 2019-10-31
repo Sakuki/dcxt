@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('菜品管理')">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div  th:include="nav::comNav"></div>
+<div>
+    <div  style="float:left;" th:include="nav::MenuNav"></div>
+    <div  style="float:left;" id="AddMenu" hidden>
+        <form name="" action="/AddMenuInfo" method="post">
+            <div>
+                菜号: <input name="mId" /><br><br>
+                名称: <input name="mName"/><br><br>
+                做法: <input name="mWay"/><br><br>
+                口味: <input name="mFlavor"/><br><br>
+                主料: <input name="mIng"/><br><br>
+                价格: <input name="mPrice"/><br><br>
+                照片: <input name="mPic"/><br><br>
+                类别: <select name="kName" id="selectKind" class="selectKind" >
+                <option>请选择</option>
+            </select>
+                <br><br>
+                <input type="submit" name="Add" value="添加"/>
+            </div>
+        </form>
+    </div>
+
+    <div id="divInfo"  hidden>
+        <div>
+            <form name="" action="/SearchMenuInfo" method="post">
+                菜号: <input name="mId" /><br><br>
+                名称: <input name="mName"/><br><br>
+                类别: <select name="kName" class="selectKind" >
+                <option>请选择</option>
+            </select><br><br>
+                <input type="submit" name="Search" value="查找"/><br><br>
+            </form>
+        </div>
+        <div>
+            <table id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+background-color:#EAF2D3; float: top" >
+                <tr>
+                    <td>菜号</td>
+                    <td>名称</td>
+                    <td>做法</td>
+                    <td>口味</td>
+                    <td>主料</td>
+                    <td>价格</td>
+                    <td>照片</td>
+                    <td>类别</td>
+                    <td>操作</td>
+                </tr>
+                <tr th:each="menu,count:${menuAndKindList}" >
+                    <td class="mId" th:text="${menu.getmId()}" ></td>
+                    <td class="mName" th:text="${menu.getmName()}"></td>
+                    <td class="mWay" th:text="${menu.getmWay()}"></td>
+                    <td class="mFlavor" th:text="${menu.getmFlavor()}"></td>
+                    <td class="mIng" th:text="${menu.getmIng()}"></td>
+                    <td class="mPrice" th:text="${menu.getmPrice()}"></td>
+                    <td class="mPic" th:text="${menu.getmPic()}"></td>
+                    <td class="kName" th:text="${menu.getkName()}"></td>
+                    <td id="a">
+                        <a href="#" id="edit_btn" class="modify" >修改</a>
+                        <a href="#" id="del_btn" class="remove">删除</a>
+                    </td>
+                </tr>
+            </table>
+            <label id="btn0"></label>
+            <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
+            <label> 条 </label> &nbsp;
+            <label id="sum"></label>&nbsp;
+            <a  href="#" id="btn_first">首页</a>
+            <a  href="#" id="btn_pre">上一页</a>
+            <a  href="#" id="btn_next">下一页</a>
+            <a  href="#" id="btn_last">尾页</a>&nbsp;
+            <label>转到&nbsp;</label>
+            <input id="changePage" type="text" size="1" maxlength="4"/>
+            <label>页&nbsp;</label>
+            <a  href="#" id="btn_turn">跳转</a>
+        </div>
+    </div>
+
+</div>
+<div style="width: 100%" th:include="nav::comFooter"></div>
+</body>
+<!--<script src="jquery-3.3.1/jquery-3.3.1.min.js"></script>-->
+<!--<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>-->
+<!--<script src="bootstrap-table/dist/bootstrap-table.min.js"></script>-->
+<!--<script src="bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>-->
+
+<!--<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />-->
+<!--<link href="bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" />-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="Paging.js"></script>
+<!--<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.js"></script>-->
+<!--<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.css">-->
+<script  type="text/javascript"  th:inline="javascript" >
+    var j = 1,kindNameList,flag_edit = 1;
+    var getInfo = [[${getInfo}]];
+    var div_1=document.getElementById("AddMenu");
+    var div_2=document.getElementById("divInfo");
+    console.log(getInfo);
+    //辨别显示哪个div
+    if (getInfo == "1"){
+        div_1.removeAttribute("hidden");
+    }
+    else if (getInfo == "2"){
+        div_2.removeAttribute("hidden");
+    }
+
+    //  function table_load() {
+    //     console.log("123");
+    //     $('#table_page').bootstrapTable({
+    //         pagination : true,//是否分页
+    //         sidePagination : 'client',//server:服务器端分页|client：前端分页
+    //         pageSize : 10,//单页记录数
+    //         columns:[{
+    //             field:'id',
+    //             title:'菜号'
+    //         },{
+    //             field:'name',
+    //             title:'名称'
+    //         },{
+    //             field:'way',
+    //             title:'做法'
+    //         },{
+    //             field:'flavor',
+    //             title:'口味'
+    //         },{
+    //             field:'ing',
+    //             title:'主料'
+    //         },{
+    //             field:'price',
+    //             title:'价格'
+    //         },{
+    //             field:'Pic',
+    //             title:'照片'
+    //         },{
+    //             field:'kName',
+    //             title:'类别'
+    //         },{
+    //             field:'',
+    //             title:'操作'
+    //         },]
+    //     });
+    // }
+
+    //添加里的类别下拉菜单动态加载
+    $(".selectKind").click(function () {
+        $.ajax({
+            url:'/findSelect',
+            type:'post',
+            success:function (kindNameList) {
+                if (j==1){
+                    for (var i=0; i<kindNameList.length; i++){
+                        var option = "<option value=\"" + kindNameList[i] + "\">"+ kindNameList[i] +"</option>";
+                        $("select[class=selectKind]").append(option);
+                        console.log("kind name is "+kindNameList[i]);
+                    }
+                    j++;
+                }
+            }
+        })
+    })
+
+
+
+    //添加时，检测菜号、名称、类别是否为空
+    var flag = [[${flag}]];
+    console.log(flag);
+    if (flag == "1")
+        alert("添加成功");
+    else if(flag == "0")
+        alert("添加失败，菜号、名称、类别不能为空");
+
+    //按修改
+    $(".modify").click(function () {
+        console.log("12345");
+        $.ajax({
+            url:'/findSelect',
+            type:'post',
+            async:false,
+            success:function (kindNameList1) {
+                kindNameList = kindNameList1;
+            }
+        })
+        $(this).parent().siblings("td").each(function () {//找同类元素td
+            var is_text = $(this).find("input:text");//判断单元格下是否含有文本框
+            var is_select = $(this).find("option:selected");//判断单元格下是否含有下拉框
+            var is_id = $(this).attr("class");
+            if (!is_text.length&&is_id!="mId"&& !is_select.length){//不是文本框且不是kId且不是下拉框
+                if(is_id!="kName"){
+                    $(this).html("<input size='13' type='text' value=' "+$(this).text()+" ' />");
+                }
+                else if(is_id=="kName"){
+                    var kName = $(this).text()
+                    // console.log("this.text is "+kName);
+                    $(this).html("<select name='kName' class='selectKind' >\n" +
+                        "<option>请选择</option>\n" +
+                        "</select>");
+                    if (flag_edit==1){
+                        for (var i=0; i<kindNameList.length; i++){
+                            console.log(kindNameList[i]+" and "+kName);
+                            if (kindNameList[i] == kName)
+                            {
+                                var option = "<option value=\"" + kindNameList[i] + "\" selected='selected'>"+ kindNameList[i] +"</option>";
+                                $("select[class=selectKind]").append(option);
+                            }
+                            else {
+                                var option = "<option value=\"" + kindNameList[i] + "\">"+ kindNameList[i] +"</option>";
+                                $("select[class=selectKind]").append(option);
+                            }
+                            // console.log("kind name is "+kindNameList[i]);
+                        }
+                        flag_edit++;
+                    }
+                }
+            }
+            else{
+                if(is_id!="kName"){
+                    $(this).html(is_text.val());
+                    var Info = is_text.val();
+                }else if (is_id=="kName"){
+                    var selects = $(this).find("option:selected").text()
+                    $(this).html(selects);
+                    console.log("selects is "+ selects);
+                }
+                console.log(is_text.val());
+            }
+        })
+        var id = $(this).parent().parent().children("td.mId").text();//获取修改后的数据
+        var name = $(this).parent().parent().children("td.mName").text();
+        var way = $(this).parent().parent().children("td.mWay").text();
+        var flavor = $(this).parent().parent().children("td.mFlavor").text();
+        var ing = $(this).parent().parent().children("td.mIng").text();
+        var price = $(this).parent().parent().children("td.mPrice").text();
+        var pic = $(this).parent().parent().children("td.mPic").text();
+        var kName = $(this).parent().parent().children("td.kName").text();
+        flag_edit=1;
+        $.ajax({
+            type:'post',
+            url:'/EditMenuInfo',
+            Type:"json",
+            //传数据到controller的EditKindInfo上
+            data:{"id":id,"name":name,"way":way,"flavor":flavor,"ing":ing,
+                "price":price,"pic":pic,"kName":kName}
+        });
+    });
+
+    //按删除
+    $(".remove").click(function () {
+        if (window.confirm("您确定要删除数据吗？"))
+        {
+            var id = $(this).parent().parent().children("td.mId").text();
+            $(this).parent().parent().remove();
+            $.ajax({
+                type:'post',
+                url:'/DelMenuInfo',
+                Type:"json",
+                //传数据到controller的DelEmpInfo上
+                data:{"id":id}
+            });
+        }
+    });
+
+
+
+</script>
+
+</html>

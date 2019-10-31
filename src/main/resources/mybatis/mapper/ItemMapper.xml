@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chii.demo.mapper.ItemMapper">
+  <resultMap id="BaseResultMap" type="com.chii.demo.pojo.Item">
+    <constructor>
+      <idArg column="i_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="o_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="i_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="i_price" javaType="java.lang.Long" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    i_ID, o_ID, m_ID, i_num, i_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from item
+    where i_ID = #{iId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from item
+    where i_ID = #{iId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chii.demo.pojo.Item">
+    insert into item (i_ID, o_ID, m_ID, 
+      i_num, i_price)
+    values (#{iId,jdbcType=VARCHAR}, #{oId,jdbcType=VARCHAR}, #{mId,jdbcType=VARCHAR}, 
+      #{iNum,jdbcType=INTEGER}, #{iPrice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chii.demo.pojo.Item">
+    insert into item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="iId != null">
+        i_ID,
+      </if>
+      <if test="oId != null">
+        o_ID,
+      </if>
+      <if test="mId != null">
+        m_ID,
+      </if>
+      <if test="iNum != null">
+        i_num,
+      </if>
+      <if test="iPrice != null">
+        i_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="iId != null">
+        #{iId,jdbcType=VARCHAR},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=VARCHAR},
+      </if>
+      <if test="iNum != null">
+        #{iNum,jdbcType=INTEGER},
+      </if>
+      <if test="iPrice != null">
+        #{iPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chii.demo.pojo.Item">
+    update item
+    <set>
+      <if test="oId != null">
+        o_ID = #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        m_ID = #{mId,jdbcType=VARCHAR},
+      </if>
+      <if test="iNum != null">
+        i_num = #{iNum,jdbcType=INTEGER},
+      </if>
+      <if test="iPrice != null">
+        i_price = #{iPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where i_ID = #{iId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chii.demo.pojo.Item">
+    update item
+    set o_ID = #{oId,jdbcType=VARCHAR},
+      m_ID = #{mId,jdbcType=VARCHAR},
+      i_num = #{iNum,jdbcType=INTEGER},
+      i_price = #{iPrice,jdbcType=DECIMAL}
+    where i_ID = #{iId,jdbcType=VARCHAR}
+  </update>
+</mapper>

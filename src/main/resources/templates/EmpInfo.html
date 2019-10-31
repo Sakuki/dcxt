@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('员工管理')">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div  th:include="nav::comNav"></div>
+<div>
+
+    <div  style="float:left;" th:include="nav::UserNav"></div>
+    <div  style="float:left;" id="AddInfo" hidden>
+        <form name="" action="/AddEmpInfo" method="post">
+            <div>
+                工号:  <input name="uId" /><br><br>
+                姓名:  <input name="uName"/><br><br>
+                密码:  <input name="uPassword" /><br><br>
+                年龄:  <input name="uAge" /><br><br>
+                性别:  <select name="uSex" >
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select><br><br>
+<!--                <input name="uSex" /><br><br>-->
+                <input type="submit" name="Add" value="添加"/>
+            </div>
+        </form>
+    </div>
+    <div id="divInfo"  hidden>
+        <div>
+            <form name="" action="/SearchEmpInfo" method="post">
+                工号: <input name="uId" /><br><br>
+                姓名:  <input name="uName"/><br><br>
+                <input type="submit" name="Search" value="查找"/><br><br>
+            </form>
+        </div>
+        <div>
+            <table id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+background-color:#EAF2D3; float: top">
+                <tr>
+                    <td>工号</td>
+                    <td>姓名</td>
+                    <td>密码</td>
+                    <td>年龄</td>
+                    <td>性别</td>
+                    <td>操作</td>
+                    <!--                <td>删除</td>-->
+                </tr>
+                <tr th:each="user,count:${userList}" th:if="${!user.getuId().equals('1001')}">
+                    <td class="uId" th:text="${user.getuId()}" ></td>
+                    <td class="uName" th:text="${user.getuName()}"></td>
+                    <td class="uPassword" th:text="${user.getuPassword()}"></td>
+                    <td class="uAge" th:text="${user.getuAge()}"></td>
+                    <td class="uSex" th:text="${user.getuSex()}"></td>
+                    <td id="a">
+                        <a href="#" id="edit_btn" class="modify" >修改</a>
+                        <a href="#" id="del_btn" class="remove">删除</a>
+                    </td>
+                </tr>
+            </table>
+            <label id="btn0"></label>
+            <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
+            <label> 条 </label> &nbsp;
+            <label id="sum"></label>&nbsp;
+            <a  href="#" id="btn_first">首页</a>
+            <a  href="#" id="btn_pre">上一页</a>
+            <a  href="#" id="btn_next">下一页</a>
+            <a  href="#" id="btn_last">尾页</a>&nbsp;
+            <label>转到&nbsp;</label>
+            <input id="changePage" type="text" size="1" maxlength="4"/>
+            <label>页&nbsp;</label>
+            <a  href="#" id="btn_turn">跳转</a>
+        </div>
+</div>
+
+</div >
+<div style="width: 100%" th:include="nav::comFooter"></div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="Paging.js"></script>
+<script  type="text/javascript"  th:inline="javascript" >
+    var getInfo = [[${getInfo}]];
+    var div_2=document.getElementById("divInfo");
+    var div_1=document.getElementById("AddInfo");
+    console.log(getInfo);
+    //辨别显示哪个div
+    if (getInfo == "1")
+        div_1.removeAttribute("hidden");
+    else if (getInfo == "2")
+        div_2.removeAttribute("hidden");
+
+    var flag = [[${flag}]];
+    console.log(flag);
+    if (flag == "1")
+        alert("添加成功");
+    else if(flag == "0")
+        alert("添加失败，不能为空");
+
+    //按修改
+    $(".modify").click(function () {
+        console.log("12345");
+        $(this).parent().siblings("td").each(function () {//找同类元素td
+            var is_text = $(this).find("input:text");//判断单元格下是否含有文本框
+            var is_select = $(this).find("option:selected");//判断单元格下是否含有下拉框
+            var is_id = $(this).attr("class");
+            if (!is_text.length && is_id!="uId" && !is_select.length){//不是文本框且不是uId且不是下拉框
+                if(is_id!="uSex"){
+                    $(this).html("<input size='13' type='text' value=' "+$(this).text()+" ' />");
+                    }
+                else if(is_id=="uSex"){
+                    console.log("this.text is "+$(this).text());
+                    if($(this).text()=='男'){    //性别为男时下拉框默认男
+                        $(this).html("<select name='uSex' >\n" +
+                            "<option value='男' selected='selected'>男</option>\n" +
+                            "<option value='女'>女</option>\n" +
+                            "</select>");
+                    }
+                    else if($(this).text()=='女'){  //性别为女时下拉框默认女
+                        $(this).html("<select name='uSex' >\n" +
+                            "<option value='男' >男</option>\n" +
+                            "<option value='女' selected='selected'>女</option>\n" +
+                            "</select>");
+                    }
+                }
+            }
+            else{
+                if(is_id!="uSex"){
+                    $(this).html(is_text.val());
+                    var Info = is_text.val();
+                }else if (is_id=="uSex"){
+                    var selects = $(this).find("option:selected").text()
+                    $(this).html(selects);
+                    console.log("selects is "+ selects);
+                }
+                console.log(is_text.val());
+            }
+        })
+        var id = $(this).parent().parent().children("td.uId").text();//获取修改后的数据
+        var name = $(this).parent().parent().children("td.uName").text();
+        var password = $(this).parent().parent().children("td.uPassword").text();
+        var age = $(this).parent().parent().children("td.uAge").text();
+        var sex = $(this).parent().parent().children("td.uSex").text();
+
+        $.ajax({
+            type:'post',
+            url:'/EditEmpInfo',
+            Type:"json",
+            //传数据到controller的EditEmpInfo上
+            data:{"id":id,"name":name,"password":password,"age":age,"sex":sex}
+        });
+    });
+//按删除
+    $(".remove").click(function () {
+        if (window.confirm("您确定要删除数据吗？"))
+        {
+            var id = $(this).parent().parent().children("td.uId").text();
+            $(this).parent().parent().remove();
+            $.ajax({
+                type:'post',
+                url:'/DelEmpInfo',
+                Type:"json",
+                //传数据到controller的DelEmpInfo上
+                data:{"id":id}
+            });
+        }
+    });
+
+</script>
+</html>

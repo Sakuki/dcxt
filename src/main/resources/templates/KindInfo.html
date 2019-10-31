@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('类别管理')">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div  th:include="nav::comNav"></div>
+<div>
+    <div  style="float:left;" th:include="nav::KindNav"></div>
+
+    <div  style="float:left;" id="AddKind" hidden>
+        <form name="" action="/AddKindInfo" method="post">
+            <div>
+                类别号:  <input name="kId" /><br><br>
+                类名称:  <input name="kName"/><br><br>
+                主用料:  <input name="kMain" /><br><br>
+                <input type="submit" name="Add" value="添加"/>
+            </div>
+        </form>
+    </div>
+
+    <div id="divInfo"  hidden>
+        <div>
+            <form name="" action="/SearchKindInfo" method="post">
+                类别号: <input name="kId" /><br><br>
+                类名称: <input name="kName"/><br><br>
+                主用料: <input name="kMain"/><br><br>
+                <input type="submit" name="Search" value="查找"/><br><br>
+            </form>
+        </div>
+        <div>
+            <table  id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+background-color:#EAF2D3; float: top">
+                <tr>
+                    <td>类别号</td>
+                    <td>类名称</td>
+                    <td>主用料</td>
+                    <td>操作</td>
+                    <!--                <td>删除</td>-->
+                </tr>
+                <tr th:each="kind,count:${kindList}" >
+                    <td class="kId" th:text="${kind.getkId()}" ></td>
+                    <td class="kName" th:text="${kind.getkName()}"></td>
+                    <td class="kMain" th:text="${kind.getkMain()}"></td>
+                    <td id="a">
+                        <a href="#" id="edit_btn" class="modify" >修改</a>
+                        <a href="#" id="del_btn" class="remove">删除</a>
+                    </td>
+                </tr>
+            </table>
+            <label id="btn0"></label>
+            <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
+            <label> 条 </label> &nbsp;
+            <label id="sum"></label>&nbsp;
+            <a  href="#" id="btn_first">首页</a>
+            <a  href="#" id="btn_pre">上一页</a>
+            <a  href="#" id="btn_next">下一页</a>
+            <a  href="#" id="btn_last">尾页</a>&nbsp;
+            <label>转到&nbsp;</label>
+            <input id="changePage" type="text" size="1" maxlength="4"/>
+            <label>页&nbsp;</label>
+            <a  href="#" id="btn_turn">跳转</a>
+        </div>
+    </div>
+</div>
+<div style="width: 100%" th:include="nav::comFooter"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="Paging.js"></script>
+<script  type="text/javascript"  th:inline="javascript" >
+    var getInfo = [[${getInfo}]];
+    var div_1=document.getElementById("AddKind");
+    var div_2=document.getElementById("divInfo");
+    console.log(getInfo);
+    //辨别显示哪个div
+    if (getInfo == "1")
+        div_1.removeAttribute("hidden");
+    else if (getInfo == "2")
+        div_2.removeAttribute("hidden");
+//添加时，检测是否为空
+    var flag = [[${flag}]];
+    console.log(flag);
+    if (flag == "1")
+        alert("添加成功");
+    else if(flag == "0")
+        alert("添加失败，不能为空");
+
+    //按修改
+    $(".modify").click(function () {
+        console.log("12345");
+        $(this).parent().siblings("td").each(function () {//找同类元素td
+            var is_text = $(this).find("input:text");//判断单元格下是否含有文本框
+            var is_id = $(this).attr("class");
+            if (!is_text.length&&is_id!="kId"){//不是文本框且不是kId
+                $(this).html("<input size='13' type='text' value=' "+$(this).text()+" ' />");
+            }
+            else{
+                $(this).html(is_text.val());
+                var Info = is_text.val();
+                console.log(is_text.val());
+            }
+        })
+        var id = $(this).parent().parent().children("td.kId").text();//获取修改后的数据
+        var name = $(this).parent().parent().children("td.kName").text();
+        var main = $(this).parent().parent().children("td.kMain").text();
+
+        $.ajax({
+            type:'post',
+            url:'/EditKindInfo',
+            Type:"json",
+            //传数据到controller的EditKindInfo上
+            data:{"id":id,"name":name,"main":main}
+        });
+    });
+
+    //按删除
+    $(".remove").click(function () {
+        if (window.confirm("您确定要删除数据吗？"))
+        {
+            var id = $(this).parent().parent().children("td.kId").text();
+            $(this).parent().parent().remove();
+            $.ajax({
+                type:'post',
+                url:'/DelKindInfo',
+                Type:"json",
+                //传数据到controller的DelEmpInfo上
+                data:{"id":id}
+            });
+        }
+    });
+
+</script>
+
+
+</html>

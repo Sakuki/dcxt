@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('主页')">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:include="nav::comNav"></div>
+<div>
+<!--        <p th:text="*{welcome}" type="text" name="welcome" ></p>-->
+    welcome <label th:text="*{uName}" type="text"></label> login this System
+    <p id="welcome"></p>
+</div>
+<div th:include="nav::comFooter"></div>
+</body>
+<!--<script th:inline="javascript" >-->
+<!--    var Name = sessionStorage.getItem("UserName");-->
+<!--    console.log(Name);-->
+<!--</script>-->
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="Tnav(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div th:fragment="comNav">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/User_Home">自主点餐系统</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li ><a href="EmpInfo?getInfo=0">店员管理</a></li>
+                    <li class="dropdown">
+                        <a href="#BBBB" class="dropdown-toggle" data-toggle="dropdown">
+                        菜单管理
+                        <b class="caret"></b>
+                    </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="KindInfo?getInfo=0">类别</a> </li>
+                            <li><a href="MenuInfo?getInfo=0">菜品</a> </li>
+                        </ul>
+                    </li>
+                    <li><a href="#CCCC">订单管理</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+//店员管理子菜单
+<div th:fragment="UserNav">
+    <div style="width: 100px; float:left "  >
+        <nav class="navbar navbar-default" >
+            <ul class="nav nav-pills nav-stacked" >
+                <li><a href="EmpInfo?getInfo=1">新增店员</a> </li>
+                <li><a href="EmpInfo?getInfo=2">查找店员</a></li>
+                <li><a href="#33">编辑店员</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+//类别管理子菜单
+<div th:fragment="KindNav">
+    <div style="width: 100px; float:left "  >
+        <nav class="navbar navbar-default" >
+            <ul class="nav nav-pills nav-stacked" >
+                <li><a href="KindInfo?getInfo=1">新增类别</a> </li>
+                <li><a href="KindInfo?getInfo=2">查找类别</a></li>
+                <li><a href="#33">编辑类别</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+//菜品管理子菜单
+<div th:fragment="MenuNav">
+    <div style="width: 100px; float:left "  >
+        <nav class="navbar navbar-default" >
+            <ul class="nav nav-pills nav-stacked" >
+                <li><a href="MenuInfo?getInfo=1">新增菜品</a></li>
+                <li><a href="MenuInfo?getInfo=2">查找菜品</a></li>
+                <li><a href="#33">编辑菜品</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<footer th:fragment="comFooter">
+    <div style="width: 100%">
+        <h5 class="text-center">©2019 System</h5>
+    </div>
+</footer>
+</body>
+</html>

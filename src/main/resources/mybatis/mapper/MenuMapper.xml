@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chii.demo.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.chii.demo.pojo.Menu">
+    <constructor>
+      <idArg column="m_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_way" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_flavor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_ing" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_price" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="m_pic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="NewResultMap" type="com.chii.demo.pojo.MenuAndKind">
+    <constructor>
+      <idArg column="m_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_way" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_flavor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_ing" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="m_price" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="m_pic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="k_main" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    m_ID, m_name, m_way, m_flavor, m_ing, m_price, m_pic, k_ID
+  </sql>
+  <sql id="Menu_Kind_List">
+    menu.m_ID, menu.m_name, menu.m_way, menu.m_flavor, menu.m_ing, menu.m_price, menu.m_pic, menu.k_ID, kind.k_Name, kind.k_Main
+  </sql>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu
+  </select>
+  <select id="selectSome" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu
+    where m_ID LIKE "%"#{mId,jdbcType=VARCHAR}"%" and m_name LIKE "%"#{mName,jdbcType=VARCHAR}"%"
+    and m_way LIKE "%"#{mWay,jdbcType=VARCHAR}"%" and m_flavor LIKE "%"#{mFlavor,jdbcType=VARCHAR}"%"
+    and m_ing LIKE "%"#{mIng,jdbcType=VARCHAR}"%" and k_ID LIKE "%"#{kId,jdbcType=VARCHAR}"%"
+  </select>
+  <select id="selectKindName" parameterType="java.lang.String" resultMap="NewResultMap">
+    select
+    <include refid="Menu_Kind_List" />
+    from menu
+    inner join kind
+    on menu.k_ID = kind.K_ID
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where m_ID = #{mId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from menu
+    where m_ID = #{mId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chii.demo.pojo.Menu">
+    insert into menu (m_ID, m_name, m_way, 
+      m_flavor, m_ing, m_price, 
+      m_pic, k_ID)
+    values (#{mId,jdbcType=VARCHAR}, #{mName,jdbcType=VARCHAR}, #{mWay,jdbcType=VARCHAR}, 
+      #{mFlavor,jdbcType=VARCHAR}, #{mIng,jdbcType=VARCHAR}, #{mPrice,jdbcType=DECIMAL}, 
+      #{mPic,jdbcType=VARCHAR}, #{kId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chii.demo.pojo.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        m_ID,
+      </if>
+      <if test="mName != null">
+        m_name,
+      </if>
+      <if test="mWay != null">
+        m_way,
+      </if>
+      <if test="mFlavor != null">
+        m_flavor,
+      </if>
+      <if test="mIng != null">
+        m_ing,
+      </if>
+      <if test="mPrice != null">
+        m_price,
+      </if>
+      <if test="mPic != null">
+        m_pic,
+      </if>
+      <if test="kId != null">
+        k_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        #{mId,jdbcType=VARCHAR},
+      </if>
+      <if test="mName != null">
+        #{mName,jdbcType=VARCHAR},
+      </if>
+      <if test="mWay != null">
+        #{mWay,jdbcType=VARCHAR},
+      </if>
+      <if test="mFlavor != null">
+        #{mFlavor,jdbcType=VARCHAR},
+      </if>
+      <if test="mIng != null">
+        #{mIng,jdbcType=VARCHAR},
+      </if>
+      <if test="mPrice != null">
+        #{mPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mPic != null">
+        #{mPic,jdbcType=VARCHAR},
+      </if>
+      <if test="kId != null">
+        #{kId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chii.demo.pojo.Menu">
+    update menu
+    <set>
+      <if test="mName != null">
+        m_name = #{mName,jdbcType=VARCHAR},
+      </if>
+      <if test="mWay != null">
+        m_way = #{mWay,jdbcType=VARCHAR},
+      </if>
+      <if test="mFlavor != null">
+        m_flavor = #{mFlavor,jdbcType=VARCHAR},
+      </if>
+      <if test="mIng != null">
+        m_ing = #{mIng,jdbcType=VARCHAR},
+      </if>
+      <if test="mPrice != null">
+        m_price = #{mPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mPic != null">
+        m_pic = #{mPic,jdbcType=VARCHAR},
+      </if>
+      <if test="kId != null">
+        k_ID = #{kId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where m_ID = #{mId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chii.demo.pojo.Menu">
+    update menu
+    set m_name = #{mName,jdbcType=VARCHAR},
+      m_way = #{mWay,jdbcType=VARCHAR},
+      m_flavor = #{mFlavor,jdbcType=VARCHAR},
+      m_ing = #{mIng,jdbcType=VARCHAR},
+      m_price = #{mPrice,jdbcType=DECIMAL},
+      m_pic = #{mPic,jdbcType=VARCHAR},
+      k_ID = #{kId,jdbcType=VARCHAR}
+    where m_ID = #{mId,jdbcType=VARCHAR}
+  </update>
+</mapper>
