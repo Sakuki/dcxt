@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>XX饭店</title>
+</head>
+<style>
+    body {
+        position: relative;
+    }
+    ul.nav-pills {
+        position: fixed;
+    }
+    .divNav{
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+    }
+    /*.divSelect{*/
+    /*    display: flex;*/
+    /*    min-height: 75px;*/
+    /*    flex-direction: row;*/
+    /*    border-bottom: 1px solid #e7eaeb;*/
+    /*}*/
+
+    /*.divSelect .text{*/
+    /*    flex-direction: column;*/
+    /*}*/
+    /*.index{flex-direction: column;}*/
+    .top{display:block;position:fixed;width:100%;z-index:3;top:0px;color: #000000;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+
+    .divSelect{padding:5px 0 5px;}
+    .divSelect dl{position:relative;padding-left:60px;height:80px;border-bottom:1px solid #e7eaeb;border-top:1px solid #fff;padding-bottom:8px;margin-bottom:2px;}
+    .divSelect dl dt h3{font-size:14px;margin-bottom:10px;margin-top:8px;}
+    .divSelect dl dd{margin-left:0;font-size:11px;position:relative;z-index:1;}
+    .divSelect dl dd img{height:70px;width:70px;position:absolute;left:-75px;top:-25px;border-radius:3px;cursor:pointer;vertical-align:middle;border:0;}
+    .divSelect dl dd em{font-style:normal;line-height:10px;font-size:11px;vertical-align:bottom;}
+    .divSelect dl dd em.sale{color:#f00;}
+    .divSelect dl dd del{color:#b2b2b2;font-size:10px;line-height:22px;}
+    .divSelect dl dd.btn{background-color:transparent;position:absolute;right:-5px;top:25%;cursor:pointer;padding:3px;height:38px;}
+    .divSelect dl dd.btn button.minus{margin-right:-10px;display:none;}
+    .divSelect dl dd.btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+    .divSelect dl dd.btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
+    .divSelect dl dd.btn button.minus strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .divSelect dl dd.btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+
+    .divSelect dl dd.btn button.plus{margin-left:-10px;}
+    .divSelect dl dd.btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+    .divSelect dl dd.btn .price{display:none;}
+
+    .footer{display:block;position:fixed;padding:5px 0;width:100%;z-index:3;bottom:0px;color:#f03c03;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .footer .left{float:left;margin-left:3px;}
+    .footer .right{float:right;margin-right:3px;}
+    .footer .right .disable{background:#dbdbdb;}
+    .footer .xhlbtn{display:block;text-align:center;background-color:#F03C03;padding:0 10px;border-radius:20px;color:#fff;font-weight:bold;}
+
+    /*@media screen and (max-width: 810px) {*/
+    /*        #section1, #section2, #section3, #section41, #section42  {*/
+    /*            margin-left: 150px;*/
+    /*        }*/
+    /*}*/
+</style>
+<body data-spy="scroll">
+<div style="width: 100%" >
+    <div id="top" class="top">
+        <h2>XX饭店自助点餐</h2>
+    </div>
+    <div id="left"  style="float: left ;width: 25%;margin-top: 65px; background-color:#eee;">
+        <nav id="kind" class="divNav"  >
+                <ul id="nav_ul" class="nav nav-pills nav-stacked" >
+<!--                    <li class="active"><a href="#section1">Section 1</a></li>-->
+<!--                    <li><a href="#section2">Section 2</a></li>-->
+<!--                    <li><a href="#section3">Section 3</a></li>-->
+<!--                    <li th:each="kind,count:${kindList}">-->
+<!--                        <a href="#"  th:text="${kind.getkName()}"></a>-->
+<!--                    </li>-->
+                </ul>
+        </nav>
+    </div>
+    <div id="right" style="float: right; width: 75%; margin-top: 65px; margin-bottom: 36px">
+<!--        <div th:each="menu,count:${menuList}"  class="divSelect">-->
+<!--            <dl>-->
+<!--                <dt>-->
+<!--                    <h3 th:text="${menu.getmName()}"></h3>-->
+<!--&lt;!&ndash;                    <h5 th:text="${menu.getmIng()}"></h5>&ndash;&gt;-->
+<!--                </dt>-->
+<!--                <dd>-->
+<!--                    <img src="/pic/01004.jpg">-->
+<!--                </dd>-->
+<!--                <dd>-->
+<!--                    <h5 th:text="${menu.getmIng()}"></h5>-->
+<!--                    <h5 th:text="${menu.getmPrice()}"></h5>-->
+<!--                </dd>-->
+<!--                <dd class=" btn">-->
+<!--                    <button class="minus" >-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i>0</i>-->
+<!--                    <button class="plus">-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i class="price" th:text="${menu.getmPrice()}"></i>-->
+<!--                </dd>-->
+<!--            </dl>-->
+
+<!--        </div>-->
+    </div>
+
+</div>
+<div id="alert_div" hidden="true" class="alert alert-warning" style=" position:fixed; bottom: 36px;z-index:1;">
+    <a href="#" class="close" >
+        &times;
+    </a>
+    选择数量不可超过100份
+</div>
+<div class="footer" id="footer">
+    <div class="left">
+        已选:<span id="cartN">
+             <span id="totalcountshow">0</span>份 总计:<span id="totalpriceshow">0</span>
+           </span>元
+    </div>
+    <div class="right">
+        <a id="btnselect" class="xhlbtn  disable" href="javascript:void(0)" οnclick="btnSelectJump();">选好了</a>
+    </div>
+</div>
+</body>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<link rel="stylesheet" href="bootstrap.min.css" />
+<!--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+<script  type="text/javascript"  th:inline="javascript" >
+    var menuList = [[${menuList}]];
+    var kindList = [[${kindList}]];
+    var mName = menuList[0].mName;
+    var n;
+    $(document).ready(function display(){
+        nav_li();
+        menu_li();
+    });
+    function nav_li() {
+        for (var i=0; i<kindList.length; i++){
+            var li = document.createElement("li");
+            if(i === 0)
+                li.setAttribute("class","active");
+            li.setAttribute("id","li_"+i);
+            document.getElementById("nav_ul").appendChild(li);
+            var a = document.createElement("a");
+            a.setAttribute("href","#section"+kindList[i].kId);
+            a.innerText= kindList[i].kName;
+            document.getElementById("li_"+i).appendChild(a);
+        }
+    }
+    function menu_li() {
+        var i;
+        for (i=0; i<kindList.length; i++){
+            var kID = kindList[i].kId;
+            console.log("div"+kID);
+            var div = document.createElement("div");
+            div.setAttribute("id","section"+kID);
+            div.setAttribute("class","divSelect");
+            document.getElementById("right").appendChild(div);
+            for (var j=0; j<menuList.length; j++){
+                var mkId = menuList[j].kId;
+                if (mkId === kID){
+                    var dl = document.createElement("dl");
+                    dl.setAttribute("id","dl_"+kID+"_"+j);
+                    document.getElementById("section"+kID).appendChild(dl);
+                    var dt = document.createElement("dt");
+                    dt.setAttribute("id","dt_"+j);
+                    document.getElementById("dl_"+kID+"_"+j).appendChild(dt);
+                    var h3 = document.createElement("h3");
+                    h3.innerText = menuList[j].mName;
+                    document.getElementById("dt_"+j).appendChild(h3);
+
+                    var dd1 =document.createElement("dd");
+                    dd1.setAttribute("id","dd_"+j+"_1");
+                    document.getElementById("dl_"+kID+"_"+j).appendChild(dd1);
+                    var img = document.createElement("img");
+                    if (menuList[j].mPic==""){
+                        img.setAttribute("src","/pic/01001.jpg");
+                    }else {
+                        img.setAttribute("src",menuList[j].mPic);
+                    }
+                    console.log(menuList[j].mPic);
+                    document.getElementById("dd_"+j+"_1").appendChild(img);
+
+                    var dd2 = document.createElement("dd");
+                    dd2.setAttribute("id","dd_"+j+"_2");
+                    document.getElementById("dl_"+kID+"_"+j).appendChild(dd2);
+                    var h5_1 = document.createElement("h5");
+                    var h5_2 = document.createElement("h5");
+                    h5_1.innerText = menuList[j].mIng;
+                    h5_2.innerText = menuList[j].mPrice;
+                    document.getElementById("dd_"+j+"_2").appendChild(h5_1);
+                    document.getElementById("dd_"+j+"_2").appendChild(h5_2);
+
+                    var dd3 = document.createElement("dd");
+                    dd3.setAttribute("id","dd_"+j+"_3");
+                    dd3.setAttribute("class","btn");
+                    document.getElementById("dl_"+kID+"_"+j).appendChild(dd3);
+                    var btn1 = document.createElement("button");
+                    btn1.setAttribute("class","minus");
+                    btn1.setAttribute("id","btn_"+j+"_1");
+                    document.getElementById("dd_"+j+"_3").appendChild(btn1);
+                    var strong1 = document.createElement("strong");
+                    document.getElementById("btn_"+j+"_1").appendChild(strong1);
+                    var i_num = document.createElement("i");
+                    i_num.innerText = "0";
+                    document.getElementById("dd_"+j+"_3").appendChild(i_num);
+                    var btn2 = document.createElement("button");
+                    btn2.setAttribute("class","plus");
+                    btn2.setAttribute("id","btn_"+j+"_2");
+                    document.getElementById("dd_"+j+"_3").appendChild(btn2);
+                    var strong2 = document.createElement("strong");
+                    document.getElementById("btn_"+j+"_2").appendChild(strong2);
+                    var i_p = document.createElement("i");
+                    i_p.setAttribute("class","price");
+                    i_p.innerText = menuList[j].mPrice;
+                    document.getElementById("dd_"+j+"_3").appendChild(i_p);
+                }
+            }
+        }
+        // for (var i=0; i<kindList.length; i++){
+        //     var kID = kindList[i].kId;
+        //     var div = document.createElement("div");
+        //     div.setAttribute("id","section"+kID);
+        //     document.getElementById("right").appendChild(div);
+        //     console.log("div"+kID)
+        //     for (var j=0; j<menuList.length; j++){
+        //         var mkId = menuList[j].kId;
+        //         if (mkId === kID){
+        //             var li = document.createElement("li");
+        //             li.setAttribute("id","li_"+kID+"_"+j);
+        //             document.getElementById("section"+kID).appendChild(li);
+        //             var label = document.createElement("label");
+        //             // label.setAttribute("href","#"+j);
+        //             label.innerText= menuList[j].mName;
+        //             document.getElementById("li_"+kID+"_"+j).appendChild(label);
+        //         }
+        //     }
+        // }
+    }
+
+    $(document).ready(function () {
+        //加的效果
+        $(".plus").click(function () {
+            var nm = $("#totalcountshow").html();//获取数量
+            if (nm<5){
+                $(this).prevAll().css("display", "inline-block");
+                var n = $(this).prev().text();
+                var num = parseInt(n) + 1;
+                if (num == 0) { return; }
+                $(this).prev().text(num);
+
+                var danjia = $(this).next().text();//获取单价
+                var a = $("#totalpriceshow").html();//获取当前所选总价
+                $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(2));//计算当前所选总价
+
+                // var nm = $("#totalcountshow").html();//获取数量
+                $("#totalcountshow").html(nm*1+1);
+                jss();//改变按钮样式
+            }else {
+                var div_1 = document.getElementById("alert_div");
+                div_1.removeAttribute("hidden");
+                return;
+            }
+        });
+        //提示信息的x
+        $(".close").click(function () {
+            var div_1 = document.getElementById("alert_div");
+            div_1.setAttribute("hidden",true);
+        })
+
+        //减的效果
+        $(".minus").click(function () {
+            var n = $(this).next().text();
+            var num = parseInt(n) - 1;
+
+            $(this).next().text(num);//减1
+
+            var danjia = $(this).nextAll(".price").text();//获取单价
+            var a = $("#totalpriceshow").html();//获取当前所选总价
+            $("#totalpriceshow").html((a * 1 - danjia * 1).toFixed(2));//计算当前所选总价
+
+            var nm = $("#totalcountshow").html();//获取数量
+            $("#totalcountshow").html(nm * 1 - 1);
+            //如果数量小于或等于0则隐藏减号和数量
+            if (num <= 0) {
+                $(this).next().css("display", "none");
+                $(this).css("display", "none");
+                jss();//改变按钮样式
+                return
+            }
+
+        });
+        function jss() {
+            var m = $("#totalcountshow").html();
+            if (m > 0) {
+                $(".right").find("a").removeClass("disable");
+            } else {
+                $(".right").find("a").addClass("disable");
+            }
+        }
+    });
+</script>
+</html>

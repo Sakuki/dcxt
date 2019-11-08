@@ -27,7 +27,7 @@ public class MenuController {
     @RequestMapping("/AddMenuInfo")
     public String AddMenuInfo(Menu menu,Kind kind,Model model){
         String kId;
-        if(menu.getmId()==""||menu.getmName()==""||kind.getkName()=="")
+        if(menu.getmId().equals("")||menu.getmName().equals("")||kind.getkName().equals(""))
         {
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");

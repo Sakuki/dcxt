@@ -15,7 +15,7 @@ public class IndexController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     String test(HttpServletRequest request, Model model) {
         //逻辑处理
-        model.addAttribute("message","");
-        return "Login";
+//        model.addAttribute("message","");
+        return "form2";
     }
 }
