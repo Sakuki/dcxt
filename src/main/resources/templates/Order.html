@@ -28,9 +28,12 @@
     /*    flex-direction: column;*/
     /*}*/
     /*.index{flex-direction: column;}*/
-    .top{display:block;position:fixed;width:100%;z-index:3;top:0px;color: #000000;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .top{display:block;position:fixed;width:100%;height:6%; z-index:2;top:0px;color: #000000;background:#fff;}
+    /*font-size:15px;border-top:1px solid #e2e2e2;*/
+    .top h2{font-size: 15px;text-align: center;margin-top: 10px;}
 
     .divSelect{padding:5px 0 5px;}
+    .divSelect h4{font-size: 14px; margin-bottom: 0px;margin-top: 0px;margin-left: 2px;border-left: 1px solid #c9302c;}
     .divSelect dl{position:relative;padding-left:60px;height:80px;border-bottom:1px solid #e7eaeb;border-top:1px solid #fff;padding-bottom:8px;margin-bottom:2px;}
     .divSelect dl dt h3{font-size:14px;margin-bottom:10px;margin-top:8px;}
     .divSelect dl dd{margin-left:0;font-size:11px;position:relative;z-index:1;}
@@ -49,12 +52,82 @@
     .divSelect dl dd.btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn .price{display:none;}
 
-    .footer{display:block;position:fixed;padding:5px 0;width:100%;z-index:3;bottom:0px;color:#f03c03;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .shopcart-list {
+        position: fixed;
+        left: 0;
+        bottom: 45px;
+        width: 100%;
+        /*min-height: 200px;*/
+        display: none;
+        z-index: 3;
+        background: #ffffff;
+    }
+
+    .shopcart-list .list-header {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 5px;
+        background: #f3f5f7;
+        border-bottom: 1px solid rgba(7,17,27,0.1);
+    }
+    .shopcart-list .list-header .title {
+        float: left;
+        font-size: 14px;
+        color: #07111b;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .shopcart-list .list-header .empty {
+        float: right;
+        font-size: 12px;
+        color: #00a0dc;
+    }
+    .shopcart-list .list-content {
+        /*padding: 0 18px;*/
+        overflow: hidden;
+        background: #fff;
+    }
+    .shopcart-list .list-content .food {
+        /*width: 100%;*/
+        height: 40px;
+        /*line-height: 40px;*/
+        border-bottom: 1px inset #e7eaeb;
+    }
+
+     .food .btn{background-color:transparent;position:absolute;right:-5px;cursor:pointer;padding:2px;height:38px;}
+     .food .btn button.minus{margin-right:-10px;display:none;}
+     .food .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+     .food .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
+     .food .btn button.minus strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+     .food .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+
+     .food .btn button.plus{margin-left:-10px;}
+     .food .btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+     .food .btn .price{display:none;}
+
+    /*.food div {*/
+    /*    float: left;*/
+    /*    width: 20%;*/
+    /*    !*text-align: center;*!*/
+    /*}*/
+
+    .accountName{min-width: 60%;}
+
+    .footer{display:block;position:fixed;padding:5px 0;width:100%;height:8%;z-index:3;bottom:0px;color:#f03c03;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
     .footer .left{float:left;margin-left:3px;}
     .footer .right{float:right;margin-right:3px;}
     .footer .right .disable{background:#dbdbdb;}
     .footer .xhlbtn{display:block;text-align:center;background-color:#F03C03;padding:0 10px;border-radius:20px;color:#fff;font-weight:bold;}
-
+    .up1{
+        width: 100%;
+        background: #000;
+        opacity: 0.5;
+        top: 0;
+        height: 2000px;
+        display: none;
+        position: absolute;
+        z-index: 2;
+    }
     /*@media screen and (max-width: 810px) {*/
     /*        #section1, #section2, #section3, #section41, #section42  {*/
     /*            margin-left: 150px;*/
@@ -62,11 +135,13 @@
     /*}*/
 </style>
 <body data-spy="scroll">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+<!--强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览；user-scalable: 用户是否可以手动缩放-->
 <div style="width: 100%" >
     <div id="top" class="top">
         <h2>XX饭店自助点餐</h2>
     </div>
-    <div id="left"  style="float: left ;width: 25%;margin-top: 65px; background-color:#eee;">
+    <div id="left"  style="float: left ;width: 25%;margin-top: 11%; background-color:#eee;">
         <nav id="kind" class="divNav"  >
                 <ul id="nav_ul" class="nav nav-pills nav-stacked" >
 <!--                    <li class="active"><a href="#section1">Section 1</a></li>-->
@@ -78,7 +153,7 @@
                 </ul>
         </nav>
     </div>
-    <div id="right" style="float: right; width: 75%; margin-top: 65px; margin-bottom: 36px">
+    <div id="right" style="float: right; width: 75%; margin-top: 11%; margin-bottom: 15%">
 <!--        <div th:each="menu,count:${menuList}"  class="divSelect">-->
 <!--            <dl>-->
 <!--                <dt>-->
@@ -106,6 +181,7 @@
 
 <!--        </div>-->
     </div>
+    <div class="up1"></div>
 
 </div>
 <div id="alert_div" hidden="true" class="alert alert-warning" style=" position:fixed; bottom: 36px;z-index:1;">
@@ -114,6 +190,36 @@
     </a>
     选择数量不可超过100份
 </div>
+<div class="shopcart-list fold-transition" style="" >
+    <div class="list-header">
+        <h1 class="title">购物车</h1>
+        <span class="empty">清空</span>
+    </div>
+    <div class="list-content">
+        <ul id="foodCar" style="list-style: none; padding: 0px; margin-left:5px;">
+<!--            <li class="food">-->
+<!--                <div style="float: left; width: 40%">-->
+<!--                    <span class="accountName">梅菜肉饼</span>-->
+<!--                </div>-->
+<!--                <div style="float: left;">-->
+<!--                    <span class="accountPrice">10</span>-->
+<!--                </div>-->
+<!--                <div class="btn">-->
+<!--                    <button class="minus" style="display: inline-block;" >-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i style="display: inline-block;">1</i>-->
+<!--                    <button class="plus">-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i class="price" >10</i>-->
+<!--                </div>-->
+<!--            </li>-->
+        </ul>
+    </div>
+</div>
+
+
 <div class="footer" id="footer">
     <div class="left">
         已选:<span id="cartN">
@@ -146,6 +252,8 @@
             var li = document.createElement("li");
             if(i === 0)
                 li.setAttribute("class","active");
+            li.setAttribute("style","font-size: 20px;");
+            // 导航条字体大小
             li.setAttribute("id","li_"+i);
             document.getElementById("nav_ul").appendChild(li);
             var a = document.createElement("a");
@@ -163,6 +271,9 @@
             div.setAttribute("id","section"+kID);
             div.setAttribute("class","divSelect");
             document.getElementById("right").appendChild(div);
+            var h4 = document.createElement("h4");
+            h4.innerText = "\u00a0 "+kindList[i].kName;
+            document.getElementById("section"+kID).appendChild(h4);
             for (var j=0; j<menuList.length; j++){
                 var mkId = menuList[j].kId;
                 if (mkId === kID){
@@ -262,6 +373,10 @@
 
                 // var nm = $("#totalcountshow").html();//获取数量
                 $("#totalcountshow").html(nm*1+1);
+                var this_name = $(this).parent().parent().children("dt").children("h3").text();//获取名字
+                console.log("this_name is "+this_name);
+                var data=[this_name,num,danjia];
+                add(data);
                 jss();//改变按钮样式
             }else {
                 var div_1 = document.getElementById("alert_div");
@@ -297,6 +412,19 @@
             }
 
         });
+        function  add(data) {
+            $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%"><span class="accountName">'+ data[0]
+                + '</span></div><div style="float: left"><span class="accountPrice">' + data[2]
+                + '</span></div> <div class="btn"><button class="minus""><strong></strong></button>' +
+                '<i style="display: inline-block">' + data[1] + '</i><button class="plus"><strong></strong></button>' +
+                '<i class="price">' + data[2] + '</i> </div></li>');
+            var display = $(".shopcart-list.fold-transition").css('display');
+            if (display == "block") {
+                $("document").click(function () {
+                    $(".shopcart-list.fold-transition").hide();
+                })
+            }
+        }
         function jss() {
             var m = $("#totalcountshow").html();
             if (m > 0) {
@@ -305,6 +433,28 @@
                 $(".right").find("a").addClass("disable");
             }
         }
+        $(".footer>.left").click(function(){
+            var content = $(".list-content>ul").html();
+            if(content!=""){
+                $(".shopcart-list.fold-transition").toggle();
+                $(".up1").toggle();
+            }
+        });
+        $(".up1").click(function(){
+            $(".up1").hide();
+            $(".shopcart-list.fold-transition").hide();
+        })
+        $(".empty").click(function(){
+            $(".list-content>ul").html("");
+            $("#totalcountshow").text("0");
+            $("#totalpriceshow").text("0");
+            $(".minus").next().text("0");
+            $(".minus").hide();
+            $(".minus").next().hide();
+            $(".shopcart-list").hide();
+            $(".up1").hide();
+            jss();//改变按钮样式
+        });
     });
 </script>
 </html>
