@@ -52,6 +52,47 @@
     .divSelect dl dd.btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn .price{display:none;}
 
+
+    .XiaDan .top{display:block;position:fixed;width:100%;height:6%;top:0px;color: #000000;background:#fff;border-bottom: 1px inset #000000;}
+    .XiaDan .top h3{font-size: 15px;text-align: right;margin-top: 10px;margin-right:8px;}
+    .XiaDan .list-content_XD {
+        overflow: hidden;
+        background: #fff;
+        margin-top: 11%;
+        border-bottom: 1px inset #000000;
+    }
+    .XiaDan .list-content_XD .food {
+        /*width: 100%;*/
+        height: 40px;
+        /*line-height: 40px;*/
+        border-bottom: 1px inset #e7eaeb;
+    }
+    .XiaDan .list-content_XD .food .btn{background-color:transparent;position:absolute;right:-5px;cursor:pointer;padding:2px;height:38px;}
+    .XiaDan .list-content_XD .food .btn button.less_XD{margin-right:-10px;display:none;}
+    .XiaDan .list-content_XD .food .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+    .XiaDan .list-content_XD .food .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
+    .XiaDan .list-content_XD .food .btn button.less_XD strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .list-content_XD .food .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+
+    .XiaDan .list-content_XD .food .btn button.add_XD{margin-left:-10px;}
+    .XiaDan .list-content_XD .food .btn button.add_XD strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .list-content_XD .food .btn .price{display:none;}
+
+    .XiaDan .people {height: 20px;display: flex;margin-bottom: 22%;}
+    .XiaDan .people .btn{background-color:transparent;position:absolute;right:-5px;cursor:pointer;padding:2px;height:38px;}
+    .XiaDan .people .btn button.less_P_XD{margin-right:-10px;display:none;}
+    .XiaDan .people .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+    .XiaDan .people .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
+    .XiaDan .people .btn button.less_P_XD strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .people .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+
+    .XiaDan .people .btn button.add_P_XD{margin-left:-10px;}
+    .XiaDan .people .btn button.add_P_XD strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+
+    .XiaDan .footer_DC{display:block;position:fixed;padding:5px 0;width:100%;height:8%;z-index:3;bottom:0px;color: #2289f0;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .XiaDan .footer_DC .left{float: left;width: 45%;text-align: center;}
+    .XiaDan .footer_DC .right{float: right;width: 45%;text-align: center;}
+
     .shopcart-list {
         position: fixed;
         left: 0;
@@ -137,7 +178,8 @@
 <body data-spy="scroll">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
 <!--强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览；user-scalable: 用户是否可以手动缩放-->
-<div style="width: 100%" >
+<!--<div style="width: 100%" hidden="true" >-->
+<div id="DianCan" style="width: 100%" >//点餐界面
     <div id="top" class="top">
         <h2>XX饭店自助点餐</h2>
     </div>
@@ -181,27 +223,80 @@
 
 <!--        </div>-->
     </div>
-    <div class="up1"></div>
+    <div class="up1">
+    </div>
+    <div class="shopcart-list fold-transition" style="" >
+        <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty">清空</span>
+        </div>
+        <div class="list-content">
+            <ul id="foodCar" class="foodCar" style="list-style: none; padding: 0px; margin-left:5px;">
+                <!--            <li class="food">-->
+                <!--                <div style="float: left; width: 40%">-->
+                <!--                    <span id="accountName_1" class="accountName">梅菜肉饼</span>-->
+                <!--                </div>-->
+                <!--                <div style="float: left;">-->
+                <!--                    <span>￥</span>-->
+                <!--                    <span class="accountPrice">10</span>-->
+                <!--                </div>-->
+                <!--                <div class="btn">-->
+                <!--                    <button class="less" style="display: inline-block;" >-->
+                <!--                        <strong></strong>-->
+                <!--                    </button>-->
+                <!--                    <i style="display: inline-block;">1</i>-->
+                <!--                    <button class="add">-->
+                <!--                        <strong></strong>-->
+                <!--                    </button>-->
+                <!--                    <i class="price" >10</i>-->
+                <!--                </div>-->
+                <!--            </li>-->
+            </ul>
+        </div>
+    </div>//购物车
+
+    <div class="footer" id="footer">
+        <div class="left">
+            已选:<span id="cartN">
+             <span id="totalcountshow">0</span>份 总计:<span id="totalpriceshow">0</span>
+           </span>元
+        </div>
+        <div class="right">
+            <a id="selectBtn" class="xhlbtn  disable">选好了</a>
+        </div>
+    </div>
 
 </div>
-<div id="alert_div" hidden="true" class="alert alert-warning" style=" position:fixed; bottom: 36px;z-index:4;">
-    <a href="#" class="close" >
-        &times;
-    </a>
-    选择数量不可超过100份
-</div>
-<div class="shopcart-list fold-transition" style="" >
-    <div class="list-header">
-        <h1 class="title">购物车</h1>
-        <span class="empty">清空</span>
+<div id="XiaDan" class="XiaDan"  hidden="true">//下单界面
+    <div class="top">
+        <h3>第X桌</h3>
     </div>
-    <div class="list-content">
-        <ul id="foodCar" class="foodCar" style="list-style: none; padding: 0px; margin-left:5px;">
+    <div class="list-content_XD">
+        <ul style="list-style: none; padding: 0px; margin-left:5px;">
 <!--            <li class="food">-->
-<!--                <div style="float: left; width: 40%">-->
-<!--                    <span id="accountName_1" class="accountName">梅菜肉饼</span>-->
+<!--                <div style="float: left; width: 40%; margin: 10px 5px;" >-->
+<!--                    <span class="accountName">梅菜肉饼</span>-->
 <!--                </div>-->
-<!--                <div style="float: left;">-->
+<!--                <div style="float: left; margin: 10px 5px;">-->
+<!--                    <span>￥</span>-->
+<!--                    <span class="accountPrice">10</span>-->
+<!--                </div>-->
+<!--                <div class="btn">-->
+<!--                    <button class="less" style="display: inline-block;" >-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i style="display: inline-block;">1</i>-->
+<!--                    <button class="add">-->
+<!--                        <strong></strong>-->
+<!--                    </button>-->
+<!--                    <i class="price" >10</i>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="food">-->
+<!--                <div style="float: left; width: 40%; margin: 10px 5px;" >-->
+<!--                    <span class="accountName">梅菜肉饼</span>-->
+<!--                </div>-->
+<!--                <div style="float: left; margin: 10px 5px;">-->
 <!--                    <span>￥</span>-->
 <!--                    <span class="accountPrice">10</span>-->
 <!--                </div>-->
@@ -217,20 +312,49 @@
 <!--                </div>-->
 <!--            </li>-->
         </ul>
+        <div>
+            <h2 id="sumCount" style="text-align: center">共0份</h2>
+            <h1 id="sumPrice" style="text-align: center">共计0.0元</h1>
+        </div>
     </div>
+    <div style="height: 20px;margin: 10px;">
+        <div style="float: left">用餐方式</div>
+        <div style="float: right">
+            <input type="radio" name="eatStyle" value="1" checked>堂食
+            <input type="radio" name="eatStyle" value="0">外带
+        </div>
+    </div>
+    <div class="people">
+        <div style="float: left;margin: 10px;">
+            用餐人数
+        </div>
+        <div class="btn">
+            <button class="less_P_XD" style="display: inline-block;" >
+                <strong></strong>
+            </button>
+            <i style="display: inline-block;">1</i>
+            <button class="add_P_XD">
+                <strong></strong>
+            </button>
+        </div>
+    </div>
+    <div class="footer_DC">
+        <div class="left">
+            加菜
+        </div>
+        <div class="right">
+            付款
+        </div>
+    </div>
+</div>
+<div id="alert_div" hidden="true" class="alert alert-warning" style=" position:fixed; bottom: 36px;z-index:4;">
+    <a href="#" class="close" >
+        &times;
+    </a>
+    选择数量不可超过100份
 </div>
 
 
-<div class="footer" id="footer">
-    <div class="left">
-        已选:<span id="cartN">
-             <span id="totalcountshow">0</span>份 总计:<span id="totalpriceshow">0</span>
-           </span>元
-    </div>
-    <div class="right">
-        <a id="btnselect" class="xhlbtn  disable" href="javascript:void(0)" οnclick="btnSelectJump();">选好了</a>
-    </div>
-</div>
 </body>
 <script src="jquery-3.3.1.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
@@ -374,8 +498,10 @@
                 var a = $("#totalpriceshow").html();//获取当前所选总价
                 $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(2));//计算当前所选总价
 
+                $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
                 // var nm = $("#totalcountshow").html();//获取数量
                 $("#totalcountshow").html(nm*1+1);
+                $("#sumCount").text("已选"+(parseFloat($("#totalcountshow").text()))+"份");
                 var this_name = $(this).parent().parent().children("dt").children("h3").text();//获取名字
                 console.log("this_name is "+this_name);
                 var data=[this_name,num,danjia];
@@ -403,9 +529,11 @@
             var danjia = $(this).nextAll(".price").text();//获取单价
             var a = $("#totalpriceshow").html();//获取当前所选总价
             $("#totalpriceshow").html((a * 1 - danjia * 1).toFixed(2));//计算当前所选总价
+            $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
 
             var nm = $("#totalcountshow").html();//获取数量
             $("#totalcountshow").html(nm * 1 - 1);
+            $("#sumCount").text("已选"+(parseFloat($("#totalcountshow").text()))+"份");
             var this_name = $(this).parent().parent().children("dt").children("h3").text();//获取名字
             var data = [this_name,num,danjia];
             minus(data);
@@ -429,6 +557,8 @@
                 $(this).parent().prev().children("span:nth-child(2)").text(p*n);
                 $("#totalcountshow").text(parseFloat($("#totalcountshow").text())+1);
                 $("#totalpriceshow").text(parseFloat($("#totalpriceshow").text())+p);
+                $("#sumCount").text("已选"+(parseFloat($("#totalcountshow").text()))+"份");
+                $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
                 for(var i=0; i<menuList.length; i++){
                     var h3_id = "#h3_"+i;
                     var h3_name =  $(h3_id).text();
@@ -441,34 +571,63 @@
                         break;
                     }
                 }
+                for(var i=0; i<5; i++){//数量不可超过100
+                    var accountN = "#accountName_"+i;
+                    console.log("#accountName is "+accountN);
+                    var accountN = $(accountN).text();
+                    console.log("the name is "+name);
+                    if (name===accountN){
+                        var account_XD = "#account_XD_"+i;
+                        var accountP_XD = "#accountP_XD_"+i;
+                        $(account_XD).text(n);
+                        $(accountP_XD).text(n*p);
+                        break;
+                    }
+                }
             }else{
                 var div_1 = document.getElementById("alert_div");
                 div_1.removeAttribute("hidden");
                 return;
             }
-
         });
         $(document).on('click','.less',function(){
             var a = parseInt($(this).parent().children("i:nth-child(4)").text());//获取单价
             var name = $(this).parent().parent().children("div:nth-child(1)").children().text();
+            var flag_name = 0;
+            var flag_id = -1;
             console.log("danjia is "+a);
             var n = parseInt($(this).next().text())-1;//获取数量
-            var s = parseFloat($("#totalpriceshow").text());//获取总数
+            var s = parseFloat($("#totalpriceshow").text());//获取总价格
             console.log("#totalpriceshow is "+s);
             $("#totalcountshow").text(parseInt($("#totalcountshow").text())-1);
             $("#totalpriceshow").html((s * 1 - a * 1).toFixed(2));
+            $("#sumCount").text("已选"+(parseInt($("#totalcountshow").text()))+"份");
+            $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
             if(parseFloat($("#totalcountshow").text())==0){
                 $(".shopcart-list").hide();
                 $(".up1").hide();
                 jss();
             }
-            if (n == 0) {
+            for(var i=0; i<5; i++){//数量不可超过100
+                var accountN = "#accountName_"+i;
+                var accountN = $(accountN).text();
+                if (name===accountN){
+                    flag_name = 1;
+                    flag_id = i;
+                    var account_XD = "#account_XD_"+flag_id;
+                    var accountP_XD = "#accountP_XD_"+flag_id;
+                    break;
+                }
+            }
+            if (n === 0) {
                 $(this).parent().parent().remove();
+                $(account_XD).parent().parent().remove();
             }else{
                 $(this).next().text(n);
+                $(account_XD).text(n);
+                $(accountP_XD).text(a*n);
+                $(this).parent().prev().children("span:nth-child(2)").text(a*n);
             }
-            $(this).parent().prev().children("span:nth-child(2)").text(a*n);
-            console.log(a*n);
             for(var i=0; i<menuList.length; i++){
                 var h3_id = "#h3_"+i;
                 var h3_name =  $(h3_id).text();
@@ -486,6 +645,117 @@
                 }
             }
         });
+        //下单页面加减
+        $(document).on('click','.add_XD',function () {
+            var n = parseInt($(this).prev().text())+1;//获取增加后个数
+            var num = parseFloat($("#totalcountshow").text());
+            if (num < 5) {
+                $(this).prev().text(n);
+                var name = $(this).parent().parent().children("div:nth-child(1)").children().text();
+                var p = parseFloat($(this).next().text());
+                $(this).parent().prev().children("span:nth-child(2)").text(p*n);
+                $("#totalcountshow").text(parseFloat($("#totalcountshow").text())+1);
+                $("#totalpriceshow").text(parseFloat($("#totalpriceshow").text())+p);
+                $("#sumCount").text("已选"+(parseInt($("#totalcountshow").text()))+"份");
+                $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
+                for(var i=0; i<menuList.length; i++){
+                    var h3_id = "#h3_"+i;
+                    var h3_name =  $(h3_id).text();
+                    var dd_id = "#dd_"+i+"_3";
+                    console.log("h3_id is "+h3_id+"   h3_name is "+h3_name+" dd is "+dd_id);
+                    if(h3_name===name){
+                        //查找名字相同的做出改变
+                        var n = parseInt($(dd_id).children("i").eq(0).text())+1;
+                        $(dd_id).children("i").eq(0).text(n);
+                        break;
+                    }
+                }
+                for(var i=0; i<5; i++){//数量不可超过100
+                    var accountN = "#accountName_XD_"+i;
+                    console.log("#accountName_XD_ is "+accountN);
+                    var accountN = $(accountN).text();
+                    console.log("the name is "+name);
+                    if (name===accountN){
+                        var account = "#account_"+i;
+                        var accountP = "#accountP_"+i;
+                        $(account).text(n);
+                        $(accountP).text(n*p);
+                        break;
+                    }
+                }
+            }else{
+                var div_1 = document.getElementById("alert_div");
+                div_1.removeAttribute("hidden");
+                return;
+            }
+        });
+        $(document).on('click','.less_XD',function () {
+            var a = parseInt($(this).parent().children("i:nth-child(4)").text());//获取单价
+            var name = $(this).parent().parent().children("div:nth-child(1)").children().text();
+            var flag_name = 0;
+            var flag_id = -1;
+            console.log("danjia is "+a);
+            var n = parseInt($(this).next().text())-1;//获取数量
+            var s = parseFloat($("#totalpriceshow").text());//获取总价格
+            console.log("#totalpriceshow is "+s);
+            $("#totalcountshow").text(parseInt($("#totalcountshow").text())-1);
+            $("#totalpriceshow").html((s * 1 - a * 1).toFixed(2));
+            $("#sumCount").text("已选"+(parseInt($("#totalcountshow").text()))+"份");
+            $("#sumPrice").text("共计"+(parseFloat($("#totalpriceshow").text()))+"元");
+            if(parseFloat($("#totalcountshow").text())==0){
+                $(".shopcart-list").hide();
+                $(".up1").hide();
+                jss();
+            }
+            for(var i=0; i<5; i++){//数量不可超过100
+                var accountN = "#accountName_XD_"+i;
+                var accountN = $(accountN).text();
+                if (name===accountN){
+                    flag_name = 1;
+                    flag_id = i;
+                    var account = "#account_"+flag_id;
+                    var accountP = "#accountP_"+flag_id;
+                    break;
+                }
+            }
+            if (n === 0) {
+                $(this).parent().parent().remove();
+                $(account).parent().parent().remove();
+            }else{
+                $(this).next().text(n);
+                $(account).text(n);
+                $(accountP).text(a*n);
+                $(this).parent().prev().children("span:nth-child(2)").text(a*n);
+            }
+            for(var i=0; i<menuList.length; i++){
+                var h3_id = "#h3_"+i;
+                var h3_name =  $(h3_id).text();
+                var dd_id = "#dd_"+i+"_3";
+                console.log("h3_id is "+h3_id+"   h3_name is "+h3_name+" dd is "+dd_id);
+                if(h3_name===name){
+                    //查找名字相同的做出改变
+                    var n = parseInt($(dd_id).children("i").eq(0).text())-1;
+                    $(dd_id).children("i").eq(0).text(n);
+                    if(n===0){
+                        $(dd_id).children("button").eq(0).css("display", "none");
+                        $(dd_id).children("i").eq(0).css("display", "none");
+                    }
+                    break;
+                }
+            }
+        });
+        $(document).on('click','.add_P_XD',function () {
+            $(this).prev().text(parseInt($(this).prev().text())+1);
+        });
+        $(document).on('click','.less_P_XD',function () {
+            var people = parseInt($(this).next().text())-1;
+            if (people===0){
+                $(this).next().text(1);
+            }else{
+                $(this).next().text(people);
+            }
+
+        });
         function  add(data) {
             var foodCar = document.getElementById("foodCar");
             var foodNode = 0;
@@ -493,13 +763,19 @@
             var flag_id = -1;
             foodNode = foodCar.children;
             if(foodNode.length==0){
-                $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%"><span id="accountName_0" class="accountName">'+ data[0]
-                    + '</span></div><div style="float: left"><span>￥</span><span id="accountP_0" class="accountPrice">' + data[2]
+                $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%; margin: 10px 5px;"><span id="accountName_0" class="accountName">'+ data[0]
+                    + '</span></div><div style="float: left;margin: 10px 5px;"><span>￥</span><span id="accountP_0" class="accountPrice">' + data[2]
                     + '</span></div> <div class="btn"><button class="less"  style="display: inline-block;""><strong></strong></button>' +
                     '<i id="account_0" style="display: inline-block">' + data[1] + '</i><button class="add"><strong></strong></button>' +
                     '<i class="price">' + data[2] + '</i> </div></li>');
+
+                $(".list-content_XD>ul").append('<li class="food"><div style="float: left; width: 55%; margin: 10px 5px;"><span id="accountName_XD_0" class="accountName">'+ data[0]
+                    + '</span></div><div style="float: left; margin: 10px 5px;"><span>￥</span><span id="accountP_XD_0" class="accountPrice">' + data[2]
+                    + '</span></div> <div class="btn"><button class="less_XD"  style="display: inline-block;""><strong></strong></button>' +
+                    '<i id="account_XD_0" style="display: inline-block">' + data[1] + '</i><button class="add_XD"><strong></strong></button>' +
+                    '<i class="price">' + data[2] + '</i> </div></li>');
             }else {
-                for(var i=0; i<foodNode.length; i++){
+                for(var i=0; i<5; i++){//数量不可超过100
                     var accountN = "#accountName_"+i;
                     console.log("#accountName is "+accountN);
                     var name = $(accountN).text();
@@ -507,26 +783,51 @@
                     if (name===data[0]){
                         flag_name = 1;
                         flag_id = i;
+                        break;
                     }
                 }
                 if (flag_name===1){
                     console.log("name the same");
                     var account_id = "#account_"+flag_id;
                     var accountP_id = "#accountP_"+flag_id;
+                    var account_XD = "#account_XD_"+flag_id;
+                    var accountP_XD = "#accountP_XD_"+flag_id;
                     $(account_id).text(data[1]);
                     $(accountP_id).text(data[2]*data[1]);
+                    $(account_XD).text(data[1]);
+                    $(accountP_XD).text(data[2]*data[1]);
                     flag_name = 0;
                     flag_id = -1;
 
                 }else{
                     console.log("flag_name "+flag_name+" flag_id "+flag_id);
-                    var accountId ="accountName_"+foodNode.length;
-                    var account = "account_"+foodNode.length;
-                    var accountP = "accountP_"+foodNode.length;
-                    $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%"><span id="'+accountId+'" class="accountName">'+ data[0]
-                        + '</span></div><div style="float: left"><span>￥</span><span id="'+accountP+'" class="accountPrice">' + data[2]
+                    var foodNodeC = -1;
+                    for(i=0; i<5;i++){
+                        accountN = "#accountName_"+i;
+                        name = $(accountN).text();
+                        console.log("i is "+i+" accountN is "+name)
+                        if(name=="")//使用未被占用的ID
+                        {
+                            foodNodeC = i;
+                            break;
+                        }
+                    }
+                    var accountId ="accountName_"+foodNodeC;
+                    var account = "account_"+foodNodeC;
+                    var accountP = "accountP_"+foodNodeC;
+                    $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%; margin: 10px 5px;"><span id="'+accountId+'" class="accountName">'+ data[0]
+                        + '</span></div><div style="float: left; margin: 10px 5px;"><span>￥</span><span id="'+accountP+'" class="accountPrice">' + data[2]
                         + '</span></div> <div class="btn"><button class="less"  style="display: inline-block;""><strong></strong></button>' +
                         '<i id="'+account+'" style="display: inline-block">' + data[1] + '</i><button class="add"><strong></strong></button>' +
+                        '<i class="price">' + data[2] + '</i> </div></li>');
+
+                    accountId ="accountName_XD_"+foodNodeC;
+                    account = "account_XD_"+foodNodeC;
+                    accountP = "accountP_XD_"+foodNodeC;
+                    $(".list-content_XD>ul").append('<li class="food"><div style="float: left; width: 55%; margin: 10px 5px;"><span id="'+accountId+'" class="accountName">'+ data[0]
+                        + '</span></div><div style="float: left; margin: 10px 5px;"><span>￥</span><span id="'+accountP+'" class="accountPrice">' + data[2]
+                        + '</span></div> <div class="btn"><button class="less_XD"  style="display: inline-block;""><strong></strong></button>' +
+                        '<i id="'+account+'" style="display: inline-block">' + data[1] + '</i><button class="add_XD"><strong></strong></button>' +
                         '<i class="price">' + data[2] + '</i> </div></li>');
                 }
             }
@@ -543,7 +844,7 @@
             foodNode = foodCar.children;
             var flag_name = 0;
             var flag_id = -1;
-            for(var i=0; i<foodNode.length; i++){
+            for(var i=0; i<5; i++){//数量不可超过100
                 var accountN = "#accountName_"+i;
                 console.log("#accountName is "+accountN);
                 var name = $(accountN).text();
@@ -551,18 +852,25 @@
                 if (name===data[0]){
                     flag_name = 1;
                     flag_id = i;
+                    break;
                 }
             }
             if (flag_name===1){
                 console.log("name the same");
                 var account_id = "#account_"+flag_id;
                 var accountP_id = "#accountP_"+flag_id;
+                var account_XD = "#account_XD_"+flag_id;
+                var accountP_XD = "#accountP_XD_"+flag_id;
                 $(account_id).text(data[1]);
                 $(accountP_id).text(data[2]*data[1]);
+                $(account_XD).text(data[1]);
+                $(accountP_XD).text(data[2]*data[1]);
+                console.log("account_XD is "+account_XD+" num is "+data[1]+" accountP_XD is "+accountP_XD+" num is "+data[2]*data[1]);
                 flag_name = 0;
                 flag_id = -1;
                 if(data[1]<=0){
                     $(account_id).parent().parent().remove();
+                    $(account_XD).parent().parent().remove();
                 }
             }
 
@@ -576,11 +884,52 @@
                 $(".right").find("a").addClass("disable");
             }
         }
-        $(".footer>.left").click(function(){
+        $("#selectBtn").click(function(){//点击选好了
+            var div_DC = document.getElementById("DianCan");
+            div_DC.setAttribute("hidden",true);
+            var div = document.getElementById("XiaDan");
+            div.removeAttribute("hidden");
+        });
+        $(".footer>.left").click(function(){//点击购物车
             var content = $(".list-content>ul").html();
             if(content!=""){
                 $(".shopcart-list.fold-transition").toggle();
                 $(".up1").toggle();
+            }
+        });
+        $(".footer_DC>.left").click(function () {//点击加菜
+            var div = document.getElementById("XiaDan");
+            div.setAttribute("hidden",true);
+            var div_DC = document.getElementById("DianCan");
+            div_DC.removeAttribute("hidden");
+        });
+        $(".footer_DC>.right").click(function () {//点击付款
+            console.log("付款！！！！");
+            var name,price,num,data="";
+            var date = new Date();
+            data = data.concat(date.toDateString());
+            // console.log(date.toLocaleString());
+            for(var i=0; i<5; i++){//数量不可超过100
+                var accountN = "#accountName_"+i;
+                console.log("#accountName is "+accountN);
+                var name1 = $(accountN).text();
+                if (name1!=""){
+                    var account_id = "#account_"+i;
+                    var accountP_id = "#accountP_"+i;
+                    name = $(accountN).text();
+                    num = $(account_id).text();
+                    price = parseFloat($(accountP_id).text());
+                    data = data.concat("-",name,"-",num,"-",price);
+                }
+            }
+            console.log(data);
+            var str = data.split('-');
+            var nn=1;
+            console.log("下单时间："+str[0])
+            for(var j=0;j<str.length/3;j++){
+                console.log("菜品名："+str[j*3+1]);
+                console.log("数量："+str[j*3+2]);
+                console.log("价格："+str[j*3+3]);
             }
         });
         $(".up1").click(function(){
@@ -589,6 +938,7 @@
         })
         $(".empty").click(function(){
             $(".list-content>ul").html("");
+            $(".list-content_XD>ul").html("");
             $("#totalcountshow").text("0");
             $("#totalpriceshow").text("0");
             $(".minus").next().text("0");
