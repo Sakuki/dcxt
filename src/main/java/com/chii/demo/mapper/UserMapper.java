@@ -13,11 +13,11 @@ public interface UserMapper {
 
     User selectByPrimaryKey(String uId);
 
-    List<User> selectAll();
-
-    List<User> selectSome(String uId,String uName);
-
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    List<User> selectAll();
+
+    List<User> selectSome(String uId,String uName);
 }

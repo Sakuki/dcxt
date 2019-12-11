@@ -14,13 +14,13 @@ public interface MenuMapper {
 
     Menu selectByPrimaryKey(String mId);
 
-    List<Menu> selectAll();
-
-    List<Menu> selectSome(String mId, String mName, String mWay, String mFlavor, String mIng, String kId);
-
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> selectAll();
+
+    List<Menu> selectSome(String mId, String mName, String mWay, String mFlavor, String mIng, String kId);
 
     List<MenuAndKind> selectKindName();
 }

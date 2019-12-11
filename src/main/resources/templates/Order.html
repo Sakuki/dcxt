@@ -908,10 +908,8 @@
             var name,price,num,data="";
             var date = new Date();
             data = data.concat(date.toDateString());
-            // console.log(date.toLocaleString());
             for(var i=0; i<5; i++){//数量不可超过100
                 var accountN = "#accountName_"+i;
-                console.log("#accountName is "+accountN);
                 var name1 = $(accountN).text();
                 if (name1!=""){
                     var account_id = "#account_"+i;
@@ -925,8 +923,8 @@
             console.log(data);
             var str = data.split('-');
             var nn=1;
-            console.log("下单时间："+str[0])
-            for(var j=0;j<str.length/3;j++){
+            console.log("下单时间："+str[0]);
+            for(var j=0;j<(str.length-1)/3;j++){
                 console.log("菜品名："+str[j*3+1]);
                 console.log("数量："+str[j*3+2]);
                 console.log("价格："+str[j*3+3]);

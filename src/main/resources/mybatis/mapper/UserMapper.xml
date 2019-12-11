@@ -17,9 +17,9 @@
     select
     <include refid="Base_Column_List" />
     from user
-    <!--      <if test="_parameter != null">-->
+    <!--      &lt;if test="_parameter != null"&gt;-->
     <!--        CONCAT(id) LIKE CONCAT('%',#{_parameter},'%')-->
-    <!--      </if>-->
+    <!--      &lt;/if&gt;-->
   </select>
    <select id="selectSome" parameterType="java.lang.String" resultMap="BaseResultMap">
    select

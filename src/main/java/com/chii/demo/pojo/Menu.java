@@ -28,7 +28,6 @@ public class Menu {
         this.kId = kId;
     }
 
-
     public Menu() {
         super();
     }

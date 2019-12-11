@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chii.demo.mapper.OrderMapper">
+  <sql id="Base_Column_List">
+    o_date, o_ID, o_allprice, o_data
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.util.Date" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where o_date = #{oDate,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Date">
+    delete from order
+    where o_date = #{oDate,jdbcType=TIMESTAMP}
+  </delete>
+  <insert id="insert" parameterType="com.chii.demo.pojo.Order">
+    insert into order (o_date, o_ID, o_allprice, 
+      o_data)
+    values (#{oDate,jdbcType=TIMESTAMP}, #{oId,jdbcType=VARCHAR}, #{oAllprice,jdbcType=DECIMAL}, 
+      #{oData,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chii.demo.pojo.Order">
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oDate != null">
+        o_date,
+      </if>
+      <if test="oId != null">
+        o_ID,
+      </if>
+      <if test="oAllprice != null">
+        o_allprice,
+      </if>
+      <if test="oData != null">
+        o_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oDate != null">
+        #{oDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="oAllprice != null">
+        #{oAllprice,jdbcType=DECIMAL},
+      </if>
+      <if test="oData != null">
+        #{oData,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chii.demo.pojo.Order">
+    update order
+    <set>
+      <if test="oId != null">
+        o_ID = #{oId,jdbcType=VARCHAR},
+      </if>
+      <if test="oAllprice != null">
+        o_allprice = #{oAllprice,jdbcType=DECIMAL},
+      </if>
+      <if test="oData != null">
+        o_data = #{oData,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where o_date = #{oDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chii.demo.pojo.Order">
+    update order
+    set o_ID = #{oId,jdbcType=VARCHAR},
+      o_allprice = #{oAllprice,jdbcType=DECIMAL},
+      o_data = #{oData,jdbcType=VARCHAR}
+    where o_date = #{oDate,jdbcType=TIMESTAMP}
+  </update>
   <resultMap id="BaseResultMap" type="com.chii.demo.pojo.Order">
     <constructor>
       <idArg column="o_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -8,66 +80,4 @@
       <arg column="o_allprice" javaType="java.lang.Long" jdbcType="DECIMAL" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List">
-    o_ID, o_date, o_allprice
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from order
-    where o_ID = #{oId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order
-    where o_ID = #{oId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.chii.demo.pojo.Order">
-    insert into order (o_ID, o_date, o_allprice
-      )
-    values (#{oId,jdbcType=VARCHAR}, #{oDate,jdbcType=TIMESTAMP}, #{oAllprice,jdbcType=DECIMAL}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.chii.demo.pojo.Order">
-    insert into order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="oId != null">
-        o_ID,
-      </if>
-      <if test="oDate != null">
-        o_date,
-      </if>
-      <if test="oAllprice != null">
-        o_allprice,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="oId != null">
-        #{oId,jdbcType=VARCHAR},
-      </if>
-      <if test="oDate != null">
-        #{oDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oAllprice != null">
-        #{oAllprice,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chii.demo.pojo.Order">
-    update order
-    <set>
-      <if test="oDate != null">
-        o_date = #{oDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oAllprice != null">
-        o_allprice = #{oAllprice,jdbcType=DECIMAL},
-      </if>
-    </set>
-    where o_ID = #{oId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chii.demo.pojo.Order">
-    update order
-    set o_date = #{oDate,jdbcType=TIMESTAMP},
-      o_allprice = #{oAllprice,jdbcType=DECIMAL}
-    where o_ID = #{oId,jdbcType=VARCHAR}
-  </update>
 </mapper>

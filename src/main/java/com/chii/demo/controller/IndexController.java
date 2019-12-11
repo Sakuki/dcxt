@@ -16,6 +16,6 @@ public class IndexController {
     String test(HttpServletRequest request, Model model) {
         //逻辑处理
 //        model.addAttribute("message","");
-        return "form2";
+        return "login";
     }
 }

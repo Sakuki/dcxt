@@ -1,15 +1,16 @@
 package com.chii.demo.mapper;
 
 import com.chii.demo.pojo.Order;
+import java.util.Date;
 
 public interface OrderMapper {
-    int deleteByPrimaryKey(String oId);
+    int deleteByPrimaryKey(Date oDate);
 
     int insert(Order record);
 
     int insertSelective(Order record);
 
-    Order selectByPrimaryKey(String oId);
+    Order selectByPrimaryKey(Date oDate);
 
     int updateByPrimaryKeySelective(Order record);
 
