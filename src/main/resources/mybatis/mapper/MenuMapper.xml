@@ -54,7 +54,7 @@
     on menu.k_ID = kind.K_ID
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from menu
     where m_ID = #{mId,jdbcType=VARCHAR}

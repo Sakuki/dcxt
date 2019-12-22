@@ -21,14 +21,14 @@
     <!--        CONCAT(id) LIKE CONCAT('%',#{_parameter},'%')-->
     <!--      &lt;/if&gt;-->
   </select>
-   <select id="selectSome" parameterType="java.lang.String" resultMap="BaseResultMap">
-   select
+  <select id="selectSome" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from user
-        where u_ID LIKE  "%"#{uId,jdbcType=VARCHAR}"%" and u_Name LIKE "%"#{uName,jdbcType=VARCHAR}"%"
-   </select>
+    where u_ID LIKE  "%"#{uId,jdbcType=VARCHAR}"%" and u_Name LIKE "%"#{uName,jdbcType=VARCHAR}"%"
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where u_ID = #{uId,jdbcType=VARCHAR}

@@ -3,31 +3,29 @@ package com.chii.demo.pojo;
 import java.util.Date;
 
 public class Order {
-    private Date oDate;
-
     private String oId;
 
-    private Long oAllprice;
+    private String oUser;
+
+    private String oDesk;
+
+    private Date oDate;
 
     private String oData;
 
-    public Order(Date oDate, String oId, Long oAllprice, String oData) {
-        this.oDate = oDate;
+    private Integer oNumber;
+
+    public Order(String oId, String oUser, String oDesk, Date oDate, String oData, Integer oNumber) {
         this.oId = oId;
-        this.oAllprice = oAllprice;
+        this.oUser = oUser;
+        this.oDesk = oDesk;
+        this.oDate = oDate;
         this.oData = oData;
+        this.oNumber = oNumber;
     }
 
     public Order() {
         super();
-    }
-
-    public Date getoDate() {
-        return oDate;
-    }
-
-    public void setoDate(Date oDate) {
-        this.oDate = oDate;
     }
 
     public String getoId() {
@@ -38,12 +36,28 @@ public class Order {
         this.oId = oId == null ? null : oId.trim();
     }
 
-    public Long getoAllprice() {
-        return oAllprice;
+    public String getoUser() {
+        return oUser;
     }
 
-    public void setoAllprice(Long oAllprice) {
-        this.oAllprice = oAllprice;
+    public void setoUser(String oUser) {
+        this.oUser = oUser == null ? null : oUser.trim();
+    }
+
+    public String getoDesk() {
+        return oDesk;
+    }
+
+    public void setoDesk(String oDesk) {
+        this.oDesk = oDesk == null ? null : oDesk.trim();
+    }
+
+    public Date getoDate() {
+        return oDate;
+    }
+
+    public void setoDate(Date oDate) {
+        this.oDate = oDate;
     }
 
     public String getoData() {
@@ -52,5 +66,13 @@ public class Order {
 
     public void setoData(String oData) {
         this.oData = oData == null ? null : oData.trim();
+    }
+
+    public Integer getoNumber() {
+        return oNumber;
+    }
+
+    public void setoNumber(Integer oNumber) {
+        this.oNumber = oNumber;
     }
 }

@@ -24,7 +24,7 @@
     and k_main LIKE "%"#{kMain,jdbcType=VARCHAR}"%"
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from kind
     where k_ID = #{kId,jdbcType=VARCHAR}
