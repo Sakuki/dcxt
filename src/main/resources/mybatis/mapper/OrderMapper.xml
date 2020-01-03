@@ -18,6 +18,7 @@
     select
     <include refid="Base_Column_List" />
     from `order`
+    order by o_ID
   </select>
   <select id="selectUser" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

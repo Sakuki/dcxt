@@ -6,7 +6,7 @@
     <title>订单</title>
 </head>
 <style>
-    .top{display:block;position:fixed;width:100%;height:6%; z-index:2;top:0px;color: #000000;}
+    .top{display:block;position:fixed;width:100%;height:6%; z-index:2;top:0px;color: #000000;background:beige;}
     /*font-size:15px;border-top:1px solid #e2e2e2;*/
     .top h2{font-size: 15px;text-align: center;margin-top: 10px;}
     .top h1{font-size: 15px;margin-top: 10px;text-align: left;}
@@ -40,50 +40,50 @@
         </div>
     </div>
     <div id="Orders" class="Orders" style="margin-top: 11%;">
-        <div class="Order">
-            <ul class="Car">
-                <li class="desk">
-                    <div style="float: left;">
-                        <span>桌号：1号桌</span>
-                    </div>
-                    <div class="OrderTime" >
-                        <span>2019-12-14 17:07</span>
-                    </div>
-                </li>
-                <li class="food">
-                    <div style="float: left; width: 55%">
-                        <span class="accountName">梅菜肉饼</span>
-                    </div>
-                    <div style="float: left;">
-                        <span>×1</span>
-                    </div>
-                    <div style="float: right;">
-                        <span>￥</span>
-                        <span class="accountPrice">10</span>
-                    </div>
-                </li>
-                <li class="food">
-                    <div style="float: left; width: 55%">
-                        <span class="accountName">梅菜肉饼</span>
-                    </div>
-                    <div style="float: left;">
-                        <span>×1</span>
-                    </div>
-                    <div style="float: right;">
-                        <span>￥</span>
-                        <span class="accountPrice">10</span>
-                    </div>
-                </li>
-                <li class="Sum">
-                    <div style="float: left">
-                        <span>共2份</span>
-                    </div>
-                    <div style="float: right;margin-right: -5px">
-                        <span>共计20元</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+<!--        <div class="Order">-->
+<!--            <ul class="Car">-->
+<!--                <li class="desk">-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>桌号：1号桌</span>-->
+<!--                    </div>-->
+<!--                    <div class="OrderTime" >-->
+<!--                        <span>2019-12-14 17:07</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="Sum">-->
+<!--                    <div style="float: left">-->
+<!--                        <span>共2份</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;margin-right: -5px">-->
+<!--                        <span>共计20元</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
     </div>
 </div>
 </body>
@@ -105,7 +105,7 @@
         TheDate(DeskDate);
         console.log("data is "+data);
         var str = data.split('-');
-        for (var j=0;j<(str.length-1)/3;j++){
+        for (var j=0;j<(str.length-2)/3;j++){
             var name = str[j*3+1];
             var num = parseInt(str[j*3+2]);
             var price = parseFloat(str[j*3+3]);
@@ -156,15 +156,16 @@
         span2.innerText = date;
         document.getElementById(div2_id).appendChild(span2);
     }
+
     function ChangeDate(Data){
         console.log("Date is "+Data);
-        // var dataee=new Date(Data).toJSON();
-        // console.log(dataee);
-        // var date = new Date(+new Date(dataee)+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'');
-        // return date;
         var d = new Date(Data);
-        var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        var times=getNow(d.getFullYear()) + '-' + getNow((d.getMonth() + 1)) + '-' + getNow(d.getDate()) + ' ' + getNow(d.getHours()) + ':' + getNow(d.getMinutes());
         return times;
+    }
+
+    function getNow(s) {
+        return s < 10 ? '0' + s: s;
     }
 
     function TheData(Data) {

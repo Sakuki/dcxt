@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('订单管理')">
+    <meta charset="UTF-8">
+</head>
+<style>
+    .Order{
+        /*border-style: groove;*/
+        margin-left: 25%;
+        width: 50%;
+        overflow: hidden;
+        background: #fff;
+        position: fixed;
+        display: none;
+        z-index: 3;
+        top: 18%;
+    }
+    .Order1{
+        border-style: groove;
+        margin-top: 10px;
+        margin-left: 25%;
+        width: 50%;
+        overflow: hidden;
+        background: #fff;
+        /*position: fixed;*/
+     }
+    .food {
+        /*width: 100%;*/
+        height: 30px;
+        /*line-height: 40px;*/
+        border-bottom: 1px dashed #e7eaeb;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+    .Car{
+        list-style: none; padding: 0px; margin: 10px 10px 7px 5px;
+    }
+    .Car .desk{height: 50px;border-bottom: 1px solid #e7eaeb;}
+    .number{list-style: none; padding: 0px;}
+    .Car .OrderTime{float: right;margin-right: 5px;font-size: 12px;color: #928e8e;}
+    .Car .Sum{height: 30px;margin-top: 10px;}
+    .accountName{min-width: 60%;}
+    .up1{
+        width: 100%;
+        background: #000;
+        opacity: 0.5;
+        top: 0;
+        height: 2000px;
+        display: none;
+        position: absolute;
+        z-index: 2;
+    }
+    .Close
+    {
+        background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;
+        height: 25px;
+        width: 25px;
+        /*display: none;*/
+    }
+    .Clear{
+        display:block;
+        text-align:center;
+        background-color:#F03C03;
+        padding:5px 15px 0px 15px;
+        border-radius:40px;
+        color:#fff;
+        font-weight:bold;
+        margin-top: 5px;
+        height: 30px;
+    }
+</style>
+<body>
+<div  th:include="nav::comNav"></div>
+<div  style="float:left;" th:include="nav::OrderNav"></div>
+<div>
+    <div id="Orders" hidden>
+<!--        <div class="Order1">-->
+<!--            <ul class="Car">-->
+<!--                <li class="desk">-->
+<!--                    <div style="float: left;">-->
+<!--                        <ul class="number">-->
+<!--                            <li>-->
+<!--                                <span style="font-weight: bold;">桌号：1号桌</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span style="font-size: 12px;">2人用餐</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="OrderTime" >-->
+<!--                        <ul style="list-style: none;">-->
+<!--                            <li>-->
+<!--                                <span>2019-12-14 17:07</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span>单号：20191226001</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="Sum">-->
+<!--                    <div style="float: left">-->
+<!--                        <span>堂食共2份</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;margin-right: -5px">-->
+<!--                        <span>共计20元</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li style="float: right; height: 40px">-->
+<!--                    <a class="Clear">餐品已完成</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+    </div>
+    <div id="divOrder" hidden>
+        <div>
+            <table id="table_page" border="1" style="text-align: center; width: 50%; border-collapse:collapse;
+background-color:#EAF2D3; margin-left: 25%;" >
+                <tr id="tr_title">
+                    <td>单号</td>
+                    <td>时间</td>
+                    <td>桌号</td>
+                    <td>人数</td>
+                    <td>详细内容</td>
+<!--                    <td>删除</td>-->
+                </tr>
+<!--                <tr th:each="order,count:${orderList}" >-->
+<!--                    <td class="oId" th:text="${order.getoId()}" ></td>-->
+<!--                    <td class="oDate" th:text="${order.getoDate()}"></td>-->
+<!--                    <td class="oDesk" th:text="${order.getoDesk()}"></td>-->
+<!--                    <td class="oNumber" th:text="${order.getoNumber()}"></td>-->
+<!--                    <td id="a">-->
+<!--                        <a href="#" id="message_btn" class="modify" >内容</a>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <a href="#" id="del_btn" class="remove">删除</a>-->
+<!--                    </td>-->
+<!--                </tr>-->
+            </table>
+        </div>
+        <div class="up1">
+        </div>
+        <div class="Order">
+            <ul id="Car" class="Car">
+<!--                <li class="desk">-->
+<!--                    <div style="float: left;">-->
+<!--                        <ul class="number">-->
+<!--                            <li>-->
+<!--                                <span style="font-weight: bold;">桌号：1号桌</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span style="font-size: 12px;">2人用餐</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="OrderTime" >-->
+<!--                        <ul style="list-style: none;">-->
+<!--                            <li>-->
+<!--                                <span>2019-12-14 17:07</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span>单号：20191226001</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="food">-->
+<!--                    <div style="float: left; width: 55%">-->
+<!--                        <span class="accountName">梅菜肉饼</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: left;">-->
+<!--                        <span>×1</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;">-->
+<!--                        <span>￥</span>-->
+<!--                        <span class="accountPrice">10</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="Sum">-->
+<!--                    <div style="float: left">-->
+<!--                        <span>堂食共2份</span>-->
+<!--                    </div>-->
+<!--                    <div style="float: right;margin-right: -5px">-->
+<!--                        <span>共计20元</span>-->
+<!--                    </div>-->
+<!--                </li>-->
+            </ul>
+        </div>
+        <div id="div_close" style="float: left;z-index: 3;position: fixed;left: 75%;display: none;top: 18%;">
+            <button id="Close" class="Close"></button>
+        </div>
+    </div>
+</div>
+<div style="width: 100%" th:include="nav::comFooter"></div>
+</body>
+<script src="jquery-3.3.1.min.js"></script>
+<script  type="text/javascript"  th:inline="javascript" >
+    var getInfo = [[${getInfo}]];
+    var orderList = [[${orderList}]];
+    var nowOrder = [[${nowOrder}]];
+    var div_1=document.getElementById("Orders");
+    var div_2=document.getElementById("divOrder");
+    console.log(getInfo);
+    // console.log(orderList[0].oDate);
+    //辨别显示哪个div
+    if (getInfo == "1"){
+        div_1.removeAttribute("hidden");
+        for (var i=0;i<nowOrder.length;i++) {
+            TheOrder(i);
+            var desk = nowOrder[i].oDesk;
+            var date = nowOrder[i].oDate;
+            var data = nowOrder[i].oData;
+            var oID = nowOrder[i].oId;
+            var number = nowOrder[i].oNumber;
+            var DeskDate = [i, date, desk, number, oID];
+            var allPrice = 0;
+            var allNum = 0;
+            TheDate(DeskDate);
+            // console.log("data is " + data);
+            var str = data.split('-');
+            for (var j = 0; j < (str.length - 2) / 3; j++) {
+                var name = str[j * 3 + 1];
+                var num = parseInt(str[j * 3 + 2]);
+                var price = parseFloat(str[j * 3 + 3]);
+                var ThisData = [i, j, name, num, price];
+                // console.log("name :" + name + " num :" + num + "price :" + price);
+                TheData(ThisData);
+                allPrice = allPrice + price;
+                allNum = allNum + num;
+                // console.log("allprice is " + allPrice + " allnum is " + allNum);
+            }
+            var ThisPrice = [i, allNum, allPrice, data[0]];
+            ThePrice(ThisPrice);
+            TheClear(i);
+        }
+
+    }
+    else if (getInfo == "2"){
+        div_2.removeAttribute("hidden");
+        for (var i=0; i<orderList.length; i++){
+            var id = orderList[i].oId;
+            var date = orderList[i].oDate;
+            var desk = orderList[i].oDesk;
+            var number = orderList[i].oNumber;
+            var tr_list_data = [i,id,date,desk,number];
+            tr_list(tr_list_data);
+        }
+    }
+
+    function tr_list(data) {
+        var tr = document.createElement("tr");
+        tr.setAttribute("id","tr_"+data[0]);
+        document.getElementById("table_page").appendChild(tr);
+        var td_id = document.createElement("td");
+        td_id.setAttribute("class","oID");
+        td_id.innerText = data[1];
+        document.getElementById("tr_"+data[0]).appendChild(td_id);
+        var td_date = document.createElement("td");
+        td_date.setAttribute("class","oDate");
+        td_date.innerText = ChangeDate(data[2]);
+        document.getElementById("tr_"+data[0]).appendChild(td_date);
+        var td_desk = document.createElement("td");
+        td_desk.setAttribute("class","oDesk");
+        td_desk.innerText = data[3];
+        document.getElementById("tr_"+data[0]).appendChild(td_desk);
+        var td_number = document.createElement("td");
+        td_number.setAttribute("class","oNumber");
+        td_number.innerText = data[4];
+        document.getElementById("tr_"+data[0]).appendChild(td_number);
+        var td_a_1 = document.createElement("td");
+        td_a_1.setAttribute("id","td_a_"+data[0]+"_1");
+        document.getElementById("tr_"+data[0]).appendChild(td_a_1);
+        // var td_a_2 = document.createElement("td");
+        // td_a_2.setAttribute("id","td_a_"+data[0]+"_2");
+        // document.getElementById("tr_"+data[0]).appendChild(td_a_2);
+        var a_1 = document.createElement("a");
+        a_1.setAttribute("id","message_btn_"+data[0]);
+        a_1.setAttribute("class","modify");
+        a_1.innerText = "内容";
+        document.getElementById("td_a_"+data[0]+"_1").appendChild(a_1);
+        // var a_2 = document.createElement("a");
+        // a_2.setAttribute("id","del_btn_"+data[0]);
+        // a_2.setAttribute("class","remove");
+        // a_2.innerText = "删除";
+        // document.getElementById("td_a_"+data[0]+"_2").appendChild(a_2);
+    }
+
+    $(".up1").click(function(){
+        $(".Order").hide();
+        $(".Car").html("");
+        $("#div_close").hide();
+        $(".up1").hide();
+    });
+
+    $(".Close").click(function () {
+        $(".Order").hide();
+        $(".Car").html("");
+        $("#div_close").hide();//隐藏
+        $(".up1").hide();
+    });
+
+    $(".modify").click(function () {
+       var id = $(this).parent().parent().children("td.oID").text();
+       console.log("id is "+id);
+        $(".Order").toggle();
+        $("#div_close").toggle();
+        $(".up1").toggle();//显示
+        for (var i=0;i<orderList.length;i++) {
+            if(orderList[i].oId === id){
+                console.log("ID is "+orderList[i].oId);
+                var desk = orderList[i].oDesk;
+                var date = orderList[i].oDate;
+                var data = orderList[i].oData;
+                var oID = orderList[i].oId;
+                var number = orderList[i].oNumber;
+                var DeskDate = ["-1", date, desk, number, oID];
+                var allPrice = 0;
+                var allNum = 0;
+                TheDate(DeskDate);
+                // console.log("data is " + data);
+                var str = data.split('-');
+                for (var j = 0; j < (str.length - 2) / 3; j++) {
+                    var name = str[j * 3 + 1];
+                    var num = parseInt(str[j * 3 + 2]);
+                    var price = parseFloat(str[j * 3 + 3]);
+                    var ThisData = ["-1", j, name, num, price];
+                    // console.log("name :" + name + " num :" + num + "price :" + price);
+                    TheData(ThisData);
+                    allPrice = allPrice + price;
+                    allNum = allNum + num;
+                    // console.log("allprice is " + allPrice + " allnum is " + allNum);
+                }
+                var ThisPrice = ["-1", allNum, allPrice, data[0]];
+                ThePrice(ThisPrice);
+            }
+
+        }
+    });
+
+    function TheOrder(Data) {
+        var div = document.createElement("div");
+        div.setAttribute("id","Order_"+Data);
+        div.setAttribute("class","Order1");
+        document.getElementById("Orders").appendChild(div);
+        var ul = document.createElement("ul");
+        ul.setAttribute("class","Car");
+        ul.setAttribute("id","Car_"+Data);
+        document.getElementById("Order_"+Data).appendChild(ul);
+    }
+
+    function TheDate(Data) {
+        if (Data[0]==="-1"){
+            var Car_id = "Car";
+            var desk_id = "desk";
+            var div1_id = "desk_div1";
+            var div2_id = "desk_div2";
+            var ul1_id = "desk_ul";
+            var ul2_id = "date_ul";
+            var desk_li1_id = "desk_li1";
+            var desk_li2_id = "desk_li2";
+            var date_li1_id = "date_li1";
+            var date_li2_id = "date_li2";
+        }else{
+            var Car_id = "Car_"+Data[0];
+            var desk_id = "desk_"+Data[0];
+            var div1_id = "desk_div1_"+Data[0];
+            var div2_id = "desk_div2_"+Data[0];
+            var ul1_id = "desk_ul_"+Data[0];
+            var ul2_id = "date_ul_"+Data[0];
+            var desk_li1_id = "desk_li1_"+Data[0];
+            var desk_li2_id = "desk_li2_"+Data[0];
+            var date_li1_id = "date_li1_"+Data[0];
+            var date_li2_id = "date_li2_"+Data[0];
+        }
+        var li = document.createElement("li");
+        li.setAttribute("class","desk");
+        li.setAttribute("id",desk_id);
+        document.getElementById(Car_id).appendChild(li);
+        var div1 = document.createElement("div");
+        div1.setAttribute("style","float: left;");
+        div1.setAttribute("id",div1_id);
+        document.getElementById(desk_id).appendChild(div1);
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","OrderTime");
+        div2.setAttribute("id",div2_id);
+        document.getElementById(desk_id).appendChild(div2);
+        var ul1 = document.createElement("ul");
+        ul1.setAttribute("id",ul1_id);
+        ul1.setAttribute("class","number");
+        document.getElementById(div1_id).appendChild(ul1);
+        var ul2 = document.createElement("ul");
+        ul2.setAttribute("id",ul2_id);
+        ul2.setAttribute("style","list-style: none;");
+        document.getElementById(div2_id).appendChild(ul2);
+        var desk_li1 = document.createElement("li");
+        desk_li1.setAttribute("id",desk_li1_id);
+        document.getElementById(ul1_id).appendChild(desk_li1);
+        var desk_li2 = document.createElement("li");
+        desk_li2.setAttribute("id",desk_li2_id);
+        document.getElementById(ul1_id).appendChild(desk_li2);
+        var date_li1 = document.createElement("li");
+        date_li1.setAttribute("id",date_li1_id);
+        document.getElementById(ul2_id).appendChild(date_li1);
+        var date_li2 = document.createElement("li");
+        date_li2.setAttribute("id",date_li2_id);
+        document.getElementById(ul2_id).appendChild(date_li2);
+        var desk_span1 = document.createElement("span");
+        desk_span1.setAttribute("style","font-weight: bold;");
+        desk_span1.innerText = "桌号："+Data[2];
+        document.getElementById(desk_li1_id).appendChild(desk_span1);
+        var desk_span2 = document.createElement("span");
+        desk_span2.setAttribute("style","font-size: 12px;");
+        desk_span2.innerText = Data[3]+"人用餐";
+        document.getElementById(desk_li2_id).appendChild(desk_span2);
+        var date_span1 = document.createElement("span");
+        date_span1.innerText = ChangeDate(Data[1]);
+        document.getElementById(date_li1_id).appendChild(date_span1);
+        var date_span2 = document.createElement("span");
+        date_span2.innerText = "单号："+Data[4];
+        document.getElementById(date_li2_id).appendChild(date_span2);
+    }
+    function ChangeDate(Data){
+        console.log("Date is "+Data);
+        var d = new Date(Data);
+        var times=getNow(d.getFullYear()) + '-' + getNow((d.getMonth() + 1)) + '-' + getNow(d.getDate()) + ' ' + getNow(d.getHours()) + ':' + getNow(d.getMinutes());
+        return times;
+    }
+
+    function getNow(s) {
+        return s < 10 ? '0' + s: s;
+    }
+
+    function TheData(Data) {
+        var Car_id="";
+        if (Data[0]==="-1"){
+            var food_id = "food_"+Data[1];
+            Car_id = "Car";
+            var div1_id = "food_div1_"+Data[1];
+            var div2_id = "food_div2_"+Data[1];
+            var div3_id = "food_div3_"+Data[1];
+        }else {
+            var food_id = "food_"+Data[0]+"_"+Data[1];
+            Car_id = "Car_"+Data[0];
+            var div1_id = "food_div1_"+Data[0]+"_"+Data[1];
+            var div2_id = "food_div2_"+Data[0]+"_"+Data[1];
+            var div3_id = "food_div3_"+Data[0]+"_"+Data[1];
+        }
+        var li = document.createElement("li");
+        li.setAttribute("class","food");
+        li.setAttribute("id",food_id);
+        document.getElementById(Car_id).appendChild(li);
+        var div1 = document.createElement("div");
+        div1.setAttribute("style","float: left;width:55%;");
+        div1.setAttribute("id",div1_id);
+        document.getElementById(food_id).appendChild(div1);
+        var div2 = document.createElement("div");
+        div2.setAttribute("style","float: left;");
+        div2.setAttribute("id",div2_id);
+        document.getElementById(food_id).appendChild(div2);
+        var div3 = document.createElement("div");
+        div3.setAttribute("style","float: right;");
+        div3.setAttribute("id",div3_id);
+        document.getElementById(food_id).appendChild(div3);
+        var span1 = document.createElement("span");
+        span1.setAttribute("class","accountName");
+        span1.innerText = Data[2];
+        document.getElementById(div1_id).appendChild(span1);
+        var span2 = document.createElement("span");
+        span2.innerText = "x"+Data[3];
+        document.getElementById(div2_id).appendChild(span2);
+        var span3 = document.createElement("span");
+        span3.setAttribute("class","accountPrice");
+        span3.innerText = "￥"+Data[4];
+        document.getElementById(div3_id).appendChild(span3);
+
+    }
+    function ThePrice(Data) {
+        if (Data[0]==="-1"){
+            var Car_id = "Car";
+            var li_id = "Sum";
+            var div1_id = "Sum_div1";
+            var div2_id = "SUm_div2";
+        }else {
+            var Car_id = "Car_"+Data[0];
+            var li_id = "Sum_"+Data[0];
+            var div1_id = "Sum_div1_"+Data[0];
+            var div2_id = "SUm_div2_"+Data[0];
+        }
+        var f = "外带";
+        if (parseInt(Data[3])){
+            f = "堂食";
+        }
+        var li = document.createElement("li");
+        li.setAttribute("class","Sum");
+        if (Data[0]==="-1"){
+        }else {
+            li.setAttribute("style","border-bottom: 1px solid #e7eaeb;");
+        }
+        li.setAttribute("id",li_id);
+        document.getElementById(Car_id).appendChild(li);
+        var div1 = document.createElement("div");
+        div1.setAttribute("style","float: left;");
+        div1.setAttribute("id",div1_id);
+        document.getElementById(li_id).appendChild(div1);
+        var div2 = document.createElement("div");
+        div2.setAttribute("style","float: right;margin-right: -5px;");
+        div2.setAttribute("id",div2_id);
+        document.getElementById(li_id).appendChild(div2);
+        var span1 = document.createElement("span");
+        span1.setAttribute("style","font-weight: bold;");
+        span1.innerText = f+"共"+Data[1]+"份";
+        document.getElementById(div1_id).appendChild(span1);
+        var span2 = document.createElement("span");
+        span2.innerText= "共计"+Data[2]+"元";
+        document.getElementById(div2_id).appendChild(span2);
+    }
+
+    function TheClear(Data) {
+        var li = document.createElement("li");
+        li.setAttribute("style","float: right; height: 40px;");
+        li.setAttribute("id","Clear_"+Data);
+        li.setAttribute("class","Clear_li")
+        document.getElementById("Car_"+Data).appendChild(li);
+        var a = document.createElement("a");
+        a.setAttribute("class","Clear");
+        a.innerText = "餐品已完成";
+        document.getElementById("Clear_"+Data).appendChild(a);
+    }
+
+    $(".Clear").click(function () {
+        console.log("12332123123");
+        var text = $(this).parent().attr("id");
+        console.log(text);
+        var a_ids = text.split("_");
+        var date_li = "#date_li2_"+a_ids[1];
+        var oID_data = $(date_li).children().text();
+        var oIDs_data = oID_data.split("：");
+        var oID = oIDs_data[1];
+        console.log(oID);
+        $.ajax({
+            type: 'post',
+            url: '/ChangeData',
+            data:{"oID":oID},
+            async:false,
+            success:function (data) {
+                if(data=="1"){
+                    flag = 1;
+                    window.location.href="/Order_Use?getInfo=1";
+                }
+            }
+        });
+    });
+</script>
+</html>
