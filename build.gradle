@@ -16,6 +16,10 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 //引入 mybatis-generator 插件
 apply plugin: "com.arenagod.gradle.MybatisGenerator"
+
+//添加war插件
+apply plugin: 'war'
+
 group = 'com.chii'
 version = '1.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -27,14 +31,20 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //注意：org.springframework.boot:spring-boot-starter-web 内置了tomcat容器，因为要部署到tomcat所以要在打包war的时候将其排除出去，所以使用了providedRuntime
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation group: 'org.mybatis.generator', name: 'mybatis-generator-core', version:'1.3.2'
 
-	//swagger2
+    //打包war时添加的
+    compile("org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE")
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+
+    //swagger2
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 }
