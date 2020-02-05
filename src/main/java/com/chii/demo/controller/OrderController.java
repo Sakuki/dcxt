@@ -25,9 +25,11 @@ public class OrderController {
 
 
     @RequestMapping("/Order")
-    public String SetOrder(Model model, Order order){
-        List<Order> orderList = orderMapper.selectUser("123456");
+    public String SetOrder(Model model, Order order, HttpServletRequest request){
+        String userId = request.getParameter("userId");
+        List<Order> orderList = orderMapper.selectUser(userId);
         model.addAttribute("orderList",orderList);
+        model.addAttribute("userId",userId);
         System.out.println("11111111111111");
 //        System.out.println(orderList.get(0).getoDate().toString());
 //        Date time =new Date(orderList.get(0).getoDate().toString());

@@ -9,7 +9,9 @@ import com.chii.demo.pojo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -30,35 +32,49 @@ public class XiaDanController {
     OrderMapper orderMapper;
 
     @GetMapping("/XiaDan")
-    public String SetXiaDan(Model model, Kind kind, Menu menu){
+    public String SetXiaDan(Model model, Kind kind, Menu menu, HttpServletRequest request){
+        String userId = request.getParameter("userId");
         List<Menu> menuList= menuMapper.selectAll();
         List<Kind> kindList= kindMapper.selectAll();
         List<MenuAndKind> menuAndKindList = new ArrayList<>();
         model.addAttribute("menuList",menuList);
         model.addAttribute("kindList",kindList);
+        model.addAttribute("userId",userId);
         return "XiaDan";
     }
     @RequestMapping("/AddOrder")
     @ResponseBody
-    public String AddOrder(Model model, Order order, HttpServletRequest request){
-        String ID,user,desk,data,number;
-        String date;
+    public String AddOrder(ModelMap model, Order order, HttpServletRequest request){
+        String ID,user,desk,data,number,date;
+        String totalprice;
 //        ID = "00000005";
         ID = findID();
-        user = "123456";
+        user = request.getParameter("userId");
         desk = request.getParameter("desk");
         date = request.getParameter("date");
         data = request.getParameter("data");
         number = request.getParameter("number");
+        totalprice = request.getParameter("totalprice");
+        System.out.println("totalprice1 is "+totalprice);
         order.setoId(ID);
         order.setoUser(user);
         order.setoDesk(desk);
         order.setoDate(ChangerDate(date));
         order.setoData(data);
         order.setoNumber(Integer.parseInt(number));
+        model.put("ID",ID);
+        model.put("user",user);
+        model.put("desk",desk);
+        model.put("date",ChangerDate(date));
+        model.put("data",data);
+        model.put("number",number);
+        model.put("totalprice",totalprice);
+        System.out.println("12311111111321");
+//        return "redirect:/alipay";
         int flag = orderMapper.insertSelective(order);
         String flag1 = String.valueOf(flag);
-        return flag1;
+//        String flag1 = "1";
+        return ID;
     }
 
     public String findID(){

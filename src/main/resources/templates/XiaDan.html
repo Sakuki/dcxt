@@ -378,6 +378,7 @@
 <script  type="text/javascript"  th:inline="javascript" >
     var menuList = [[${menuList}]];
     var kindList = [[${kindList}]];
+    var userId = [[${userId}]];
     var mName = menuList[0].mName;
     var n;
     $(document).ready(function display(){
@@ -926,11 +927,12 @@
         });
         $(".footer_DC>.right").click(function () {//点击付款
             console.log("付款！！！！");
-            var name,price,num,data="";
+            var name,price,num,data="",totalprice;
             var date = nowDate();
             var eatStyle,number,desk=01;
             desk = $("#desk").text();
             number = $("#number").text();
+            totalprice = $("#totalpriceshow").text();
             console.log("desk is "+desk+" number is "+number);
             eatStyle = $("input[name='eatStyle']:checked").val();
             console.log("eatStyle is "+eatStyle);
@@ -954,13 +956,15 @@
                 type:'post',
                 url:'/AddOrder',
                 //传数据到XiaDanController的AddOrder上
-                data:{"desk":desk,"date":date,"data":data,"number":number},
+                data:{"desk":desk,"date":date,"data":data,"number":number,
+                    "userId":userId,"totalprice":totalprice},
                 Type:"json",
                 async:false,
                 success:function (data) {
-                    if(data=="1"){
+                    if(data!=null){
                         flag = 1;
-                        window.location.href="/Order";
+                        // window.location.href="/Order?userId="+userId;
+                        window.location.href="/alipay?ID="+data;
                     }
                 }
             });
@@ -1009,7 +1013,7 @@
         // window.location.href="/XiaDan";
     });
     $("#top>#top_right").click(function () {//点击订单
-        window.location.href="/Order";
+        window.location.href="/Order?userId="+userId;
     });
 
 </script>
