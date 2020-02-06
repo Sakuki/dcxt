@@ -1,7 +1,7 @@
 package com.chii.demo.controller;
 import com.chii.demo.mapper.OrderMapper;
 import com.chii.demo.pojo.Order;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.sun.org.apache.xpath.internal.operations .Mod;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +27,11 @@ public class OrderController {
     @RequestMapping("/Order")
     public String SetOrder(Model model, Order order, HttpServletRequest request){
         String userId = request.getParameter("userId");
+        String desk_id = request.getParameter("desk_id");
         List<Order> orderList = orderMapper.selectUser(userId);
         model.addAttribute("orderList",orderList);
         model.addAttribute("userId",userId);
+        model.addAttribute("desk_id",desk_id);
         System.out.println("11111111111111");
 //        System.out.println(orderList.get(0).getoDate().toString());
 //        Date time =new Date(orderList.get(0).getoDate().toString());
@@ -56,8 +58,9 @@ public class OrderController {
         {
             String Data = orderList.get(i).getoData();
             String Data_split[] = Data.split("-");
+            String flag = orderList.get(i).getoFlag();
             l = Data_split.length;
-            if (Data_split[l-1].equals("0")){
+            if (Data_split[l-1].equals("0")&&flag.equals("1")){
                 nowOrder.add(orderList.get(i));
             }
         }

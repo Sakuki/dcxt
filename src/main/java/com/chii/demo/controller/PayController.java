@@ -33,7 +33,8 @@ public class PayController {
 
     @RequestMapping("/visitUrl")
     @ResponseBody
-    public ModelAndView visitUrl(){
+    public ModelAndView visitUrl(HttpServletRequest request){
+        String desk_id = request.getParameter("desk_id");
         String appid = "2016102100729554";
         //商户应用私钥
         String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCeBpSvc226wCxREo5jS7U35daejX/fDrSofmIieu6tG85kqKrFc2tdvoDmd801kEmKUE8jrG2BWuM7u6cOVHMjoIlewU4N2RB+33FQtVs+KAEITv5Jou9su0DmWtHiH92fIqg3yh0NOhRBJbOJ1bx6MS1vOrrxbUHutkepuaoWkR60qXPJc8csFPGbNdqFHAfkuQV2vwLFRAU5Gw//FohN4JbqzvePsetAz63mRC65E4oS1vleb9YLKOt6fBicticF456u3XoImY3rH2zylXQSNKA3jEmn30NehJrlTPv/XJ48Ra/UND+7HdZeoa7leD9Rv50oRuFldq7HNKp8dpetAgMBAAECggEAQienHzxHd6Lz6ozGJzOOjfQeQQojuhHB97fRBXZJbRby9JjXxQlorToPZGxK8F2TK+ArAVgyD7Eo59zLNuiLuyJ937k1H/77NOH94jfKFt9Qb1YChnk7ml1Z8hWbP/rvIKu1mIV4XA0wZYWO/+kGmnD0AFip4mBG9dRBdABSAFffQka/kugmFwnqrKMo3BZi/9XCScOAfVzbCQ4dDKkSMWVCk9HV9YMUoVKiS4hCEVTs0E5/vnEO96yCfV593pi8tl0B+W5I5YgTUYibLTfql3loGkmTCPEjdd0FMfZyuspH6VdGNpR2JAcCSXK5mYRaiHGtVSd+IaoyzhtZWHT6UQKBgQDdTTWah9ADc3tV02tlKm8fcLq3Yt95wyDptppUHhm7B68yltuswW/jGzbE1ECZJnSEn825Le+6L4IBsWFyKRnsXqjxxvhByNsSQl9wI+ttJtb6fcRvWj+9sVrya+p/l4iUPuNtQtAW/FDQ++BFVF39mnytgT7qk9HlX2C1Kl1fdwKBgQC2zYzWhDCJ1yFf2lLJQ4rECs84eNDYnFgaTC/Vt8zaKj4xq5TZDPOFZlwm23+OnaQTxR3HLcSyHU71owZ3JyXiNKF/bGPymwcRm9/HwQMoGv2Bti6XW/QhUtYGicXfChAarUIqjUK/hs4oDgW5BpPuESvRBWBjt6BXRK/MFJFy+wKBgHrQxaXsJ4oyxcj820Y6xY7qTgVGbwWxQAvUllOGnPsKKbXmuSVn+QNN8BhOP0d/avzLfy19C+UFRp5P5eeoXcWrRxFfPhmsMcAxa6vdk2NxQa+kqqatrGBHFFUjhPGolFjJigfyI3AOOX+xuWZgiwUafoUADH286ajlRNNmHonDAoGBALauIaG6hpspXxPgJT02fzU8rCr+KY9eZnkZS/Bi9pfLAU437s8drzrPuSWn0whdpzuOkBydM2Tf/ylgmrR2bdhpyj6BvjwTCvRg9jg0PYhVuKNowZTG8uheVL5B7njfIIrYPDgz5NFr0RecM8HcvfZ6OHRw0Au21MiBPsFOiLADAoGAQko/r8nCyxeFE2dKey1F8qD+Pa5f0AZw6mUGVHiqRvqSUuBeNUnTKlayfaxlmCgfkMZSinoxZQKA1TTMdVH4uPY/9buSe/ThdkOa8FQroMVJxk8gLA1axtrVXo8v059bupa8tpvFNNzjjNezJlACL9ajpcL0ps6zZE273O4YoCw=";
@@ -53,7 +54,8 @@ public class PayController {
         }
         String scope = "auth_user,auth_base";
         String visitUrl = "https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id="
-                +AlipayConfig.APPID+"&redirect_uri="+AlipayConfig.Login_return_url;
+                +AlipayConfig.APPID+"&redirect_uri="+AlipayConfig.Login_return_url+
+                "&state="+desk_id;
         System.out.println(encodeUrl);
         //https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id=2016102100729554&redirect_uri=http://192.168.43.82:2333/Login_return_url
         return new ModelAndView("redirect:"+visitUrl);
@@ -65,7 +67,7 @@ public class PayController {
 
             // 获取支付宝GET过来反馈信息
         Map<String, String> params = new HashMap<String, String>();
-        String userId = "";
+        String userId = "",desk_id="";
         Map requestParams = request.getParameterMap();
         for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = (String) iter.next();
@@ -88,8 +90,13 @@ public class PayController {
             System.out.println("alipay_app_auth:" + alipay_app_auth + "\n");
 
             // 第三方授权code
-            String app_auth_code = new String(request.getParameter("app_auth_code").getBytes("ISO-8859-1"), "UTF-8");// 获的第三方登录用户授权app_auth_code
+            String app_auth_code = new String(request.getParameter("app_auth_code").getBytes("ISO-8859-1"), "UTF-8");
             System.out.println("app_auth_code:" + app_auth_code + "\n");
+
+            // 获取state值（桌号）
+            String state = new String(request.getParameter("state").getBytes("ISO-8859-1"), "UTF-8");
+            desk_id = state;
+            System.out.println("state:" + state + "\n");
 
             String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCeBpSvc226wCxREo5jS7U35daejX/fDrSofmIieu6tG85kqKrFc2tdvoDmd801kEmKUE8jrG2BWuM7u6cOVHMjoIlewU4N2RB+33FQtVs+KAEITv5Jou9su0DmWtHiH92fIqg3yh0NOhRBJbOJ1bx6MS1vOrrxbUHutkepuaoWkR60qXPJc8csFPGbNdqFHAfkuQV2vwLFRAU5Gw//FohN4JbqzvePsetAz63mRC65E4oS1vleb9YLKOt6fBicticF456u3XoImY3rH2zylXQSNKA3jEmn30NehJrlTPv/XJ48Ra/UND+7HdZeoa7leD9Rv50oRuFldq7HNKp8dpetAgMBAAECggEAQienHzxHd6Lz6ozGJzOOjfQeQQojuhHB97fRBXZJbRby9JjXxQlorToPZGxK8F2TK+ArAVgyD7Eo59zLNuiLuyJ937k1H/77NOH94jfKFt9Qb1YChnk7ml1Z8hWbP/rvIKu1mIV4XA0wZYWO/+kGmnD0AFip4mBG9dRBdABSAFffQka/kugmFwnqrKMo3BZi/9XCScOAfVzbCQ4dDKkSMWVCk9HV9YMUoVKiS4hCEVTs0E5/vnEO96yCfV593pi8tl0B+W5I5YgTUYibLTfql3loGkmTCPEjdd0FMfZyuspH6VdGNpR2JAcCSXK5mYRaiHGtVSd+IaoyzhtZWHT6UQKBgQDdTTWah9ADc3tV02tlKm8fcLq3Yt95wyDptppUHhm7B68yltuswW/jGzbE1ECZJnSEn825Le+6L4IBsWFyKRnsXqjxxvhByNsSQl9wI+ttJtb6fcRvWj+9sVrya+p/l4iUPuNtQtAW/FDQ++BFVF39mnytgT7qk9HlX2C1Kl1fdwKBgQC2zYzWhDCJ1yFf2lLJQ4rECs84eNDYnFgaTC/Vt8zaKj4xq5TZDPOFZlwm23+OnaQTxR3HLcSyHU71owZ3JyXiNKF/bGPymwcRm9/HwQMoGv2Bti6XW/QhUtYGicXfChAarUIqjUK/hs4oDgW5BpPuESvRBWBjt6BXRK/MFJFy+wKBgHrQxaXsJ4oyxcj820Y6xY7qTgVGbwWxQAvUllOGnPsKKbXmuSVn+QNN8BhOP0d/avzLfy19C+UFRp5P5eeoXcWrRxFfPhmsMcAxa6vdk2NxQa+kqqatrGBHFFUjhPGolFjJigfyI3AOOX+xuWZgiwUafoUADH286ajlRNNmHonDAoGBALauIaG6hpspXxPgJT02fzU8rCr+KY9eZnkZS/Bi9pfLAU437s8drzrPuSWn0whdpzuOkBydM2Tf/ylgmrR2bdhpyj6BvjwTCvRg9jg0PYhVuKNowZTG8uheVL5B7njfIIrYPDgz5NFr0RecM8HcvfZ6OHRw0Au21MiBPsFOiLADAoGAQko/r8nCyxeFE2dKey1F8qD+Pa5f0AZw6mUGVHiqRvqSUuBeNUnTKlayfaxlmCgfkMZSinoxZQKA1TTMdVH4uPY/9buSe/ThdkOa8FQroMVJxk8gLA1axtrVXo8v059bupa8tpvFNNzjjNezJlACL9ajpcL0ps6zZE273O4YoCw=";
 
@@ -125,7 +132,8 @@ public class PayController {
             }
         }
         System.out.println("123321123");
-        ModelAndView modelAndView = new ModelAndView("redirect:/XiaDan?userId="+userId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/XiaDan?userId="
+                +userId+"&desk_id="+desk_id);
         return modelAndView;
     }
 
@@ -133,7 +141,7 @@ public class PayController {
     /**
      * 支付宝手机网站支付
      *
-     * @param alipayBean
+//     * @param alipayBean
      * @return
      */
     @RequestMapping("/alipay")
@@ -143,23 +151,13 @@ public class PayController {
 //        ModelMap model, Order order,
         AlipayBean alipayBean = new AlipayBean();
         System.out.println("here is alipay");
-        String ID,user,desk,data,number,date;
-        String totalprice="20.00";
-//        ID = "20200204007";
+        String ID, totalprice;
         ID = request.getParameter("ID");
         Order order = orderMapper.selectByPrimaryKey(ID);
+        totalprice = String.valueOf(order.getoTotalprice()) ;
         alipayBean.setOutTradeNo(ID);
         alipayBean.setTotalAmount(totalprice);
-        alipayBean.setSubject("餐饮");
-
-
-//        order.setoId(ID);
-//        order.setoUser(user);
-//        order.setoDesk(desk);
-//        order.setoDate(xiaDanController.ChangerDate(date));
-//        order.setoData(data);
-//        order.setoNumber(Integer.parseInt(number));
-
+        alipayBean.setSubject("餐饮.XX饭店");
 
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
         //调用RSA签名方式
@@ -226,6 +224,7 @@ public class PayController {
         //使用商户订单号获取用户号
         Order order = orderMapper.selectByPrimaryKey(out_trade_no);
         String userId = order.getoUser();
+        String desk_id = order.getoDesk();
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
         //计算得出通知验证结果
@@ -234,12 +233,15 @@ public class PayController {
 
         if(verify_result){//验证成功
             System.out.println("验证成功");
-            ModelAndView modelAndView = new ModelAndView("redirect:/Order?userId="+userId);
+            order.setoId(out_trade_no);
+            order.setoFlag("1");
+            orderMapper.updateByPrimaryKeySelective(order);
+            ModelAndView modelAndView = new ModelAndView("redirect:/Order?userId="+userId+"&desk_id="+desk_id);
             return modelAndView;
 //            return "redirect:/Order?userId="+userId;
         }else{
             System.out.println("验证失败");
-            ModelAndView modelAndView = new ModelAndView("redirect:/XiaDan?userId="+userId);
+            ModelAndView modelAndView = new ModelAndView("redirect:/XiaDan?userId="+userId+"&desk_id="+desk_id);
             return modelAndView;
 //            return "redirect:/XiaDan?userId="+userId;
         }
@@ -277,6 +279,7 @@ public class PayController {
         //使用商户订单号获取用户号
         Order order = orderMapper.selectByPrimaryKey(out_trade_no);
         String userId = order.getoUser();
+        String desk_id = order.getoDesk();
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
         //计算得出通知验证结果
@@ -303,6 +306,7 @@ public class PayController {
                 //如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
             }
 
+            order.setoFlag("1");
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
             System.out.println("success");	//请不要修改或删除
             return "验证成功";
@@ -334,36 +338,9 @@ public class PayController {
 //        model.setTimeoutExpress("2m");
         // 销售产品码 必填
         model.setProductCode("QUICK_WAP_WAY");
-//        model.setProductCode("FAST_INSTANT_TRADE_PAY");
         return model;
     }
 
-    public String findID(){
-        List<Order> orderList = orderMapper.selectAll();
-        int num = orderList.get(orderList.size()-1).getoId().length(),IDNum;
-        String TheNum = "";
-        String preID = orderList.get(orderList.size()-1).getoId().toString();
-        String str = preID.substring(0,8);
-        System.out.println("str is "+str);
-        String[] date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString().split("-");
-        String theDate = date[0]+date[1]+date[2];
-        System.out.println("date is "+theDate);
-        if (str.equals(theDate)){
-            IDNum = Integer.parseInt(preID.substring(8,11))+1;
-            if (IDNum/10==0){
-                TheNum = "00"+String.valueOf(IDNum);
-            }
-            else if (IDNum/10!=0&&IDNum/100==0){
-                TheNum = "0"+String.valueOf(IDNum);
-            }else {
-                TheNum = String.valueOf(IDNum);
-            }
-            System.out.println("IDNum is "+IDNum);
-        }else {
-            TheNum = "001";
-        }
-        return theDate+TheNum;
-    }
 
 
 }

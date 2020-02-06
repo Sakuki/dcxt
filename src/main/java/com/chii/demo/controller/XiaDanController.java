@@ -34,20 +34,21 @@ public class XiaDanController {
     @GetMapping("/XiaDan")
     public String SetXiaDan(Model model, Kind kind, Menu menu, HttpServletRequest request){
         String userId = request.getParameter("userId");
+        String desk_id = request.getParameter("desk_id");
         List<Menu> menuList= menuMapper.selectAll();
         List<Kind> kindList= kindMapper.selectAll();
         List<MenuAndKind> menuAndKindList = new ArrayList<>();
         model.addAttribute("menuList",menuList);
         model.addAttribute("kindList",kindList);
         model.addAttribute("userId",userId);
+        model.addAttribute("desk_id",desk_id);
         return "XiaDan";
     }
     @RequestMapping("/AddOrder")
     @ResponseBody
-    public String AddOrder(ModelMap model, Order order, HttpServletRequest request){
+    public String AddOrder( Order order, HttpServletRequest request){
         String ID,user,desk,data,number,date;
         String totalprice;
-//        ID = "00000005";
         ID = findID();
         user = request.getParameter("userId");
         desk = request.getParameter("desk");
@@ -62,52 +63,45 @@ public class XiaDanController {
         order.setoDate(ChangerDate(date));
         order.setoData(data);
         order.setoNumber(Integer.parseInt(number));
-        model.put("ID",ID);
-        model.put("user",user);
-        model.put("desk",desk);
-        model.put("date",ChangerDate(date));
-        model.put("data",data);
-        model.put("number",number);
-        model.put("totalprice",totalprice);
+        order.setoTotalprice((totalprice));
+        order.setoFlag("0");
         System.out.println("12311111111321");
-//        return "redirect:/alipay";
         int flag = orderMapper.insertSelective(order);
-        String flag1 = String.valueOf(flag);
-//        String flag1 = "1";
         return ID;
     }
 
     public String findID(){
         List<Order> orderList = orderMapper.selectAll();
-        int num = orderList.get(orderList.size()-1).getoId().length(),IDNum;
-        String TheNum = "";
-        String preID = orderList.get(orderList.size()-1).getoId().toString();
-        String str = preID.substring(0,8);
-        System.out.println("str is "+str);
-        String[] date = new  SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString().split("-");
-        String theDate = date[0]+date[1]+date[2];
-        System.out.println("date is "+theDate);
-        if (str.equals(theDate)){
-            IDNum = Integer.parseInt(preID.substring(8,11))+1;
-            if (IDNum/10==0){
-                TheNum = "00"+String.valueOf(IDNum);
-            }
-            else if (IDNum/10!=0&&IDNum/100==0){
-                TheNum = "0"+String.valueOf(IDNum);
-            }else {
-                TheNum = String.valueOf(IDNum);
-            }
-            System.out.println("IDNum is "+IDNum);
+        if(orderList.size() == 0){
+            String[] date = new  SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString().split("-");
+            String theDate = date[0]+date[1]+date[2];
+            return theDate+"001";
         }else {
-            TheNum = "001";
+            int num = orderList.get(orderList.size()-1).getoId().length(),IDNum;
+            String TheNum = "";
+            String preID = orderList.get(orderList.size()-1).getoId().toString();
+            String str = preID.substring(0,8);
+            System.out.println("str is "+str);
+            String[] date = new  SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString().split("-");
+            String theDate = date[0]+date[1]+date[2];
+            System.out.println("date is "+theDate);
+            if (str.equals(theDate)){
+                IDNum = Integer.parseInt(preID.substring(8,11))+1;
+                if (IDNum/10==0){
+                    TheNum = "00"+String.valueOf(IDNum);
+                }
+                else if (IDNum/10!=0&&IDNum/100==0){
+                    TheNum = "0"+String.valueOf(IDNum);
+                }else {
+                    TheNum = String.valueOf(IDNum);
+                }
+                System.out.println("IDNum is "+IDNum);
+            }else {
+                TheNum = "001";
+            }
+            return theDate+TheNum;
         }
-        return theDate+TheNum;
-//        Calendar cal = Calendar.getInstance();
-//        int y = cal.get(cal.YEAR);
-//        int m = cal.get(cal.MONTH+1);
-//        int d = cal.get(cal.DATE);
-//        String theDate = "";
-//        theDate = theDate.concat(String.valueOf(y));
+
     }
 
     public Date ChangerDate(String TheDate){

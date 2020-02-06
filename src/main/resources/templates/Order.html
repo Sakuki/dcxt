@@ -95,6 +95,7 @@
     console.log("123312312")
     var orderList = [[${orderList}]];
     var userId = [[${userId}]];
+    var desk_id = [[${desk_id}]];
     for (var i=0;i<orderList.length;i++){
         TheOrder(i);
         var desk = orderList[i].oDesk;
@@ -235,10 +236,10 @@
     }
 
     $("#top>#left").click(function () {//点击点餐
-        window.location.href="/XiaDan?userId="+userId;
+        window.location.href="/XiaDan?userId="+userId+"&desk_id="+desk_id;
     });
     $("#top>#right").click(function () {//点击订单
-        // window.location.href="/Order";
+        // window.location.href="/Order"+"&desk_id="+desk_id;
     });
 </script>
 </html>

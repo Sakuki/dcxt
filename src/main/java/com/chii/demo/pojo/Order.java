@@ -15,13 +15,19 @@ public class Order {
 
     private Integer oNumber;
 
-    public Order(String oId, String oUser, String oDesk, Date oDate, String oData, Integer oNumber) {
+    private String oTotalprice;
+
+    private String oFlag;
+
+    public Order(String oId, String oUser, String oDesk, Date oDate, String oData, Integer oNumber, String oTotalprice, String oFlag) {
         this.oId = oId;
         this.oUser = oUser;
         this.oDesk = oDesk;
         this.oDate = oDate;
         this.oData = oData;
         this.oNumber = oNumber;
+		this.oTotalprice = oTotalprice;
+		this.oFlag = oFlag;
     }
 
     public Order() {
@@ -75,4 +81,20 @@ public class Order {
     public void setoNumber(Integer oNumber) {
         this.oNumber = oNumber;
     }
+	
+	public String getoTotalprice(){
+		return oTotalprice;
+	}
+	
+	public void setoTotalprice(String oTotalprice){
+		this.oTotalprice = oTotalprice;
+	}
+	
+	public String getoFlag(){
+		return oFlag;
+	}
+	
+	public void setoFlag(String oFlag){
+		this.oFlag = oFlag;
+	}
 }

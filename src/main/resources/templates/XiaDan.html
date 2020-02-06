@@ -379,6 +379,7 @@
     var menuList = [[${menuList}]];
     var kindList = [[${kindList}]];
     var userId = [[${userId}]];
+    var desk_id = [[${desk_id}]];
     var mName = menuList[0].mName;
     var n;
     $(document).ready(function display(){
@@ -389,10 +390,10 @@
     function desk() {
         var h2 = document.createElement("h2");
         h2.setAttribute("id","desk");
-        h2.innerText = "01号桌";
+        h2.innerText = desk_id+"号桌";
         document.getElementById("top_desk").appendChild(h2);
         var h3 = document.createElement("h3");
-        h3.innerText = "01号桌";
+        h3.innerText = desk_id+"号桌";
         document.getElementById("XD_desk").appendChild(h3);
     }
     function nav_li() {
@@ -929,7 +930,7 @@
             console.log("付款！！！！");
             var name,price,num,data="",totalprice;
             var date = nowDate();
-            var eatStyle,number,desk=01;
+            var eatStyle,number;
             desk = $("#desk").text();
             number = $("#number").text();
             totalprice = $("#totalpriceshow").text();
@@ -956,7 +957,7 @@
                 type:'post',
                 url:'/AddOrder',
                 //传数据到XiaDanController的AddOrder上
-                data:{"desk":desk,"date":date,"data":data,"number":number,
+                data:{"desk":desk_id,"date":date,"data":data,"number":number,
                     "userId":userId,"totalprice":totalprice},
                 Type:"json",
                 async:false,
@@ -1010,10 +1011,10 @@
 
 
     $("#top>#top_left").click(function () {//点击点餐
-        // window.location.href="/XiaDan";
+        // window.location.href="/XiaDan"+"&desk_id="+desk_id;
     });
     $("#top>#top_right").click(function () {//点击订单
-        window.location.href="/Order?userId="+userId;
+        window.location.href="/Order?userId="+userId+"&desk_id="+desk_id;
     });
 
 </script>

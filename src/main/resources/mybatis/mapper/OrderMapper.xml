@@ -9,16 +9,17 @@
       <arg column="o_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="o_data" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="o_number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="o_totalprice" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="o_flag" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    o_ID, o_user, o_desk, o_date, o_data, o_number
+    o_ID, o_user, o_desk, o_date, o_data, o_number, o_totalprice, o_flag
   </sql>
   <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from `order`
-    order by o_ID
   </select>
   <select id="selectUser" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -39,10 +40,11 @@
   </delete>
   <insert id="insert" parameterType="com.chii.demo.pojo.Order">
     insert into `order` (o_ID, o_user, o_desk,
-      o_date, o_data, o_number
+      o_date, o_data, o_number, o_totalprice, o_flag
       )
     values (#{oId,jdbcType=VARCHAR}, #{oUser,jdbcType=VARCHAR}, #{oDesk,jdbcType=VARCHAR}, 
-      #{oDate,jdbcType=TIMESTAMP}, #{oData,jdbcType=VARCHAR}, #{oNumber,jdbcType=INTEGER}
+      #{oDate,jdbcType=TIMESTAMP}, #{oData,jdbcType=VARCHAR}, #{oNumber,jdbcType=INTEGER}, 
+      #{oTotalprice,jdbcType=VARCHAR}, #{oFlag,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chii.demo.pojo.Order">
@@ -66,6 +68,12 @@
       <if test="oNumber != null">
         o_number,
       </if>
+      <if test="oTotalprice != null">
+        o_totalprice,
+      </if>
+      <if test="oFlag != null">
+        o_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="oId != null">
@@ -85,6 +93,12 @@
       </if>
       <if test="oNumber != null">
         #{oNumber,jdbcType=INTEGER},
+      </if>
+      <if test="oTotalprice != null">
+        #{oTotalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="oFlag != null">
+        #{oFlag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -106,6 +120,12 @@
       <if test="oNumber != null">
         o_number = #{oNumber,jdbcType=INTEGER},
       </if>
+      <if test="oTotalprice != null">
+        o_totalprice = #{oTotalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="oFlag != null">
+        o_flag = #{oFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     where o_ID = #{oId,jdbcType=VARCHAR}
   </update>
@@ -115,7 +135,9 @@
       o_desk = #{oDesk,jdbcType=VARCHAR},
       o_date = #{oDate,jdbcType=TIMESTAMP},
       o_data = #{oData,jdbcType=VARCHAR},
-      o_number = #{oNumber,jdbcType=INTEGER}
+      o_number = #{oNumber,jdbcType=INTEGER},
+      o_totalprice = #{oTotalprice,jdbcType=VARCHAR},
+      o_flag = #{oFlag,jdbcType=VARCHAR}
     where o_ID = #{oId,jdbcType=VARCHAR}
   </update>
 

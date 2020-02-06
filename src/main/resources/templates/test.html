@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-1111111111111111111111
+<!-- 图片文本框 -->
+<input type="file" class="form-control" id="file" name="file" th:onchange="javascript:preview(this)">
+
+<!-- 这个是在上传之前回显图片图片展示 -->
+<div id="preview">
+    　　<!--这个是为了将页面返回的图片展示出来的.默认隐藏-->
+    　　<img style="width: 100px; height: 100px;display:none" id="imgHidden" />
+</div>
+
+<!-- 提交...这里pageIndex和pageSize可传可不传,主要取决于提交之后是否需要回到当前页面. -->
+<button type="submit" th:onclick="javascript:submitForm([[${pageIndex}]],[[${pageSize}]])" class="btn btn-primary">提交</button>
 </body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="Paging.js"></script>
+<script  type="text/javascript"  th:inline="javascript" ></script>
 </html>
