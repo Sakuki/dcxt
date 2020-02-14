@@ -9,9 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
@@ -23,23 +27,42 @@ public class MenuController {
     MenuMapper menuMapper;
     @Autowired
     KindMapper kindMapper;
+    private static String PATH = "D:/IDEA/IdeaProjects/dcxt/src/main/resources/static/pic/";
 
     @RequestMapping("/AddMenuInfo")
-    public String AddMenuInfo(Menu menu,Kind kind,Model model){
-        String kId;
-        if(menu.getmId().equals("")||menu.getmName().equals("")||kind.getkName().equals(""))
+    @ResponseBody
+    public String AddMenuInfo(Menu menu,Kind kind,Model model,HttpServletRequest request) throws IOException {
+        String id,name,kName;
+        id = request.getParameter("id");
+        name = request.getParameter("name");
+        kName = request.getParameter("kName");
+        if(id.equals("")||name.equals("")||kName.equals(""))
         {
-            model.addAttribute("flag","0");
-            model.addAttribute("getInfo","1");
-            return "MenuInfo";
+            return "0";
         }else
         {
-            kId = FindkId(kind.getkName());
-            menu.setkId(kId);
-            menuMapper.insert(menu);
-            model.addAttribute("flag","1");
-            model.addAttribute("getInfo","1");
-            return "MenuInfo";
+            List<Menu> menuList = menuMapper.selectAll();
+            for (int i=0; i<menuList.size(); i++){
+                if (menuList.get(i).getmId().equals(id)){
+                    return "2";
+                }
+            }
+            menu = ThisMenu(request,menu);
+            menuMapper.insertSelective(menu);
+            return "1";
+        }
+    }
+
+    @RequestMapping("/EditPic")
+    @ResponseBody
+    public String EditPic(HttpServletRequest request) throws IOException {
+        String id = request.getParameter("id");
+        String dataUrl = request.getParameter("dataUrl");
+        if (dataUrl==""){
+            return "0";
+        }else {
+            upload(dataUrl,id);
+            return "1";
         }
     }
 
@@ -93,19 +116,6 @@ public class MenuController {
         kindList = kindMapper.selectAll();
         menuAndKindList = findMenuAndKind(menuList,kindList);
 
-
-//        menuAndKindList = menuMapper.selectKindName();
-//        System.out.println(menuAndKindList.get(1).getkName());
-
-//        for (int i = 0;i<menuList.size();i++)
-//        {
-//            for (int j = 0; j<kindList.size(); j++)
-//            if (menuList.get(i).getkId().equals(kindList.get(j).getkId()))
-//            {
-//                menuList.get(i).setkId(kindList.get(j).getkName());//将kId改成对应的kName
-//            }
-//        }
-//        model.addAttribute("menuList",menuList);
         model.addAttribute("menuAndKindList",menuAndKindList);
 //        model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo",getInfo);
@@ -126,35 +136,14 @@ public class MenuController {
     }
 
     @PostMapping("/EditMenuInfo")
-    public String EditMenuInfo(Menu menu, Model model, HttpServletRequest request){
+    public String EditMenuInfo(Menu menu, Model model, HttpServletRequest request) throws IOException {
         String id,name,way,flavor,ing,price1,pic,kid,kName;
         Long price = null;
         id = request.getParameter("id");
         name = request.getParameter("name");
         if (name!="")   //是否有拿到数据
         {
-            way = request.getParameter("way");
-            flavor = request.getParameter("flavor");
-            ing = request.getParameter("ing");
-            price1 = request.getParameter("price");
-            price1 = price1.trim();//去除空格
-            if (price1.equals(""))
-            {
-            }else {
-                price = Long.parseLong(price1);
-                System.out.println("price is "+price);
-            }
-            pic = request.getParameter("pic");
-            kName = request.getParameter("kName");
-            menu.setmId(id);    //将修改数据添加到menu上
-            menu.setmName(name);
-            menu.setmWay(way);
-            menu.setmFlavor(flavor);
-            menu.setmIng(ing);
-            menu.setmPrice(price);
-            menu.setmPic(pic);
-            kid = FindkId(kName);
-            menu.setkId(kid);
+            menu = ThisMenu(request, menu);
             menuMapper.updateByPrimaryKeySelective(menu);//修改数据库数据
         }
         return "MenuInfo";
@@ -179,5 +168,59 @@ public class MenuController {
             }
         }
         return kId;
+    }
+
+    public Menu ThisMenu(HttpServletRequest request, Menu menu) throws IOException {
+        String data,id,name,kId,way,flavor,ing,price1,kName,pic;
+        Long price=null;
+        id = request.getParameter("id");
+        name = request.getParameter("name");
+        way = request.getParameter("way");
+        flavor = request.getParameter("flavor");
+        ing = request.getParameter("ing");
+        price1 = request.getParameter("price");
+        price1 = price1.trim();//去除空格
+        if (price1.equals(""))
+        {
+        }else {
+            price = Long.parseLong(price1);
+            System.out.println("price is "+price);
+        }
+        data = request.getParameter("dataURL");
+        if (data!=""){
+            pic = "/pic/"+id+".jpg";
+            menu.setmPic(pic);
+            upload(data,id);
+        }
+        kName = request.getParameter("kName");
+        kId = FindkId(kName);//使用名字查找ID
+        menu.setkId(kId);
+        menu.setmId(id);    //将修改数据添加到menu上
+        menu.setmName(name);
+        menu.setmWay(way);
+        menu.setmFlavor(flavor);
+        menu.setmIng(ing);
+        menu.setmPrice(price);
+        return menu;
+    }
+
+    public void upload(String data,String id) throws IOException {
+        BASE64Decoder decoder = new BASE64Decoder();
+        // Base64解码,对字节数组字符串进行Base64解码并生成图片
+        byte[] b = decoder.decodeBuffer(data.replace("data:image/jpeg;base64,", ""));
+        for (int i = 0; i < b.length; ++i) {
+            if (b[i] < 0) {// 调整异常数据
+                b[i] += 256;
+            }
+        }
+        String imgName = id+".jpg";
+        String dbUrl = "";
+        String imgFilePath;
+        // 生成jpeg图片D:\test\attendance\src\main\webapp\assets\images\leave
+        imgFilePath = PATH+imgName;//新生成的图片
+        OutputStream out = new FileOutputStream(imgFilePath);
+        out.write(b);
+        out.flush();
+        out.close();
     }
 }

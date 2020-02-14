@@ -2,51 +2,18 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>用户表格</title>
+    <title></title>
 </head>
 <body>
-<form name=""   action="" method="get">
-<table border="1">
-    <tr>
-        <td>id</td>
-        <td>名字</td>
-        <td>年龄</td>
-        <td>性别</td>
-    </tr>
 
-<!--    <tr>-->
-
-<!--    <td>-->
-<!--        &lt;!&ndash;/*@thymesVar id="id" type="java.lang.String"*/&ndash;&gt;-->
-<!--        <input th:value="${id}" type="text" name="id" />-->
-<!--    </td>-->
-<!--    <td>-->
-<!--        &lt;!&ndash;/*@thymesVar id="passwd" type="java.lang.String"*/&ndash;&gt;-->
-<!--        <input th:value="${passwd}" type="text" name="passwd" />-->
-<!--    </td>-->
-<!--    <td>-->
-<!--        &lt;!&ndash;/*@thymesVar id="age" type="java.lang.String"*/&ndash;&gt;-->
-<!--        <input th:value="${age}" type="text" name="age" />-->
-<!--    </td>-->
-<!--    <td>-->
-<!--        &lt;!&ndash;/*@thymesVar id="address" type="java.lang.String"*/&ndash;&gt;-->
-<!--        <input th:value="${address}" type="text" name="address" />-->
-<!--    </td>-->
-<!--    <tr>-->
-<!--        <td>-->
-<!--            <input th:value="*{user.uId}" type="text" name="uId" />-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <input th:value="*{user.uName}" type="text" name="uName" />-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <input th:value="*{user.uAge}" type="text" name="uAge" />-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <input th:value="*{user.uSex}" type="text" name="uSex" />-->
-<!--        </td>-->
-<!--    </tr>-->
-</table>
-</form>
 </body>
+<script th:inline="javascript"> // 需要添加 th:inline 才能访问 model 中的属性
+window.onload = function () {
+    console.log("页面加载完成");
+    // 获取ModelAndView中的dbgoods对象
+    var msg = [[${msg}]];
+    // 打印
+    alert(msg);
+}
+</script>
 </html>

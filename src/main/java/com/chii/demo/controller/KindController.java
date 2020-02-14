@@ -19,13 +19,22 @@ public class KindController {
 
     @RequestMapping("/AddKindInfo")
     public String AddKindInfo(Kind kind,Model model){
-        if(kind.getkId()==""||kind.getkName()==""||kind.getkMain()=="")
+        String kId = kind.getkId();
+        if(kind.getkId().equals("") || kind.getkName().equals("") || kind.getkMain().equals(""))
         {
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
             return "KindInfo";
         }else
         {
+            List<Kind> kindList = kindMapper.selectAll();
+            for (int i=0; i<kindList.size(); i++){
+                if (kindList.get(i).getkId().equals(kId)){
+                    model.addAttribute("flag","2");
+                    model.addAttribute("getInfo","1");
+                    return "KindInfo";
+                }
+            }
             kindMapper.insert(kind);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");

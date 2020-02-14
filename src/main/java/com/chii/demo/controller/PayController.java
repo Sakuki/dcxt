@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -34,31 +35,37 @@ public class PayController {
     @RequestMapping("/visitUrl")
     @ResponseBody
     public ModelAndView visitUrl(HttpServletRequest request){
-        String desk_id = request.getParameter("desk_id");
-        String appid = "2016102100729554";
-        //商户应用私钥
-        String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCeBpSvc226wCxREo5jS7U35daejX/fDrSofmIieu6tG85kqKrFc2tdvoDmd801kEmKUE8jrG2BWuM7u6cOVHMjoIlewU4N2RB+33FQtVs+KAEITv5Jou9su0DmWtHiH92fIqg3yh0NOhRBJbOJ1bx6MS1vOrrxbUHutkepuaoWkR60qXPJc8csFPGbNdqFHAfkuQV2vwLFRAU5Gw//FohN4JbqzvePsetAz63mRC65E4oS1vleb9YLKOt6fBicticF456u3XoImY3rH2zylXQSNKA3jEmn30NehJrlTPv/XJ48Ra/UND+7HdZeoa7leD9Rv50oRuFldq7HNKp8dpetAgMBAAECggEAQienHzxHd6Lz6ozGJzOOjfQeQQojuhHB97fRBXZJbRby9JjXxQlorToPZGxK8F2TK+ArAVgyD7Eo59zLNuiLuyJ937k1H/77NOH94jfKFt9Qb1YChnk7ml1Z8hWbP/rvIKu1mIV4XA0wZYWO/+kGmnD0AFip4mBG9dRBdABSAFffQka/kugmFwnqrKMo3BZi/9XCScOAfVzbCQ4dDKkSMWVCk9HV9YMUoVKiS4hCEVTs0E5/vnEO96yCfV593pi8tl0B+W5I5YgTUYibLTfql3loGkmTCPEjdd0FMfZyuspH6VdGNpR2JAcCSXK5mYRaiHGtVSd+IaoyzhtZWHT6UQKBgQDdTTWah9ADc3tV02tlKm8fcLq3Yt95wyDptppUHhm7B68yltuswW/jGzbE1ECZJnSEn825Le+6L4IBsWFyKRnsXqjxxvhByNsSQl9wI+ttJtb6fcRvWj+9sVrya+p/l4iUPuNtQtAW/FDQ++BFVF39mnytgT7qk9HlX2C1Kl1fdwKBgQC2zYzWhDCJ1yFf2lLJQ4rECs84eNDYnFgaTC/Vt8zaKj4xq5TZDPOFZlwm23+OnaQTxR3HLcSyHU71owZ3JyXiNKF/bGPymwcRm9/HwQMoGv2Bti6XW/QhUtYGicXfChAarUIqjUK/hs4oDgW5BpPuESvRBWBjt6BXRK/MFJFy+wKBgHrQxaXsJ4oyxcj820Y6xY7qTgVGbwWxQAvUllOGnPsKKbXmuSVn+QNN8BhOP0d/avzLfy19C+UFRp5P5eeoXcWrRxFfPhmsMcAxa6vdk2NxQa+kqqatrGBHFFUjhPGolFjJigfyI3AOOX+xuWZgiwUafoUADH286ajlRNNmHonDAoGBALauIaG6hpspXxPgJT02fzU8rCr+KY9eZnkZS/Bi9pfLAU437s8drzrPuSWn0whdpzuOkBydM2Tf/ylgmrR2bdhpyj6BvjwTCvRg9jg0PYhVuKNowZTG8uheVL5B7njfIIrYPDgz5NFr0RecM8HcvfZ6OHRw0Au21MiBPsFOiLADAoGAQko/r8nCyxeFE2dKey1F8qD+Pa5f0AZw6mUGVHiqRvqSUuBeNUnTKlayfaxlmCgfkMZSinoxZQKA1TTMdVH4uPY/9buSe/ThdkOa8FQroMVJxk8gLA1axtrVXo8v059bupa8tpvFNNzjjNezJlACL9ajpcL0ps6zZE273O4YoCw=";
-        //沙箱环境RSA2支付宝公钥
-        String alipayPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8s0ODo/JScCoXpRHQ4zG7L+Ec6Ew4AcyXA44XLR6YcvUqxtlWzz1qrLuFAXFrnLd+4IcyNlYms/5FGlcFaUkDIUmO8sjcSoCtlBPf9YkVpvrC3hz62Q2sT6CvCjCHcDp1R5I+veYkK/v9K7dX7d8qgSHrVZMx/cW8N0iLPqo3JVlwgjIRDLuhzhCgUJO2xBC7dnykcILztO/eeqcrTbwrxeuKQrQq75y3sL2Khr5x7MRun1y/WL/ra2y+yEVnDHy84vpLfYpvx4GLuHE9AntS6RJAobyU6QfKxfPxYSZFcndWUnlgY6pbL/Jcy955XpndZmtK6czG0wc9vJTRp9dvwIDAQAB";
-        String encodeUrl = "";
-        String url = "http://192.168.43.82:2333/Login_return_url";
+        String userAgent = request.getHeader("user-agent");
+        if (userAgent == null || (!userAgent.contains("AlipayClient")
+        && !userAgent.contains("MicroMessenger"))){
+            return new ModelAndView("form1", "msg", "请使用微信或支付宝扫码");
+        }else {
+            String desk_id = request.getParameter("desk_id");
+            String appid = "2016102100729554";
+            //商户应用私钥
+            String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCeBpSvc226wCxREo5jS7U35daejX/fDrSofmIieu6tG85kqKrFc2tdvoDmd801kEmKUE8jrG2BWuM7u6cOVHMjoIlewU4N2RB+33FQtVs+KAEITv5Jou9su0DmWtHiH92fIqg3yh0NOhRBJbOJ1bx6MS1vOrrxbUHutkepuaoWkR60qXPJc8csFPGbNdqFHAfkuQV2vwLFRAU5Gw//FohN4JbqzvePsetAz63mRC65E4oS1vleb9YLKOt6fBicticF456u3XoImY3rH2zylXQSNKA3jEmn30NehJrlTPv/XJ48Ra/UND+7HdZeoa7leD9Rv50oRuFldq7HNKp8dpetAgMBAAECggEAQienHzxHd6Lz6ozGJzOOjfQeQQojuhHB97fRBXZJbRby9JjXxQlorToPZGxK8F2TK+ArAVgyD7Eo59zLNuiLuyJ937k1H/77NOH94jfKFt9Qb1YChnk7ml1Z8hWbP/rvIKu1mIV4XA0wZYWO/+kGmnD0AFip4mBG9dRBdABSAFffQka/kugmFwnqrKMo3BZi/9XCScOAfVzbCQ4dDKkSMWVCk9HV9YMUoVKiS4hCEVTs0E5/vnEO96yCfV593pi8tl0B+W5I5YgTUYibLTfql3loGkmTCPEjdd0FMfZyuspH6VdGNpR2JAcCSXK5mYRaiHGtVSd+IaoyzhtZWHT6UQKBgQDdTTWah9ADc3tV02tlKm8fcLq3Yt95wyDptppUHhm7B68yltuswW/jGzbE1ECZJnSEn825Le+6L4IBsWFyKRnsXqjxxvhByNsSQl9wI+ttJtb6fcRvWj+9sVrya+p/l4iUPuNtQtAW/FDQ++BFVF39mnytgT7qk9HlX2C1Kl1fdwKBgQC2zYzWhDCJ1yFf2lLJQ4rECs84eNDYnFgaTC/Vt8zaKj4xq5TZDPOFZlwm23+OnaQTxR3HLcSyHU71owZ3JyXiNKF/bGPymwcRm9/HwQMoGv2Bti6XW/QhUtYGicXfChAarUIqjUK/hs4oDgW5BpPuESvRBWBjt6BXRK/MFJFy+wKBgHrQxaXsJ4oyxcj820Y6xY7qTgVGbwWxQAvUllOGnPsKKbXmuSVn+QNN8BhOP0d/avzLfy19C+UFRp5P5eeoXcWrRxFfPhmsMcAxa6vdk2NxQa+kqqatrGBHFFUjhPGolFjJigfyI3AOOX+xuWZgiwUafoUADH286ajlRNNmHonDAoGBALauIaG6hpspXxPgJT02fzU8rCr+KY9eZnkZS/Bi9pfLAU437s8drzrPuSWn0whdpzuOkBydM2Tf/ylgmrR2bdhpyj6BvjwTCvRg9jg0PYhVuKNowZTG8uheVL5B7njfIIrYPDgz5NFr0RecM8HcvfZ6OHRw0Au21MiBPsFOiLADAoGAQko/r8nCyxeFE2dKey1F8qD+Pa5f0AZw6mUGVHiqRvqSUuBeNUnTKlayfaxlmCgfkMZSinoxZQKA1TTMdVH4uPY/9buSe/ThdkOa8FQroMVJxk8gLA1axtrVXo8v059bupa8tpvFNNzjjNezJlACL9ajpcL0ps6zZE273O4YoCw=";
+            //沙箱环境RSA2支付宝公钥
+            String alipayPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8s0ODo/JScCoXpRHQ4zG7L+Ec6Ew4AcyXA44XLR6YcvUqxtlWzz1qrLuFAXFrnLd+4IcyNlYms/5FGlcFaUkDIUmO8sjcSoCtlBPf9YkVpvrC3hz62Q2sT6CvCjCHcDp1R5I+veYkK/v9K7dX7d8qgSHrVZMx/cW8N0iLPqo3JVlwgjIRDLuhzhCgUJO2xBC7dnykcILztO/eeqcrTbwrxeuKQrQq75y3sL2Khr5x7MRun1y/WL/ra2y+yEVnDHy84vpLfYpvx4GLuHE9AntS6RJAobyU6QfKxfPxYSZFcndWUnlgY6pbL/Jcy955XpndZmtK6czG0wc9vJTRp9dvwIDAQAB";
+            String encodeUrl = "";
+            String url = "http://192.168.43.82:2333/Login_return_url";
 //        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do",
 //                appid,privateKey,"json","utf-8",alipayPublicKey,"RSA2");
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL,
-                AlipayConfig.APPID,AlipayConfig.RSA_PRIVATE_KEY,AlipayConfig.FORMAT,
-                AlipayConfig.CHARSET,alipayPublicKey,AlipayConfig.SIGNTYPE);
-        try{
-            encodeUrl = URLEncoder.encode(AlipayConfig.Login_return_url,AlipayConfig.CHARSET);
-        } catch (UnsupportedEncodingException e) {
-            return null;
+            AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL,
+                    AlipayConfig.APPID,AlipayConfig.RSA_PRIVATE_KEY,AlipayConfig.FORMAT,
+                    AlipayConfig.CHARSET,alipayPublicKey,AlipayConfig.SIGNTYPE);
+            try{
+                encodeUrl = URLEncoder.encode(AlipayConfig.Login_return_url,AlipayConfig.CHARSET);
+            } catch (UnsupportedEncodingException e) {
+                return null;
+            }
+            String scope = "auth_user,auth_base";
+            String visitUrl = "https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id="
+                    +AlipayConfig.APPID+"&redirect_uri="+AlipayConfig.Login_return_url+
+                    "&state="+desk_id;
+            System.out.println(encodeUrl);
+            //https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id=2016102100729554&redirect_uri=http://192.168.43.82:2333/Login_return_url
+            return new ModelAndView("redirect:"+visitUrl);
         }
-        String scope = "auth_user,auth_base";
-        String visitUrl = "https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id="
-                +AlipayConfig.APPID+"&redirect_uri="+AlipayConfig.Login_return_url+
-                "&state="+desk_id;
-        System.out.println(encodeUrl);
-        //https://openauth.alipaydev.com/oauth2/appToAppAuth.htm?app_id=2016102100729554&redirect_uri=http://192.168.43.82:2333/Login_return_url
-        return new ModelAndView("redirect:"+visitUrl);
     }
     @RequestMapping("/Login_return_url")
     @ResponseBody

@@ -66,14 +66,24 @@ public class UserController {
 
     @RequestMapping("/AddEmpInfo")
     public String AddEmpInfo(User user,Model model){
-        if(user.getuId()==""||user.getuName()==""||user.getuAge()==""||user.getuPassword()==""||
-        user.getuSex()=="")
+        String uId = user.getuId();
+        if(user.getuId().equals("") || user.getuName().equals("") ||
+                user.getuAge().equals("") || user.getuPassword().equals("") ||
+                user.getuSex().equals(""))
         {
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
             return "EmpInfo";
         }else
         {
+            List<User> userList = userMapper.selectAll();
+            for (int i=0; i<userList.size(); i++){
+                if (userList.get(i).getuId().equals(uId)){
+                    model.addAttribute("flag","2");
+                    model.addAttribute("getInfo","1");
+                    return "EmpInfo";
+                }
+            }
             userMapper.insert(user);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");

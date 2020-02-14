@@ -4,30 +4,84 @@
 <head th:replace="nav::Tnav('菜品管理')">
     <meta charset="UTF-8">
 </head>
+<style>
+    .up1{
+        width: 100%;
+        background: #000;
+        opacity: 0.5;
+        top: 0;
+        height: 2000px;
+        display: none;
+        position: absolute;
+        z-index: 2;
+    }
+    #clipArea {
+        margin: 0% 10%;
+        height: 350px;
+        width: 450px;
+    }
+    #file,
+    #clipBtn {
+        margin: 20px;
+        float: left;
+    }
+    .view {
+        /*margin: 0 auto;*/
+        margin: 60px auto;
+        width: 200px;
+        height: 200px;
+        margin: -45% -10%;
+        float: right;
+    }
+    .view1 {
+        /*margin: 0 auto;*/
+        left: 350px;
+        top: -100px;
+        width: 200px;
+        height: 200px;
+        display: none;
+        background-color: rgb(102, 102, 102);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        z-index: 3;
+        position: relative;
+    }
+    .Close
+    {
+        background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;
+        height: 25px;
+        width: 25px;
+        /*display: none;*/
+    }
+</style>
 <body>
+<div class="up1"></div>
 <div  th:include="nav::comNav"></div>
 <div>
     <div  style="float:left;" th:include="nav::MenuNav"></div>
     <div  style="float:left;" id="AddMenu" hidden>
-        <form name="" action="/AddMenuInfo" method="post">
+<!--        <form name="" >-->
+<!--            action="/AddMenuInfo" method="post"-->
             <div>
-                菜号: <input name="mId" /><br><br>
-                名称: <input name="mName"/><br><br>
-                做法: <input name="mWay"/><br><br>
-                口味: <input name="mFlavor"/><br><br>
-                主料: <input name="mIng"/><br><br>
-                价格: <input name="mPrice"/><br><br>
-                照片: <input name="mPic"/><br><br>
+                菜号: <input id="mId" /><br><br>
+                名称: <input id="mName"/><br><br>
+                做法: <input id="mWay"/><br><br>
+                口味: <input id="mFlavor"/><br><br>
+                主料: <input id="mIng"/><br><br>
+                价格: <input id="mPrice"/><br><br>
                 类别: <select name="kName" id="selectKind" class="selectKind" >
                 <option>请选择</option>
             </select>
                 <br><br>
-                <input type="submit" name="Add" value="添加"/>
+                <button id="SelectPic">选择照片</button><br><br>
+                <button id="Add" class="Add">添加</button>
+<!--                <input type="submit" name="Add" id="Add" value="添加"/>-->
             </div>
-        </form>
+<!--            <div id="view"></div>-->
+<!--        </form>-->
     </div>
-
-    <div id="divInfo"  hidden>
+    <div style="float:left; width: 80%;" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchMenuInfo" method="post">
                 菜号: <input name="mId" /><br><br>
@@ -59,7 +113,9 @@ background-color:#EAF2D3; float: top" >
                     <td class="mFlavor" th:text="${menu.getmFlavor()}"></td>
                     <td class="mIng" th:text="${menu.getmIng()}"></td>
                     <td class="mPrice" th:text="${menu.getmPrice()}"></td>
-                    <td class="mPic" th:text="${menu.getmPic()}"></td>
+<!--                    <td class="mPic" th:text="${menu.getmPic()}"></td>-->
+                    <td class="mPic"><button class="PicView">查看照片</button>
+                        <button class="PicEdit">修改照片</button></td>
                     <td class="kName" th:text="${menu.getkName()}"></td>
                     <td id="a">
                         <a href="#" id="edit_btn" class="modify" >修改</a>
@@ -83,16 +139,43 @@ background-color:#EAF2D3; float: top" >
     </div>
 
 </div>
+
+<div style="z-index: 3; position: fixed;display: none;" id="SelectPicDiv">
+    <!--        <div id="left" style="float: left;">-->
+    <div id="clipArea"></div>
+    <input type="file" id="file">
+    <button id="clipBtn">截取</button>
+    <!--        </div>-->
+    <!--        <div id="right" style="float: left; margin-left: 10%;">-->
+    <div id="view" class="view"></div>
+    <button id="PicSuccess" style="margin: 20px; display: none;">完成</button>
+    <button id="PicEditSuccess" style="margin: 20px; display: none;">修改</button>
+    <!--        </div>-->
+</div>
+<img class="view1">
+<div id="div_close" style="float: left;z-index: 3;position: absolute;
+    display: none;left: 550px;top: 175px;">
+    <button id="Close" class="Close"></button>
+</div>
+
 <div style="width: 100%" th:include="nav::comFooter"></div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
+<script src="pic_js/jquery-2.1.3.min.js"></script>
+<script src="pic_js/hammer.js"></script>
+<script src="pic_js/iscroll-zoom.js"></script>
+<script src="pic_js/lrz.all.bundle.js"></script>
+<script src="pic_js/jquery.photoClip.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var j = 1,kindNameList,flag_edit = 1;
+    var dataURL="";//照片的url
+    var PicId=""//用以存放所修改的菜品id
     var getInfo = [[${getInfo}]];
     var div_1=document.getElementById("AddMenu");
     var div_2=document.getElementById("divInfo");
     console.log(getInfo);
+    var PicData="";
     //辨别显示哪个div
     if (getInfo == "1"){
         div_1.removeAttribute("hidden");
@@ -100,43 +183,6 @@ background-color:#EAF2D3; float: top" >
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
     }
-
-    //  function table_load() {
-    //     console.log("123");
-    //     $('#table_page').bootstrapTable({
-    //         pagination : true,//是否分页
-    //         sidePagination : 'client',//server:服务器端分页|client：前端分页
-    //         pageSize : 10,//单页记录数
-    //         columns:[{
-    //             field:'id',
-    //             title:'菜号'
-    //         },{
-    //             field:'name',
-    //             title:'名称'
-    //         },{
-    //             field:'way',
-    //             title:'做法'
-    //         },{
-    //             field:'flavor',
-    //             title:'口味'
-    //         },{
-    //             field:'ing',
-    //             title:'主料'
-    //         },{
-    //             field:'price',
-    //             title:'价格'
-    //         },{
-    //             field:'Pic',
-    //             title:'照片'
-    //         },{
-    //             field:'kName',
-    //             title:'类别'
-    //         },{
-    //             field:'',
-    //             title:'操作'
-    //         },]
-    //     });
-    // }
 
     //添加里的类别下拉菜单动态加载
     $(".selectKind").click(function () {
@@ -154,21 +200,158 @@ background-color:#EAF2D3; float: top" >
                 }
             }
         })
-    })
+    });
+
+    //添加时的选择照片
+    $("#SelectPic").click(function () {
+        $(".up1").toggle();
+        $("#SelectPicDiv").toggle();
+        $("#PicSuccess").toggle();
+        $(".view1").hide();
+    });
+    //修改时的修改照片
+    $(".PicEdit").click(function () {
+        PicId = $(this).parent().parent().children("td.mId").text();
+        console.log("this id is "+PicId);
+        $(".up1").toggle();
+        $("#SelectPicDiv").toggle();
+        $("#PicEditSuccess").toggle();
+    });
+    //修改时的查看照片
+    $(".PicView").click(function () {
+        PicId = $(this).parent().parent().children("td.mId").text();
+        var path = "/pic/";
+        $(".up1").toggle();
+        $("#div_close").toggle();
+        $(".view1").toggle();
+        console.log("url is "+path+PicId+".jpg");
+        // if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+        //     window.applicationCache.update();
+        // }
+        var url = path+PicId+".jpg";//这是站内的一张图片资源，采用的相对路径
+        $(".view1").attr("src",url+"?r="+Math.random());
+        // ii(url);
+        // if( IsPic(path+PicId+".jpg") ){
+        //     $(".view1").css("background-image", "url("+ path+PicId+".jpg" +")");
+        // }
+        // $(".view1").css("background-image", "url("+ url +")");
+
+    });
+
+    function ii(url){
+        convertImgToBase64(url, function(base64Img){
+            //转化后的base64
+            $(".view1").css("background-image", "url("+ base64Img +")");
+            // return base64Img
+        });
+    }
+    //实现将项目的图片转化成base64
+    function convertImgToBase64(url, callback, outputFormat){
+        var canvas = document.createElement('CANVAS'),
+            ctx = canvas.getContext('2d'),
+            img = new Image;
+        img.crossOrigin = 'Anonymous';
+        img.onload = function(){
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img,0,0);
+            var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+            callback.call(this, dataURL);
+            canvas = null;
+        };
+        img.src = url;
+    }
 
 
+    //添加时的完成
+    $("#PicSuccess").click(function () {
+        $(".up1").hide();
+        $("#SelectPicDiv").hide();
+        $("#PicSuccess").hide();
+        if(PicData!=""){
+            $(".view1").toggle();
+            $(".view1").css("background-image", "url("+ PicData +")");
+        }
+    });
+    //修改时的修改
+    $("#PicEditSuccess").click(function () {
+        console.log("PicId is "+PicId);
+        console.log("PicData is "+PicData);
+        $.ajax({
+            type:'post',
+            url:'/EditPic',
+            data: {"id":PicId,"dataUrl":PicData},
+            async:false,
+            success:function(data){
+                if (data=="0"){
+                    alert("未截取照片，修改失败");
+                }else if (data=="1"){
+                    alert("修改成功");
+                }
+            }
+        });
 
-    //添加时，检测菜号、名称、类别是否为空
-    var flag = [[${flag}]];
-    console.log(flag);
-    if (flag == "1")
-        alert("添加成功");
-    else if(flag == "0")
-        alert("添加失败，菜号、名称、类别不能为空");
+        $(".up1").hide();
+        $("#SelectPicDiv").hide();
+        $("#PicEditSuccess").hide();
+        PicData="";
+    });
+    //按-时隐藏
+    $(".Close").click(function () {
+        $(".view1").hide();
+        $("#div_close").hide();//隐藏
+        $(".up1").hide();
+    });
+
+    var clipArea = new bjj.PhotoClip("#clipArea", {
+        size: [260, 260],
+        outputSize: [640, 640],
+        file: "#file",
+        view: "#view",
+        ok: "#clipBtn",
+        loadStart: function() {
+            console.log("照片读取中");
+        },
+        loadComplete: function() {
+            console.log("照片读取完成");
+        },
+        clipFinish: function(dataURL) {
+            console.log(dataURL);
+            PicData = dataURL;
+        }
+    });
+
+    $(".Add").click(function () {
+        var id = document.getElementById('mId').value;
+        var name = document.getElementById('mName').value;
+        var way = document.getElementById('mWay').value;
+        var flavor = document.getElementById('mFlavor').value;
+        var ing = document.getElementById('mIng').value;
+        var price = document.getElementById('mPrice').value;
+        var kName = document.getElementById('selectKind').value;
+        $.ajax({
+            type:'post',
+            url:'/AddMenuInfo',
+            data:{"id":id,"name":name,"way":way,"flavor":flavor,"ing":ing,
+                "price":price,"kName":kName,"dataURL":PicData},
+            async:false,
+            success:function (flag) {
+                //添加时，检测菜号、名称、类别是否为空
+                if (flag == "1")
+                    alert("添加成功。");
+                else if (flag == "2")
+                    alert("添加失败，菜号已存在。");
+                else if(flag == "0")
+                    alert("添加失败，菜号、名称、类别不能为空。");
+            }
+        })
+    });
+
 
     //按修改
     $(".modify").click(function () {
         console.log("12345");
+        var PicData=null;
         $.ajax({
             url:'/findSelect',
             type:'post',
@@ -181,7 +364,7 @@ background-color:#EAF2D3; float: top" >
             var is_text = $(this).find("input:text");//判断单元格下是否含有文本框
             var is_select = $(this).find("option:selected");//判断单元格下是否含有下拉框
             var is_id = $(this).attr("class");
-            if (!is_text.length&&is_id!="mId"&& !is_select.length){//不是文本框且不是kId且不是下拉框
+            if (!is_text.length&&is_id!="mId"&&is_id!="mPic"&& !is_select.length){//不是文本框且不是kId且不是下拉框
                 if(is_id!="kName"){
                     $(this).html("<input size='13' type='text' value=' "+$(this).text()+" ' />");
                 }
@@ -214,7 +397,7 @@ background-color:#EAF2D3; float: top" >
                     $(this).html(is_text.val());
                     var Info = is_text.val();
                 }else if (is_id=="kName"){
-                    var selects = $(this).find("option:selected").text()
+                    var selects = $(this).find("option:selected").text();
                     $(this).html(selects);
                     console.log("selects is "+ selects);
                 }
@@ -236,7 +419,7 @@ background-color:#EAF2D3; float: top" >
             Type:"json",
             //传数据到controller的EditKindInfo上
             data:{"id":id,"name":name,"way":way,"flavor":flavor,"ing":ing,
-                "price":price,"pic":pic,"kName":kName}
+                "price":price,"kName":kName,"dataURL":PicData},
         });
     });
 

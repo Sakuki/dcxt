@@ -82,9 +82,11 @@ background-color:#EAF2D3; float: top">
     var flag = [[${flag}]];
     console.log(flag);
     if (flag == "1")
-        alert("添加成功");
+        alert("添加成功。");
     else if(flag == "0")
-        alert("添加失败，不能为空");
+        alert("添加失败，类别号、类名称、主用料不能为空。");
+    else if(flag == "2")
+        alert("添加失败，此类别号已存在。")
 
     //按修改
     $(".modify").click(function () {

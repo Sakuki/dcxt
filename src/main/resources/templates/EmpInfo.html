@@ -92,9 +92,11 @@ background-color:#EAF2D3; float: top">
     var flag = [[${flag}]];
     console.log(flag);
     if (flag == "1")
-        alert("添加成功");
+        alert("添加成功。");
+    else if (flag == "2")
+        alert("添加失败，此工号已存在。")
     else if(flag == "0")
-        alert("添加失败，不能为空");
+        alert("添加失败，不能为空。");
 
     //按修改
     $(".modify").click(function () {
