@@ -29,8 +29,8 @@
                 <input type="submit" name="Search" value="查找"/><br><br>
             </form>
         </div>
-        <div>
-            <table  id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+        <div style="margin-left: 10%; width: 80%">
+            <table  id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
 background-color:#EAF2D3; float: top">
                 <tr>
                     <td>类别号</td>
@@ -62,11 +62,31 @@ background-color:#EAF2D3; float: top">
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
         </div>
+        <div style="margin-left: 10%;">
+            <button id="Export" onclick="btn_export()">导出Excle</button>
+            <br />
+        </div>
+    </div>
+    <div>
+        <table  id="T_download" hidden>
+            <tr>
+                <td>类别号</td>
+                <td>类名称</td>
+                <td>主用料</td>
+            </tr>
+            <tr th:each="kind,count:${kindList}" >
+                <td class="kId" th:text="${kind.getkId()}" ></td>
+                <td class="kName" th:text="${kind.getkName()}"></td>
+                <td class="kMain" th:text="${kind.getkMain()}"></td>
+            </tr>
+        </table>
     </div>
 </div>
 <div style="width: 100%" th:include="nav::comFooter"></div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="/table_export_js/excel.js"></script>
+<script src="/table_export_js/xlsx.core.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
@@ -87,6 +107,12 @@ background-color:#EAF2D3; float: top">
         alert("添加失败，类别号、类名称、主用料不能为空。");
     else if(flag == "2")
         alert("添加失败，此类别号已存在。")
+
+    function btn_export() {     //导出
+        var table = document.querySelector("#T_download");
+        var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
+        openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
+    }
 
     //按修改
     $(".modify").click(function () {

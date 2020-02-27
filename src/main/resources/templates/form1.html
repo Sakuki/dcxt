@@ -4,16 +4,160 @@
     <meta charset="UTF-8">
     <title></title>
 </head>
-<body>
+<style>
 
+    .divNav{
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+    }
+</style>
+<body>
+<div id="left"  style="float: left ;width: 20%;margin-top: 11%; background-color:#eee;">
+    <nav id="kind" class="divNav"  >
+        <ul>做法</ul>
+        <ul id="nav_ul" class="nav nav-pills nav-stacked" >
+<!--            <li th:each="kind,count:${kindList}">-->
+<!--                <a href="#"  th:text="${kind.getkName()}"></a>-->
+<!--            </li>-->
+        </ul>
+    </nav>
+</div>
+<div id="Flavor" style="float: left ;width: 20%;margin-top: 11%; background-color:#eee;" hidden>
+    <nav id="nav_Flavor" class="divNav">
+        <ul>口味</ul>
+        <ul id="ul_Flavor" class="nav nav-pills nav-stacked" >
+
+        </ul>
+    </nav>
+</div>
 </body>
-<script th:inline="javascript"> // 需要添加 th:inline 才能访问 model 中的属性
-window.onload = function () {
-    console.log("页面加载完成");
-    // 获取ModelAndView中的dbgoods对象
-    var msg = [[${msg}]];
-    // 打印
-    alert(msg);
+<script src="jquery-3.3.1.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<link rel="stylesheet" href="bootstrap.min.css" />
+<script  type="text/javascript" th:inline="javascript"> // 需要添加 th:inline 才能访问 model 中的属性
+
+var menuList = [[${menuList}]];
+var kindList = [[${kindList}]];
+var userId = [[${userId}]];
+var desk_id = [[${desk_id}]];
+nav1();
+// Flavor1();
+
+
+
+function nav1(){
+    var nav1 = new Array("不限");
+    var flag = 1;
+    console.log(menuList);
+    for(var i=0; i<menuList.length; i++){
+        for (var j=0; j<nav1.length; j++){
+            if (menuList[i].mWay===nav1[j]){
+                flag = 0;
+            }
+        }
+        if (flag){
+            nav1.push(menuList[i].mWay);
+        }
+        flag = 1;
+    }
+    console.log(nav1);
+    for (i=0; i<nav1.length; i++){
+        if (nav1[i]!==""){
+            var li = document.createElement("li");
+            li.setAttribute("id","way_li_"+i);
+            document.getElementById("nav_ul").appendChild(li);
+            var a = document.createElement("a");
+            a.innerText = nav1[i];
+            a.setAttribute("onclick","Flavor1("+i+")");
+            a.setAttribute("value",nav1[i]);
+            a.setAttribute("id","way_a_"+i);
+            document.getElementById("way_li_"+i).appendChild(a);
+        }
+        // var ul = $("#nav_ul").html();
+        // $("#nav_ul").html(ul+"<li><a href=\"#\" id=\"way_a+i\"  onclick=\"way(\"+i+\");\" value=\""+nav1[i]+"\" >"+nav1[i]+"</a></li>");
+
+    }
 }
+
+function Flavor(i,k) {
+    var Flavor = $("#Flavor_a_"+i).attr("value");
+    console.log("wwwww"+Flavor);
+    var way = $("#way_a_"+k).attr("value");
+    console.log("way : "+way);
+    if (way === "不限"){
+        if (Flavor === "不限"){
+            for (var j=0; j<menuList.length; j++){
+                console.log(menuList[j]);
+            }
+        }else {
+            for (var j=0; j<menuList.length; j++){
+                if (menuList[j].mFlavor === Flavor){
+                    console.log(menuList[j]);
+                }
+            }
+        }
+    }else {
+        if (Flavor === "不限"){
+            for (var j=0; j<menuList.length; j++){
+                if (menuList[j].mWay === way ){
+                    console.log(menuList[j]);
+                }
+            }
+        }else {
+            for (var j=0; j<menuList.length; j++){
+                if (menuList[j].mWay === way && menuList[j].mFlavor === Flavor){
+                    console.log(menuList[j]);
+                }
+            }
+        }
+    }
+}
+
+function Flavor1(k) {
+    var way = $("#way_a_"+k).attr("value");
+    var Flavor = new Array("不限");
+    var flag = 1;
+    for(var i=0; i<menuList.length; i++){
+        for (var j=0; j<Flavor.length; j++){
+            if (menuList[i].mFlavor===Flavor[j] ){
+                flag = 0;
+            }
+        }
+        if (flag){
+            if (menuList[i].mWay===way)
+                Flavor.push(menuList[i].mFlavor);
+            else if (way==="不限"){
+                Flavor.push(menuList[i].mFlavor);
+            }
+        }
+        flag = 1;
+    }
+    console.log(Flavor);
+    $("#ul_Flavor").html("");
+    var f = document.getElementById("Flavor");
+    f.removeAttribute("hidden");
+    for (i=0; i<Flavor.length; i++){
+        if (Flavor[i]!=="" ){
+            var li = document.createElement("li");
+            li.setAttribute("id","Flavor_li_"+i);
+            document.getElementById("ul_Flavor").appendChild(li);
+            var a = document.createElement("a");
+            a.innerText = Flavor[i];
+            a.setAttribute("onclick","Flavor("+i+","+k+")");
+            a.setAttribute("value",Flavor[i]);
+            a.setAttribute("id","Flavor_a_"+i);
+            document.getElementById("Flavor_li_"+i).appendChild(a);
+        }
+
+    }
+}
+
+// $("a").click(function () {
+//     var way = $(this).attr("value");
+//     console.log("qweew    "+way);
+// })
+
 </script>
 </html>

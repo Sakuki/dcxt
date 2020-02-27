@@ -81,7 +81,7 @@
 <!--            <div id="view"></div>-->
 <!--        </form>-->
     </div>
-    <div style="float:left; width: 80%;" id="divInfo"  hidden>
+    <div style="" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchMenuInfo" method="post">
                 菜号: <input name="mId" /><br><br>
@@ -92,8 +92,8 @@
                 <input type="submit" name="Search" value="查找"/><br><br>
             </form>
         </div>
-        <div>
-            <table id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+        <div style="margin-left: 10%; width: 80%;">
+            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
 background-color:#EAF2D3; float: top" >
                 <tr>
                     <td>菜号</td>
@@ -136,6 +136,34 @@ background-color:#EAF2D3; float: top" >
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
         </div>
+        <div style="margin-left: 10%;">
+            <button id="Export" onclick="btn_export()">导出Excle</button>
+            <br />
+        </div>
+    </div>
+    <div>
+        <table id="T_download" hidden >
+            <tr>
+                <td>菜号</td>
+                <td>名称</td>
+                <td>做法</td>
+                <td>口味</td>
+                <td>主料</td>
+                <td>价格</td>
+                <td>照片</td>
+                <td>类别</td>
+            </tr>
+            <tr th:each="menu,count:${menuAndKindList}" >
+                <td class="mId" th:text="${menu.getmId()}" ></td>
+                <td class="mName" th:text="${menu.getmName()}"></td>
+                <td class="mWay" th:text="${menu.getmWay()}"></td>
+                <td class="mFlavor" th:text="${menu.getmFlavor()}"></td>
+                <td class="mIng" th:text="${menu.getmIng()}"></td>
+                <td class="mPrice" th:text="${menu.getmPrice()}"></td>
+                <td class="mPic" th:text="${menu.getmPic()}"></td>
+                <td class="kName" th:text="${menu.getkName()}"></td>
+            </tr>
+        </table>
     </div>
 
 </div>
@@ -152,7 +180,7 @@ background-color:#EAF2D3; float: top" >
     <button id="PicEditSuccess" style="margin: 20px; display: none;">修改</button>
     <!--        </div>-->
 </div>
-<img class="view1">
+<div class="view1"></div>
 <div id="div_close" style="float: left;z-index: 3;position: absolute;
     display: none;left: 550px;top: 175px;">
     <button id="Close" class="Close"></button>
@@ -167,6 +195,8 @@ background-color:#EAF2D3; float: top" >
 <script src="pic_js/iscroll-zoom.js"></script>
 <script src="pic_js/lrz.all.bundle.js"></script>
 <script src="pic_js/jquery.photoClip.js"></script>
+<script src="/table_export_js/excel.js"></script>
+<script src="/table_export_js/xlsx.core.min.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var j = 1,kindNameList,flag_edit = 1;
     var dataURL="";//照片的url
@@ -182,6 +212,12 @@ background-color:#EAF2D3; float: top" >
     }
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
+    }
+
+    function btn_export() {     //导出
+        var table = document.querySelector("#T_download");
+        var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
+        openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
 
     //添加里的类别下拉菜单动态加载

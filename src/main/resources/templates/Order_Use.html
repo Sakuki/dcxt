@@ -138,16 +138,15 @@
 <!--        </div>-->
     </div>
     <div id="divOrder" hidden>
-        <div>
-            <table id="table_page" border="1" style="text-align: center; width: 50%; border-collapse:collapse;
-background-color:#EAF2D3; margin-left: 25%;" >
+        <div style="text-align: center; width: 50%; margin-left: 25%;">
+            <table id="table_page" border="1" style="border-collapse:collapse; width: 100%;
+background-color:#EAF2D3; " >
                 <tr id="tr_title">
                     <td>单号</td>
                     <td>时间</td>
                     <td>桌号</td>
                     <td>人数</td>
                     <td>详细内容</td>
-<!--                    <td>删除</td>-->
                 </tr>
 <!--                <tr th:each="order,count:${orderList}" >-->
 <!--                    <td class="oId" th:text="${order.getoId()}" ></td>-->
@@ -162,7 +161,41 @@ background-color:#EAF2D3; margin-left: 25%;" >
 <!--                    </td>-->
 <!--                </tr>-->
             </table>
+            <label id="btn0"></label>
+            <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
+            <label> 条 </label> &nbsp;
+            <label id="sum"></label>&nbsp;
+            <a  href="#" id="btn_first">首页</a>
+            <a  href="#" id="btn_pre">上一页</a>
+            <a  href="#" id="btn_next">下一页</a>
+            <a  href="#" id="btn_last">尾页</a>&nbsp;
+            <label>转到&nbsp;</label>
+            <input id="changePage" type="text" size="1" maxlength="4"/>
+            <label>页&nbsp;</label>
+            <a  href="#" id="btn_turn">跳转</a>
         </div>
+
+        <div style="margin-left: 25%;">
+            <button id="Export" onclick="btn_export()">导出Excle</button>
+            <br />
+        </div>
+        <div id="T_download" hidden>
+            <table id="table_download" >
+                <tr>
+                    <td>单号</td>
+                    <td>时间</td>
+                    <td>桌号</td>
+                    <td>人数</td>
+                </tr>
+                <tr th:each="order,count:${orderList}" >
+                    <td class="oId" th:text="${order.getoId()}" ></td>
+                    <td class="oDate" th:text="${order.getoDate()}"></td>
+                    <td class="oDesk" th:text="${order.getoDesk()}"></td>
+                    <td class="oNumber" th:text="${order.getoNumber()}"></td>
+                </tr>
+            </table>
+        </div>
+
         <div class="up1">
         </div>
         <div class="Order">
@@ -231,6 +264,9 @@ background-color:#EAF2D3; margin-left: 25%;" >
 <div style="width: 100%" th:include="nav::comFooter"></div>
 </body>
 <script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="Paging.js"></script>
+<script src="/table_export_js/excel.js"></script>
+<script src="/table_export_js/xlsx.core.min.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
     var orderList = [[${orderList}]];
@@ -238,6 +274,14 @@ background-color:#EAF2D3; margin-left: 25%;" >
     var div_1=document.getElementById("Orders");
     var div_2=document.getElementById("divOrder");
     console.log(getInfo);
+
+
+    function btn_export() {     //导出
+        var table = document.querySelector("#T_download");
+        var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
+        openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
+    }
+
     // console.log(orderList[0].oDate);
     //辨别显示哪个div
     if (getInfo == "1"){
@@ -275,12 +319,15 @@ background-color:#EAF2D3; margin-left: 25%;" >
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
         for (var i=0; i<orderList.length; i++){
-            var id = orderList[i].oId;
-            var date = orderList[i].oDate;
-            var desk = orderList[i].oDesk;
-            var number = orderList[i].oNumber;
-            var tr_list_data = [i,id,date,desk,number];
-            tr_list(tr_list_data);
+            if(orderList[i].oFlag === "1"){
+
+                var id = orderList[i].oId;
+                var date = orderList[i].oDate;
+                var desk = orderList[i].oDesk;
+                var number = orderList[i].oNumber;
+                var tr_list_data = [i,id,date,desk,number];
+                tr_list(tr_list_data);
+            }
         }
     }
 

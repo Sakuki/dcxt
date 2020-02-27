@@ -17,6 +17,33 @@
         min-height: 1px;
         padding-right: 15px;
     }
+    .color{
+        background: #7fea81;
+    }
+    .color2{
+        background: #d9edf7;
+    }
+    .Search_input {
+        width: 95%;
+        border-radius: 15px;
+        outline: none;
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        margin-top: 2px;
+        /*position: absolute;*/
+    }
+    .Search_btn {
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        background: url("pic/Search.JPG") no-repeat ;
+        background-size: 20px 20px;
+        top: 4px;
+        left: 82%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
     /*.divSelect{*/
     /*    display: flex;*/
     /*    min-height: 75px;*/
@@ -30,14 +57,14 @@
     /*.index{flex-direction: column;}*/
     .top{display:block;position:fixed;width:100%;height:6%; z-index:3;top:0px;color: #000000;}
     /*font-size:15px;border-top:1px solid #e2e2e2;*/
-    .top1{display:block;position:fixed;width:100%;height:6%; z-index:2;top:0px;color: #000000;background:#fff;}
+    .top1{display:block;position:fixed;width:100%;height:6%; z-index:3;top:0px;color: #000000;background: beige;}
     .top h2{font-size: 15px;margin-top: 10px;text-align: right;}
     .top h1{font-size: 15px;margin-top: 10px;text-align: left;}
-    .top1 h2{font-size: 15px;margin-top: 10px;text-align: right;}
+    .top1 h2{font-size: 15px;margin-top: 10px;text-align: right;margin-right: 5px;}
 
     .divSelect{padding:5px 0 5px;}
     .divSelect h4{font-size: 14px; margin-bottom: 0px;margin-top: 0px;margin-left: 2px;border-left: 1px solid #c9302c;}
-    .divSelect dl{position:relative;padding-left:60px;height:80px;border-bottom:1px solid #e7eaeb;border-top:1px solid #fff;padding-bottom:8px;margin-bottom:2px;}
+    .divSelect dl{position:relative;padding-left:60px;height:80px;border-bottom:1px solid #e7eaeb;/*border-top:1px solid #fff;*/padding-bottom:8px;margin-bottom:2px;background: #fff;}
     .divSelect dl dt h3{font-size:14px;margin-bottom:10px;margin-top:8px;}
     .divSelect dl dd{margin-left:0;font-size:11px;position:relative;z-index:1;}
     .divSelect dl dd img{height:70px;width:70px;position:absolute;left:-75px;top:-25px;border-radius:3px;cursor:pointer;vertical-align:middle;border:0;}
@@ -45,22 +72,22 @@
     .divSelect dl dd em.sale{color:#f00;}
     .divSelect dl dd del{color:#b2b2b2;font-size:10px;line-height:22px;}
     .divSelect dl dd.btn{background-color:transparent;position:absolute;right:-5px;top:25%;cursor:pointer;padding:3px;height:38px;}
-    .divSelect dl dd.btn button.minus{margin-right:-10px;display:none;}
+    .divSelect dl dd.btn button.minus{display:none;}
     .divSelect dl dd.btn button{border:0;background:transparent;padding:0;}
     .divSelect dl dd.btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
     .divSelect dl dd.btn button.minus strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn i{display:none;width:22px;text-align:center;font-style:normal;verticawidth:40px;height:40px;l-align:top;margin-top:11px;line-height:18px;}
 
-    .divSelect dl dd.btn button.plus{margin-left:-10px;}
+    .divSelect dl dd.btn button.plus{margin-right: 5px;}
     .divSelect dl dd.btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn .price{display:none;}
 
 
-    .XiaDan .top{display:block;position:fixed;width:100%;height:6%;top:0px;color: #000000;background:#fff;border-bottom: 1px inset #000000;}
+    .XiaDan .top{display:block;position:fixed;width:100%;height:6%;top:0px;color: #000000;border-bottom: 1px inset #000000;}
     .XiaDan .top h3{font-size: 15px;text-align: right;margin-top: 10px;margin-right:8px;}
     .XiaDan .list-content_XD {
         overflow: hidden;
-        background: #fff;
+        /*background: #fff;*/
         margin-top: 11%;
         border-bottom: 1px inset #000000;
     }
@@ -157,7 +184,7 @@
 
     .accountName{min-width: 60%;}
 
-    .footer{display:block;position:fixed;padding:5px 0;width:100%;height:8%;z-index:3;bottom:0px;color:#f03c03;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .footer{display:block;position:fixed;padding:5px 0;width:100%;height:8%;z-index:3;bottom:0px;color:#f03c03;background: #fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
     .footer .left{float:left;margin-left:3px;}
     .footer .right{float:right;margin-right:3px;}
     .footer .right .disable{background:#dbdbdb;}
@@ -178,11 +205,32 @@
     /*        }*/
     /*}*/
 </style>
-<body data-spy="scroll">
+<body data-spy="scroll" style="background: beige;">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
 <!--强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览；user-scalable: 用户是否可以手动缩放-->
 <!--<div style="width: 100%" hidden="true" >-->
-<div id="DianCan" style="width: 100%" >//点餐界面
+<div id="like" style="position: absolute; z-index: 3; background: beige; width: 100%; height: 800px;" hidden>
+    <div id="Way"  style="float: left ;width: 20%;margin-top: 11%; background-color:#eee;">
+        <nav id="nav_Way"  >
+            <ul class="nav nav-pills nav-stacked" style="position: static; text-align: center; margin: 10px 0px 10px 0px;">做法</ul>
+            <ul id="ul_Way" class="nav nav-pills nav-stacked" style="background: #d9edf7; position: static;" >
+                <!--            <li th:each="kind,count:${kindList}">-->
+                <!--                <a href="#"  th:text="${kind.getkName()}"></a>-->
+                <!--            </li>-->
+            </ul>
+        </nav>
+    </div>
+    <div id="Flavor" style="float: left ;width: 20%;margin-top: 11%; background-color:#eee;" hidden>
+        <nav id="nav_Flavor" >
+            <ul class="nav nav-pills nav-stacked" style="position: static; text-align: center; margin: 10px 0px 10px 0px;">口味</ul>
+            <ul id="ul_Flavor" class="nav nav-pills nav-stacked" style="background: #d9edf7; position: static;" >
+
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--点餐界面-->
+<div id="DianCan" style="width: 100%" >
     <div id="top_desk" class="top1">
 <!--        <h2 id="desk">第X桌</h2>-->
     </div>
@@ -194,77 +242,96 @@
             <h1>订单</h1>
         </div>
     </div>
-    <div id="left"  style="float: left ;width: 25%;margin-top: 11%; background-color:#eee;">
-        <nav id="kind" class="divNav"  >
+    <div>
+        <div id="left"  style="float: left ;width: 20%;margin-top: 11%; background-color:#eee;">
+            <nav id="kind" class="divNav"  >
                 <ul id="nav_ul" class="nav nav-pills nav-stacked" >
-<!--                    <li class="active"><a href="#section1">Section 1</a></li>-->
-<!--                    <li><a href="#section2">Section 2</a></li>-->
-<!--                    <li><a href="#section3">Section 3</a></li>-->
-<!--                    <li th:each="kind,count:${kindList}">-->
-<!--                        <a href="#"  th:text="${kind.getkName()}"></a>-->
-<!--                    </li>-->
+                    <!--                    <li class="active"><a href="#section1">Section 1</a></li>-->
+                    <!--                    <li><a href="#section2">Section 2</a></li>-->
+                    <!--                    <li><a href="#section3">Section 3</a></li>-->
+                    <!--                    <li th:each="kind,count:${kindList}">-->
+                    <!--                        <a href="#"  th:text="${kind.getkName()}"></a>-->
+                    <!--                    </li>-->
                 </ul>
-        </nav>
-    </div>
-    <div id="right" style="float: right; width: 75%; margin-top: 11%; margin-bottom: 15%">
-<!--        <div th:each="menu,count:${menuList}"  class="divSelect">-->
-<!--            <dl>-->
-<!--                <dt>-->
-<!--                    <h3 th:text="${menu.getmName()}"></h3>-->
-<!--&lt;!&ndash;                    <h5 th:text="${menu.getmIng()}"></h5>&ndash;&gt;-->
-<!--                </dt>-->
-<!--                <dd>-->
-<!--                    <img src="/pic/01004.jpg">-->
-<!--                </dd>-->
-<!--                <dd>-->
-<!--                    <h5 th:text="${menu.getmIng()}"></h5>-->
-<!--                    <h5 th:text="${menu.getmPrice()}"></h5>-->
-<!--                </dd>-->
-<!--                <dd class=" btn">-->
-<!--                    <button class="minus" >-->
-<!--                        <strong></strong>-->
-<!--                    </button>-->
-<!--                    <i>0</i>-->
-<!--                    <button class="plus">-->
-<!--                        <strong></strong>-->
-<!--                    </button>-->
-<!--                    <i class="price" th:text="${menu.getmPrice()}"></i>-->
-<!--                </dd>-->
-<!--            </dl>-->
+            </nav>
+        </div>
+        <div style="float: right; width: 80%; margin-top: 10%; margin-left: 22%; position: fixed; background: beige; z-index: 2;">
+            <div>
+                <form action="" style="position: relative;">
+                    <input type="text" id="Search_text" class="Search_input" placeholder="搜索">
+                    <input type="button" name="" id="Search_btn" class="Search_btn ">
+                </form>
+            </div>
+            <div style="float: right; margin-right: 5%">
+                <button id="like_btn">喜好搭配</button>
+            </div>
+        </div>
+        <div id="close_like" style="float: right; position: relative; margin: 15% 5% 0% 0%;z-index: 3 " hidden>
+            <button id="close_btn">取消搭配</button>
+        </div>
+        <div id="right" style="float: right; width: 73%; margin-top: 25%; margin-bottom: 15%">
 
-<!--        </div>-->
-    </div>
-    <div class="up1">
-    </div>
-    <div class="shopcart-list fold-transition" style="" >
-        <div class="list-header">
-            <h1 class="title">购物车</h1>
-            <span class="empty">清空</span>
+
+            <!--        <div th:each="menu,count:${menuList}"  class="divSelect">-->
+            <!--            <dl>-->
+            <!--                <dt>-->
+            <!--                    <h3 th:text="${menu.getmName()}"></h3>-->
+            <!--&lt;!&ndash;                    <h5 th:text="${menu.getmIng()}"></h5>&ndash;&gt;-->
+            <!--                </dt>-->
+            <!--                <dd>-->
+            <!--                    <img src="/pic/01004.jpg">-->
+            <!--                </dd>-->
+            <!--                <dd>-->
+            <!--                    <h5 th:text="${menu.getmIng()}"></h5>-->
+            <!--                    <h5 th:text="${menu.getmPrice()}"></h5>-->
+            <!--                </dd>-->
+            <!--                <dd class=" btn">-->
+            <!--                    <button class="minus" >-->
+            <!--                        <strong></strong>-->
+            <!--                    </button>-->
+            <!--                    <i>0</i>-->
+            <!--                    <button class="plus">-->
+            <!--                        <strong></strong>-->
+            <!--                    </button>-->
+            <!--                    <i class="price" th:text="${menu.getmPrice()}"></i>-->
+            <!--                </dd>-->
+            <!--            </dl>-->
+
+            <!--        </div>-->
         </div>
-        <div class="list-content">
-            <ul id="foodCar" class="foodCar" style="list-style: none; padding: 0px; margin-left:5px;">
-                <!--            <li class="food">-->
-                <!--                <div style="float: left; width: 40%">-->
-                <!--                    <span id="accountName_1" class="accountName">梅菜肉饼</span>-->
-                <!--                </div>-->
-                <!--                <div style="float: left;">-->
-                <!--                    <span>￥</span>-->
-                <!--                    <span class="accountPrice">10</span>-->
-                <!--                </div>-->
-                <!--                <div class="btn">-->
-                <!--                    <button class="less" style="display: inline-block;" >-->
-                <!--                        <strong></strong>-->
-                <!--                    </button>-->
-                <!--                    <i style="display: inline-block;">1</i>-->
-                <!--                    <button class="add">-->
-                <!--                        <strong></strong>-->
-                <!--                    </button>-->
-                <!--                    <i class="price" >10</i>-->
-                <!--                </div>-->
-                <!--            </li>-->
-            </ul>
+        <div class="up1">
         </div>
-    </div>//购物车
+        <div class="shopcart-list fold-transition" style="" >
+            <div class="list-header">
+                <h1 class="title">购物车</h1>
+                <span class="empty">清空</span>
+            </div>
+            <div class="list-content">
+                <ul id="foodCar" class="foodCar" style="list-style: none; padding: 0px; margin-left:5px;">
+                    <!--            <li class="food">-->
+                    <!--                <div style="float: left; width: 40%">-->
+                    <!--                    <span id="accountName_1" class="accountName">梅菜肉饼</span>-->
+                    <!--                </div>-->
+                    <!--                <div style="float: left;">-->
+                    <!--                    <span>￥</span>-->
+                    <!--                    <span class="accountPrice">10</span>-->
+                    <!--                </div>-->
+                    <!--                <div class="btn">-->
+                    <!--                    <button class="less" style="display: inline-block;" >-->
+                    <!--                        <strong></strong>-->
+                    <!--                    </button>-->
+                    <!--                    <i style="display: inline-block;">1</i>-->
+                    <!--                    <button class="add">-->
+                    <!--                        <strong></strong>-->
+                    <!--                    </button>-->
+                    <!--                    <i class="price" >10</i>-->
+                    <!--                </div>-->
+                    <!--            </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
 
     <div class="footer" id="footer">
         <div class="left">
@@ -278,7 +345,8 @@
     </div>
 
 </div>
-<div id="XiaDan" class="XiaDan"  hidden="true">//下单界面
+<!--//下单界面-->
+<div id="XiaDan" class="XiaDan"  hidden="true">
     <div id="XD_desk" class="top">
 <!--        <h3>第X桌</h3>-->
     </div>
@@ -381,12 +449,175 @@
     var userId = [[${userId}]];
     var desk_id = [[${desk_id}]];
     var mName = menuList[0].mName;
+    var kL = kindList;
+    var mL = menuList;
     var n;
+    var way_num=0;
+    var flavor_num=0;
     $(document).ready(function display(){
         desk();
         nav_li();
         menu_li();
+        nav_like();
     });
+
+    $("#like_btn").click(function () {
+        $("#like").toggle();
+        $("#right").toggle();
+        $("#close_like").toggle();
+    });
+    $("#close_btn").click(function () {
+        $("#like").toggle();
+        $("#right").toggle();
+        $("#close_like").toggle();
+
+    });
+    $("#Search_btn").click(function () {
+        var data=$("#Search_text").val();
+        console.log("Search_text is "+data);
+        if(data !== ""){
+            $.ajax({
+                type:'post',
+                url:'/Search',
+                //传数据到XiaDanController的SearchLike上
+                data:{"data":data},
+                Type:"json",
+                async:false,
+                success:function (data) {
+                    console.log(data);
+                    menuList = data;
+                    $("#right").html("");
+                    menu_li();
+                    menu_num();
+                }
+            });
+        }else {
+            menuList = mL;
+            $("#right").html("");
+            menu_li();
+            menu_num();
+        }
+
+    });
+//生成喜好搭配中的方法
+    function nav_like(){
+        var nav1 = new Array("不限");
+        var flag = 1;
+        way_num = 0;
+        console.log(mL);
+        for(var i=0; i<mL.length; i++){
+            for (var j=0; j<nav1.length; j++){
+                if (mL[i].mWay===nav1[j]){
+                    flag = 0;
+                }
+            }
+            if (flag){
+                nav1.push(mL[i].mWay);
+            }
+            flag = 1;
+        }
+        console.log(nav1);
+        for (i=0; i<nav1.length; i++){
+            if (nav1[i]!==""){
+                way_num = way_num+1;
+                var li = document.createElement("li");
+                li.setAttribute("id","way_li_"+i);
+                document.getElementById("ul_Way").appendChild(li);
+                var a = document.createElement("a");
+                a.innerText = nav1[i];
+                a.setAttribute("onclick","Flavor1("+i+")");
+                a.setAttribute("value",nav1[i]);
+                a.setAttribute("id","way_a_"+i);
+                document.getElementById("way_li_"+i).appendChild(a);
+            }
+            // var ul = $("#nav_ul").html();
+            // $("#nav_ul").html(ul+"<li><a href=\"#\" id=\"way_a+i\"  onclick=\"way(\"+i+\");\" value=\""+nav1[i]+"\" >"+nav1[i]+"</a></li>");
+
+        }
+    }
+
+//生成喜好搭配中的口味
+    function Flavor1(k) {
+        var way = $("#way_a_"+k).attr("value");
+        console.log("ahuifhiu is "+way_num);
+        for (var q =0; q<way_num; q++){
+            $("#way_li_"+q).addClass("color2");
+        }
+        $("#way_li_"+k).removeClass("color2");
+        $("#way_li_"+k).addClass("color");
+        var Flavor = new Array("不限");
+        var flag = 1;
+        flavor_num = 0;
+        for(var i=0; i<mL.length; i++){
+            for (var j=0; j<Flavor.length; j++){
+                if (mL[i].mFlavor===Flavor[j] ){
+                    flag = 0;
+                }
+            }
+            if (flag){
+                if (mL[i].mWay===way)
+                    Flavor.push(mL[i].mFlavor);
+                else if (way==="不限"){
+                    Flavor.push(mL[i].mFlavor);
+                }
+            }
+            flag = 1;
+        }
+        console.log(Flavor);
+        $("#ul_Flavor").html("");
+        var f = document.getElementById("Flavor");
+        f.removeAttribute("hidden");
+        for (i=0; i<Flavor.length; i++){
+            if (Flavor[i]!=="" ){
+                flavor_num = flavor_num+1;
+                var li = document.createElement("li");
+                li.setAttribute("id","Flavor_li_"+i);
+                document.getElementById("ul_Flavor").appendChild(li);
+                var a = document.createElement("a");
+                a.innerText = Flavor[i];
+                a.setAttribute("onclick","Flavor("+i+","+k+")");
+                a.setAttribute("value",Flavor[i]);
+                a.setAttribute("id","Flavor_a_"+i);
+                document.getElementById("Flavor_li_"+i).appendChild(a);
+            }
+
+        }
+    }
+
+//选中喜好搭配的方法和口味
+    function Flavor(i,k) {
+        var Flavor = $("#Flavor_a_"+i).attr("value");
+        console.log("wwwww"+Flavor);
+        for (var q =0; q<flavor_num; q++){
+            $("#Flavor_li_"+q).addClass("color2");
+        }
+        $("#Flavor_li_"+i).removeClass("color2");
+        $("#Flavor_li_"+i).addClass("color");
+        var way = $("#way_a_"+k).attr("value");
+        console.log("way : "+way);
+        $.ajax({
+            type:'post',
+            url:'/SearchLike',
+            //传数据到XiaDanController的SearchLike上
+            data:{"way":way,"flavor":Flavor},
+            Type:"json",
+            async:false,
+            success:function (data) {
+                console.log(data);
+                menuList = data;
+                $("#like").toggle();
+                $("#right").toggle();
+                $("#close_like").toggle();
+                menuList = data;
+                $("#right").html("");
+                // nav_li();
+                menu_li();
+                menu_num();
+            }
+        });
+    }
+
+
     function desk() {
         var h2 = document.createElement("h2");
         h2.setAttribute("id","desk");
@@ -506,16 +737,16 @@
         // }
     }
 
-    $(document).ready(function () {
+    // $(document).ready(function () {
         //加的效果
-        $(".plus").click(function () {
+        $(document).on('click','.plus',function () {
             var nm = $("#totalcountshow").html();//获取数量
             if (nm<5){
                 $(this).prevAll().css("display", "inline-block");
-                var n = $(this).prev().text();
-                var num = parseInt(n) + 1;
-                if (num == 0) { return; }
-                $(this).prev().text(num);
+                // var n = $(this).prev().text();
+                // var num = parseInt(n) + 1;
+                // if (num == 0) { return; }
+                // $(this).prev().text(num);
 
                 var danjia = $(this).next().text();//获取单价
                 var a = $("#totalpriceshow").html();//获取当前所选总价
@@ -527,8 +758,9 @@
                 $("#sumCount").text("已选"+(parseFloat($("#totalcountshow").text()))+"份");
                 var this_name = $(this).parent().parent().children("dt").children("h3").text();//获取名字
                 console.log("this_name is "+this_name);
-                var data=[this_name,num,danjia];
-                add(data);
+                var data=[this_name,"1",danjia];
+                var num = add(data);
+                $(this).prev().text(num*1);
                 jss();//改变按钮样式
             }else {
                 var div_1 = document.getElementById("alert_div");
@@ -543,7 +775,7 @@
         })
 
         //减的效果
-        $(".minus").click(function () {
+    $(document).on('click','.minus',function () {
             var n = $(this).next().text();
             var num = parseInt(n) - 1;
 
@@ -779,13 +1011,50 @@
             }
 
         });
+
+
+    function menu_num() {
+        var foodCar = document.getElementById("foodCar");
+        var foodNode = 0;
+        foodNode = foodCar.children;
+        console.log("foodNode is "+foodNode);
+        if(foodNode.length===0){
+            return 0;
+        }else{
+            for(var i=0; i<5; i++){//数量不可超过100
+                var accountN = "#accountName_"+i;
+                console.log("#accountName is "+accountN);
+                var name = $(accountN).text();
+                if (name !==""){
+                    for(var j=0; j<menuList.length; j++){
+                        if (name === menuList[j].mName){
+                            var account_id = "#account_"+i;       //获取数量（购物车）id
+                            var h3_id = "#h3_"+j;
+                            var h3_name =  $(h3_id).text();
+                            var dd_id = "#dd_"+j+"_3";
+                            console.log("h3_id is "+h3_id+"   h3_name is "+h3_name+" dd is "+dd_id);
+                            if(h3_name===name){
+                                //查找名字相同的做出改变
+                                console.log("this name is same");
+                                $("#btn_"+j+"_2").prevAll().css("display", "inline-block");
+                                var n = parseInt($(account_id).text());
+                                $(dd_id).children("i").eq(0).text($(account_id).text());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
         function  add(data) {
             var foodCar = document.getElementById("foodCar");
             var foodNode = 0;
             var flag_name = 0;
             var flag_id = -1;
             foodNode = foodCar.children;
-            if(foodNode.length==0){
+            if(foodNode.length==0){     //当前购物车未存在商品
                 $(".list-content>ul").append('<li class="food"><div style="float: left; width: 55%; margin: 10px 5px;"><span id="accountName_0" class="accountName">'+ data[0]
                     + '</span></div><div style="float: left;margin: 10px 5px;"><span>￥</span><span id="accountP_0" class="accountPrice">' + data[2]
                     + '</span></div> <div class="btn"><button class="less"  style="display: inline-block;""><strong></strong></button>' +
@@ -797,6 +1066,8 @@
                     + '</span></div> <div class="btn"><button class="less_XD"  style="display: inline-block;""><strong></strong></button>' +
                     '<i id="account_XD_0" style="display: inline-block">' + data[1] + '</i><button class="add_XD"><strong></strong></button>' +
                     '<i class="price">' + data[2] + '</i> </div></li>');
+
+                return "1";
             }else {
                 for(var i=0; i<5; i++){//数量不可超过100
                     var accountN = "#accountName_"+i;
@@ -809,20 +1080,24 @@
                         break;
                     }
                 }
-                if (flag_name===1){
+                if (flag_name===1){     //当前购物车已存在此商品
                     console.log("name the same");
-                    var account_id = "#account_"+flag_id;
-                    var accountP_id = "#accountP_"+flag_id;
-                    var account_XD = "#account_XD_"+flag_id;
-                    var accountP_XD = "#accountP_XD_"+flag_id;
-                    $(account_id).text(data[1]);
-                    $(accountP_id).text(data[2]*data[1]);
-                    $(account_XD).text(data[1]);
-                    $(accountP_XD).text(data[2]*data[1]);
+                    var account_id = "#account_"+flag_id;       //获取数量（购物车）id
+                    var accountP_id = "#accountP_"+flag_id;     //数量总价（在购物车显示）id
+                    var account_XD = "#account_XD_"+flag_id;       //数量（下单界面）id
+                    var accountP_XD = "#accountP_XD_"+flag_id;      //数量总价（下单界面）id
+                    $(account_id).text(parseInt($(account_id).text())+1);
+                    $(accountP_id).text($(accountP_id).text()*1+data[2]*data[1]);
+                    $(account_XD).text(parseInt($(account_XD).text())+1);
+                    $(accountP_XD).text($(accountP_XD).text()*1+data[2]*data[1]);
                     flag_name = 0;
                     flag_id = -1;
 
-                }else{
+                    //返回购物车中此商品的数量
+                    console.log("account_id num is "+$(account_id).text());
+                    return $(account_id).text();
+
+                }else{          //当前购物车未存在此商品
                     console.log("flag_name "+flag_name+" flag_id "+flag_id);
                     var foodNodeC = -1;
                     for(i=0; i<5;i++){
@@ -852,6 +1127,8 @@
                         + '</span></div> <div class="btn"><button class="less_XD"  style="display: inline-block;""><strong></strong></button>' +
                         '<i id="'+account+'" style="display: inline-block">' + data[1] + '</i><button class="add_XD"><strong></strong></button>' +
                         '<i class="price">' + data[2] + '</i> </div></li>');
+                    //返回购物车此商品的数量
+                    return "1";
                 }
             }
             var display = $(".shopcart-list.fold-transition").css('display');
@@ -986,7 +1263,7 @@
             $(".up1").hide();
             jss();//改变按钮样式
         });
-    });
+    // });
 
     function nowDate(){
         var myDate = new Date();

@@ -33,8 +33,8 @@
                 <input type="submit" name="Search" value="查找"/><br><br>
             </form>
         </div>
-        <div>
-            <table id="table_page" border="1" style="text-align: center; width: 80%; border-collapse:collapse;
+        <div style="margin-left: 10%; width: 80%;">
+            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
 background-color:#EAF2D3; float: top">
                 <tr>
                     <td>工号</td>
@@ -70,7 +70,30 @@ background-color:#EAF2D3; float: top">
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
         </div>
+
+        <div style="margin-left: 10%">
+            <button id="Export" onclick="btn_export()">导出Excle</button>
+            <br />
+        </div>
 </div>
+    <div id="T_download" hidden>
+        <table id="table_download" >
+            <tr>
+                <td>工号</td>
+                <td>姓名</td>
+                <td>密码</td>
+                <td>年龄</td>
+                <td>性别</td>
+            </tr>
+            <tr th:each="user,count:${userList}" th:if="${!user.getuId().equals('1001')}">
+                <td class="uId" th:text="${user.getuId()}" ></td>
+                <td class="uName" th:text="${user.getuName()}"></td>
+                <td class="uPassword" th:text="${user.getuPassword()}"></td>
+                <td class="uAge" th:text="${user.getuAge()}"></td>
+                <td class="uSex" th:text="${user.getuSex()}"></td>
+            </tr>
+        </table>
+    </div>
 
 </div >
 <div style="width: 100%" th:include="nav::comFooter"></div>
@@ -78,6 +101,8 @@ background-color:#EAF2D3; float: top">
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
+<script src="/table_export_js/excel.js"></script>
+<script src="/table_export_js/xlsx.core.min.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
     var div_2=document.getElementById("divInfo");
@@ -97,6 +122,14 @@ background-color:#EAF2D3; float: top">
         alert("添加失败，此工号已存在。")
     else if(flag == "0")
         alert("添加失败，不能为空。");
+
+
+    function btn_export() {     //导出
+        var table = document.querySelector("#T_download");
+        var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
+        openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
+    }
+
 
     //按修改
     $(".modify").click(function () {

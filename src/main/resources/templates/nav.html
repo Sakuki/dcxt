@@ -32,6 +32,7 @@
                         </ul>
                     </li>
                     <li><a href="Order_Use?getInfo=0">订单管理</a></li>
+                    <li><a href="Export_Turn?getInfo=0">营业报表</a></li>
                 </ul>
             </div>
         </div>
@@ -84,6 +85,19 @@
             <ul class="nav nav-pills nav-stacked" >
                 <li><a href="Order_Use?getInfo=1">当前订单</a></li>
                 <li><a href="Order_Use?getInfo=2">历史订单</a></li>
+                <li><a href="#33">编辑菜品</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+//报表管理子菜单
+<div th:fragment="ExportNav">
+    <div style="width: 100px; float:left "  >
+        <nav class="navbar navbar-default" >
+            <ul class="nav nav-pills nav-stacked" >
+                <li><a href="Export_Turn?getInfo=1">营业额</a></li>
+                <li><a href="Export_Turn?getInfo=2">销量</a></li>
                 <li><a href="#33">编辑菜品</a></li>
             </ul>
         </nav>

@@ -43,6 +43,7 @@ public class XiaDanController {
         model.addAttribute("userId",userId);
         model.addAttribute("desk_id",desk_id);
         return "XiaDan";
+//        return "form1";
     }
     @RequestMapping("/AddOrder")
     @ResponseBody
@@ -68,6 +69,54 @@ public class XiaDanController {
         System.out.println("12311111111321");
         int flag = orderMapper.insertSelective(order);
         return ID;
+    }
+
+    @RequestMapping("/SearchLike")
+    @ResponseBody
+    public List<Menu> SearchLike( HttpServletRequest request){
+        String way = request.getParameter("way");
+        String Flavor = request.getParameter("flavor");
+        List<Menu> menuList= menuMapper.selectAll();
+        List<Menu> mL = new ArrayList<>();
+         if (way.equals("不限")){
+             if (Flavor.equals("不限")){
+                 for (int j=0; j<menuList.size(); j++){
+                     mL.add(menuList.get(j));
+                 }
+             }else {
+                 for (int j=0; j<menuList.size(); j++){
+                     menuList.get(j).getmFlavor();
+                     if (menuList.get(j).getmFlavor().equals(Flavor)){
+                         mL.add(menuList.get(j));
+                     }
+                 }
+             }
+         }else {
+             if (Flavor.equals("不限")){
+                 for (int j=0; j<menuList.size(); j++){
+                     if (menuList.get(j).getmWay().equals(way)){
+                         mL.add(menuList.get(j));
+                     }
+                 }
+             }else {
+                 for (int j=0; j<menuList.size(); j++){
+                     if (menuList.get(j).getmWay().equals(way) && menuList.get(j).getmFlavor().equals(Flavor)){
+                         mL.add(menuList.get(j));
+                     }
+                 }
+             }
+         }
+        return mL;
+    }
+
+    @RequestMapping("/Search")
+    @ResponseBody
+    public List<Menu> Search( HttpServletRequest request){
+        String data = request.getParameter("data");
+        List<Menu> menuList= menuMapper.selectAll();
+        List<Menu> mL = menuMapper.selectSome("",data,"","","","");
+        System.out.println(mL);
+        return mL;
     }
 
     public String findID(){

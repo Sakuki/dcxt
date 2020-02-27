@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+<script th:inline="javascript"> // 需要添加 th:inline 才能访问 model 中的属性
+window.onload = function () {
+    console.log("页面加载完成");
+    // 获取ModelAndView中的dbgoods对象
+    var msg = [[${msg}]];
+    // 打印
+    alert(msg);
+}
+</script>
+</html>

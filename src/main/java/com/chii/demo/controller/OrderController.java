@@ -50,10 +50,9 @@ public class OrderController {
         return "Order_Use";
     }
 
-    public List<Order> NowOrders(List<Order> orderList){
+    public List<Order> NowOrders(List<Order> orderList){//当前的订单，即未完成出餐的订单
         int l;
         List<Order> nowOrder = new ArrayList<>();
-        Order order = null;
         for(int i=0; i<orderList.size();i++)
         {
             String Data = orderList.get(i).getoData();

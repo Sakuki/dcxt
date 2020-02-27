@@ -38,7 +38,7 @@ public class PayController {
         String userAgent = request.getHeader("user-agent");
         if (userAgent == null || (!userAgent.contains("AlipayClient")
         && !userAgent.contains("MicroMessenger"))){
-            return new ModelAndView("form1", "msg", "请使用微信或支付宝扫码");
+            return new ModelAndView("visit_return_url", "msg", "请使用微信或支付宝扫码");
         }else {
             String desk_id = request.getParameter("desk_id");
             String appid = "2016102100729554";
