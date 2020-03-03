@@ -18,10 +18,18 @@ public class KindController {
     KindMapper kindMapper;
 
     @RequestMapping("/AddKindInfo")
-    public String AddKindInfo(Kind kind,Model model){
+    public String AddKindInfo(Kind kind,Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         String kId = kind.getkId();
+        String kName = kind.getkName();
         if(kind.getkId().equals("") || kind.getkName().equals("") || kind.getkMain().equals(""))
         {
+            String uId = (String)session.getAttribute("UserId");
+            model.addAttribute("UserId",uId);
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
             return "KindInfo";
@@ -29,13 +37,17 @@ public class KindController {
         {
             List<Kind> kindList = kindMapper.selectAll();
             for (int i=0; i<kindList.size(); i++){
-                if (kindList.get(i).getkId().equals(kId)){
+                if (kindList.get(i).getkId().equals(kId)||kindList.get(i).getkName().equals(kName)){
+                    String uId = (String)session.getAttribute("UserId");
+                    model.addAttribute("UserId",uId);
                     model.addAttribute("flag","2");
                     model.addAttribute("getInfo","1");
                     return "KindInfo";
                 }
             }
             kindMapper.insert(kind);
+            String uId = (String)session.getAttribute("UserId");
+            model.addAttribute("UserId",uId);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");
             return "KindInfo";
@@ -43,22 +55,36 @@ public class KindController {
     }
 
     @RequestMapping("/SearchKindInfo")
-    public String SearchKindInfo(Kind kind, Model model){
+    public String SearchKindInfo(Kind kind, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         String id,name,main;
         id = kind.getkId();
         name = kind.getkName();
         main = kind.getkMain();
         List<Kind> kindList;
         kindList = kindMapper.selectSome(id,name,main);
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo","2");
         return "KindInfo";
     }
 
     @GetMapping("/KindInfo")
-    public String findKindInfo(Kind kind, Model model, @RequestParam String getInfo){
+    public String findKindInfo(Kind kind, Model model, @RequestParam String getInfo, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         List<Kind> kindList;
         kindList = kindMapper.selectAll();
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo",getInfo);
         return "KindInfo";

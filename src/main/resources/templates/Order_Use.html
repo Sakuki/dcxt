@@ -19,11 +19,18 @@
     .Order1{
         border-style: groove;
         margin-top: 10px;
-        margin-left: 25%;
-        width: 50%;
+        margin-left: 15%;
+        width: 70%;
         overflow: hidden;
         background: #fff;
         /*position: fixed;*/
+     }
+    .div_body{
+         width: 80%;
+         margin: 0% 5% 5% 120px;
+         padding: 2%;
+         background: #dad6d6;
+        border-style: groove;
      }
     .food {
         /*width: 100%;*/
@@ -73,8 +80,10 @@
 <body>
 <div  th:include="nav::comNav"></div>
 <div  style="float:left;" th:include="nav::OrderNav"></div>
+
+<div class="up1"></div>
 <div>
-    <div id="Orders" hidden>
+    <div id="Orders" class="div_body" hidden>
 <!--        <div class="Order1">-->
 <!--            <ul class="Car">-->
 <!--                <li class="desk">-->
@@ -137,8 +146,8 @@
 <!--            </ul>-->
 <!--        </div>-->
     </div>
-    <div id="divOrder" hidden>
-        <div style="text-align: center; width: 50%; margin-left: 25%;">
+    <div id="divOrder" class="div_body" hidden>
+        <div style="text-align: center; margin-left:  15%; width: 70%">
             <table id="table_page" border="1" style="border-collapse:collapse; width: 100%;
 background-color:#EAF2D3; " >
                 <tr id="tr_title">
@@ -163,7 +172,7 @@ background-color:#EAF2D3; " >
             </table>
             <label id="btn0"></label>
             <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
-            <label> 条 </label> &nbsp;
+            <label> 8条 </label> &nbsp;
             <label id="sum"></label>&nbsp;
             <a  href="#" id="btn_first">首页</a>
             <a  href="#" id="btn_pre">上一页</a>
@@ -175,7 +184,7 @@ background-color:#EAF2D3; " >
             <a  href="#" id="btn_turn">跳转</a>
         </div>
 
-        <div style="margin-left: 25%;">
+        <div style="margin-left: 15%">
             <button id="Export" onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -196,72 +205,71 @@ background-color:#EAF2D3; " >
             </table>
         </div>
 
-        <div class="up1">
-        </div>
-        <div class="Order">
-            <ul id="Car" class="Car">
-<!--                <li class="desk">-->
-<!--                    <div style="float: left;">-->
-<!--                        <ul class="number">-->
-<!--                            <li>-->
-<!--                                <span style="font-weight: bold;">桌号：1号桌</span>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span style="font-size: 12px;">2人用餐</span>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                    <div class="OrderTime" >-->
-<!--                        <ul style="list-style: none;">-->
-<!--                            <li>-->
-<!--                                <span>2019-12-14 17:07</span>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span>单号：20191226001</span>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="food">-->
-<!--                    <div style="float: left; width: 55%">-->
-<!--                        <span class="accountName">梅菜肉饼</span>-->
-<!--                    </div>-->
-<!--                    <div style="float: left;">-->
-<!--                        <span>×1</span>-->
-<!--                    </div>-->
-<!--                    <div style="float: right;">-->
-<!--                        <span>￥</span>-->
-<!--                        <span class="accountPrice">10</span>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="food">-->
-<!--                    <div style="float: left; width: 55%">-->
-<!--                        <span class="accountName">梅菜肉饼</span>-->
-<!--                    </div>-->
-<!--                    <div style="float: left;">-->
-<!--                        <span>×1</span>-->
-<!--                    </div>-->
-<!--                    <div style="float: right;">-->
-<!--                        <span>￥</span>-->
-<!--                        <span class="accountPrice">10</span>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="Sum">-->
-<!--                    <div style="float: left">-->
-<!--                        <span>堂食共2份</span>-->
-<!--                    </div>-->
-<!--                    <div style="float: right;margin-right: -5px">-->
-<!--                        <span>共计20元</span>-->
-<!--                    </div>-->
-<!--                </li>-->
-            </ul>
-        </div>
-        <div id="div_close" style="float: left;z-index: 3;position: fixed;left: 75%;display: none;top: 18%;">
-            <button id="Close" class="Close"></button>
-        </div>
+
+    </div>
+    <div class="Order">
+        <ul id="Car" class="Car">
+            <!--                <li class="desk">-->
+            <!--                    <div style="float: left;">-->
+            <!--                        <ul class="number">-->
+            <!--                            <li>-->
+            <!--                                <span style="font-weight: bold;">桌号：1号桌</span>-->
+            <!--                            </li>-->
+            <!--                            <li>-->
+            <!--                                <span style="font-size: 12px;">2人用餐</span>-->
+            <!--                            </li>-->
+            <!--                        </ul>-->
+            <!--                    </div>-->
+            <!--                    <div class="OrderTime" >-->
+            <!--                        <ul style="list-style: none;">-->
+            <!--                            <li>-->
+            <!--                                <span>2019-12-14 17:07</span>-->
+            <!--                            </li>-->
+            <!--                            <li>-->
+            <!--                                <span>单号：20191226001</span>-->
+            <!--                            </li>-->
+            <!--                        </ul>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--                <li class="food">-->
+            <!--                    <div style="float: left; width: 55%">-->
+            <!--                        <span class="accountName">梅菜肉饼</span>-->
+            <!--                    </div>-->
+            <!--                    <div style="float: left;">-->
+            <!--                        <span>×1</span>-->
+            <!--                    </div>-->
+            <!--                    <div style="float: right;">-->
+            <!--                        <span>￥</span>-->
+            <!--                        <span class="accountPrice">10</span>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--                <li class="food">-->
+            <!--                    <div style="float: left; width: 55%">-->
+            <!--                        <span class="accountName">梅菜肉饼</span>-->
+            <!--                    </div>-->
+            <!--                    <div style="float: left;">-->
+            <!--                        <span>×1</span>-->
+            <!--                    </div>-->
+            <!--                    <div style="float: right;">-->
+            <!--                        <span>￥</span>-->
+            <!--                        <span class="accountPrice">10</span>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--                <li class="Sum">-->
+            <!--                    <div style="float: left">-->
+            <!--                        <span>堂食共2份</span>-->
+            <!--                    </div>-->
+            <!--                    <div style="float: right;margin-right: -5px">-->
+            <!--                        <span>共计20元</span>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+        </ul>
+    </div>
+    <div id="div_close" style="float: left;z-index: 3;position: fixed;left: 75%;display: none;top: 18%;">
+        <button id="Close" class="Close"></button>
     </div>
 </div>
-<div style="width: 100%" th:include="nav::comFooter"></div>
+<!--<div style="width: 100%" th:include="nav::comFooter"></div>-->
 </body>
 <script src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
@@ -275,6 +283,20 @@ background-color:#EAF2D3; " >
     var div_2=document.getElementById("divOrder");
     console.log(getInfo);
 
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
 
     function btn_export() {     //导出
         var table = document.querySelector("#T_download");

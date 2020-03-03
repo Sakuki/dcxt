@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('修改信息')">
+    <meta charset="UTF-8">
+</head>
+<style>
+    .ChangeDiv{
+        width: 50%;
+        margin: 10% 0% 0% 25%;
+        background: #d0cece;
+        padding: 35px 0px;
+        /*border: solid 1px #e7e7e7;*/
+        border-style: groove;
+    }
+
+    .ChangeUl{
+        list-style: none;
+        margin-left: 30px;
+    }
+</style>
+<body>
+<div th:include="nav::comNav"></div>
+<div class="ChangeDiv">
+    <form name="" action="/ChangeMsg" method="post">
+        <ul class="ChangeUl">
+            <li>
+                姓名：<input type="text" name="uName" id="name" th:value="${user.getuName()}"><br><br>
+            </li>
+            <li>
+                密码：<input type="text" name="uPassword" id="pwd" th:value="${user.getuPassword()}"><br><br>
+            </li>
+            <li>
+                年龄：<input type="text" name="uAge" id="age" th:value="${user.getuAge()}"><br><br>
+            </li>
+            <li>
+                性别：<select name="uSex" id="sex" >
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select><br><br>
+            </li>
+            <button id="ChangePwd">修改</button>
+        </ul>
+    </form>
+</div>
+<div th:include="nav::comFooter"></div>
+</body>
+<script type="text/javascript"  th:inline="javascript">
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    var user = [[${user}]];
+    var getInfo = [[${getInfo}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+    Sex();
+
+    if (getInfo =="1"){
+        alert("修改成功");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
+
+
+    function Sex() {
+        if(user.uSex==='男'){    //性别为男时下拉框默认男
+            $("#sex").html("<select name='uSex' >\n" +
+                "<option value='男' selected='selected'>男</option>\n" +
+                "<option value='女'>女</option>\n" +
+                "</select>");
+        }
+        else if(user.uSex==='女'){  //性别为女时下拉框默认女
+            $("#sex").html("<select name='uSex' >\n" +
+                "<option value='男' >男</option>\n" +
+                "<option value='女' selected='selected'>女</option>\n" +
+                "</select>");
+        }
+    }
+</script>
+</html>

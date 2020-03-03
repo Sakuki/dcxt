@@ -36,7 +36,7 @@ public class MenuController {
         id = request.getParameter("id");
         name = request.getParameter("name");
         kName = request.getParameter("kName");
-        if(id.equals("")||name.equals("")||kName.equals(""))
+        if(id.equals("")||name.equals("")||kName.equals("请选择"))
         {
             return "0";
         }else
@@ -47,6 +47,7 @@ public class MenuController {
                     return "2";
                 }
             }
+
             menu = ThisMenu(request,menu);
             menuMapper.insertSelective(menu);
             return "1";
@@ -55,20 +56,27 @@ public class MenuController {
 
     @RequestMapping("/EditPic")
     @ResponseBody
-    public String EditPic(HttpServletRequest request) throws IOException {
+    public String EditPic(Menu menu ,HttpServletRequest request) throws IOException {
         String id = request.getParameter("id");
         String dataUrl = request.getParameter("dataUrl");
         if (dataUrl==""){
             return "0";
-        }else {
-            upload(dataUrl,id);
-            return "1";
         }
+        menu = menuMapper.selectByPrimaryKey(id);
+        menu.setmPic("/pic/"+id+".jpg");
+        menuMapper.updateByPrimaryKeySelective(menu);
+        upload(dataUrl,id);
+        return "1";
     }
 
     @RequestMapping("/SearchMenuInfo")
-    public String SearchMenuInfo(MenuAndKind menuAndKind, Model model){
+    public String SearchMenuInfo(MenuAndKind menuAndKind, Model model, HttpServletRequest request){
         String kname,id,name,kid="";
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         List<Menu> menuList,menuList1;
         List<Kind> kindList= kindMapper.selectAll();
         List<MenuAndKind> menuAndKindList;
@@ -80,6 +88,8 @@ public class MenuController {
         kid = FindkId(kname);
         menuList = menuMapper.selectSome(id, name, "","","",kid);//获取模糊查询后的数据
         menuAndKindList = findMenuAndKind(menuList,kindList);
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("menuAndKindList",menuAndKindList);
         model.addAttribute("getInfo","2");
         return "MenuInfo";
@@ -108,7 +118,12 @@ public class MenuController {
     }
 
     @GetMapping("/MenuInfo")
-    public String findMenuInfo(Menu menu, Model model, @RequestParam String getInfo){
+    public String findMenuInfo(Menu menu, Model model, @RequestParam String getInfo, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         List<Menu> menuList;
         List<Kind> kindList;
         List<MenuAndKind> menuAndKindList = new ArrayList<>();
@@ -116,6 +131,8 @@ public class MenuController {
         kindList = kindMapper.selectAll();
         menuAndKindList = findMenuAndKind(menuList,kindList);
 
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("menuAndKindList",menuAndKindList);
 //        model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo",getInfo);

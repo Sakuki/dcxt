@@ -35,8 +35,8 @@
     }
     .view1 {
         /*margin: 0 auto;*/
-        left: 350px;
-        top: -100px;
+        left: 450px;
+        top: 50px;
         width: 200px;
         height: 200px;
         display: none;
@@ -54,13 +54,31 @@
         width: 25px;
         /*display: none;*/
     }
+    .div_close{
+        float: left;
+        z-index: 3;
+        position: absolute;
+        display: none;
+        left: 650px;
+        top: 120px;
+    }
+    .add_input{
+        width: 90px;
+    }
+    .div_body{
+        width: 80%;
+        margin: 0% 5% 5% 120px;
+        padding: 2%;
+        background: #dad6d6;
+        border-style: groove;
+    }
 </style>
 <body>
 <div class="up1"></div>
 <div  th:include="nav::comNav"></div>
-<div>
+<div style="float: left; width: 100%;">
     <div  style="float:left;" th:include="nav::MenuNav"></div>
-    <div  style="float:left;" id="AddMenu" hidden>
+    <div  class="div_body" id="AddMenu" hidden>
 <!--        <form name="" >-->
 <!--            action="/AddMenuInfo" method="post"-->
             <div>
@@ -81,7 +99,7 @@
 <!--            <div id="view"></div>-->
 <!--        </form>-->
     </div>
-    <div style="" id="divInfo"  hidden>
+    <div class="div_body" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchMenuInfo" method="post">
                 菜号: <input name="mId" /><br><br>
@@ -92,7 +110,7 @@
                 <input type="submit" name="Search" value="查找"/><br><br>
             </form>
         </div>
-        <div style="margin-left: 10%; width: 80%;">
+        <div style="margin-left: 10%;">
             <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
 background-color:#EAF2D3; float: top" >
                 <tr>
@@ -102,6 +120,7 @@ background-color:#EAF2D3; float: top" >
                     <td>口味</td>
                     <td>主料</td>
                     <td>价格</td>
+                    <td style="display: none;" >Pic</td>
                     <td>照片</td>
                     <td>类别</td>
                     <td>操作</td>
@@ -113,9 +132,11 @@ background-color:#EAF2D3; float: top" >
                     <td class="mFlavor" th:text="${menu.getmFlavor()}"></td>
                     <td class="mIng" th:text="${menu.getmIng()}"></td>
                     <td class="mPrice" th:text="${menu.getmPrice()}"></td>
-<!--                    <td class="mPic" th:text="${menu.getmPic()}"></td>-->
-                    <td class="mPic"><button class="PicView">查看照片</button>
-                        <button class="PicEdit">修改照片</button></td>
+                    <td style="display: none;" class="mPic" th:text="${menu.getmPic()}"></td>
+                    <td>
+                        <button class="PicView">查看照片</button>
+                        <button class="PicEdit">修改照片</button>
+                    </td>
                     <td class="kName" th:text="${menu.getkName()}"></td>
                     <td id="a">
                         <a href="#" id="edit_btn" class="modify" >修改</a>
@@ -125,7 +146,7 @@ background-color:#EAF2D3; float: top" >
             </table>
             <label id="btn0"></label>
             <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
-            <label> 条 </label> &nbsp;
+            <label> 8条 </label> &nbsp;
             <label id="sum"></label>&nbsp;
             <a  href="#" id="btn_first">首页</a>
             <a  href="#" id="btn_pre">上一页</a>
@@ -181,12 +202,11 @@ background-color:#EAF2D3; float: top" >
     <!--        </div>-->
 </div>
 <div class="view1"></div>
-<div id="div_close" style="float: left;z-index: 3;position: absolute;
-    display: none;left: 550px;top: 175px;">
+<div id="div_close" class="div_close">
     <button id="Close" class="Close"></button>
 </div>
 
-<div style="width: 100%" th:include="nav::comFooter"></div>
+<!--<div style="width: 100%" th:include="nav::comFooter"></div>-->
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
@@ -213,6 +233,21 @@ background-color:#EAF2D3; float: top" >
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
     }
+
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
 
     function btn_export() {     //导出
         var table = document.querySelector("#T_download");
@@ -248,6 +283,7 @@ background-color:#EAF2D3; float: top" >
     //修改时的修改照片
     $(".PicEdit").click(function () {
         PicId = $(this).parent().parent().children("td.mId").text();
+        $(this).parent().parent().children("td.mPic").html("<input size='13' id='EditP' class='add_input' type='text' />");
         console.log("this id is "+PicId);
         $(".up1").toggle();
         $("#SelectPicDiv").toggle();
@@ -256,21 +292,26 @@ background-color:#EAF2D3; float: top" >
     //修改时的查看照片
     $(".PicView").click(function () {
         PicId = $(this).parent().parent().children("td.mId").text();
+        var Pic = $(this).parent().parent().children("td.mPic").text();
         var path = "/pic/";
         $(".up1").toggle();
         $("#div_close").toggle();
         $(".view1").toggle();
-        console.log("url is "+path+PicId+".jpg");
+        // console.log("url is "+path+PicId+".jpg");
         // if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
         //     window.applicationCache.update();
         // }
-        var url = path+PicId+".jpg";//这是站内的一张图片资源，采用的相对路径
-        $(".view1").attr("src",url+"?r="+Math.random());
+        var url = path+PicId+".jpg?";//这是站内的一张图片资源，采用的相对路径
+        // $(".view1").attr("src",url+"?r="+Math.random());
         // ii(url);
         // if( IsPic(path+PicId+".jpg") ){
         //     $(".view1").css("background-image", "url("+ path+PicId+".jpg" +")");
         // }
-        // $(".view1").css("background-image", "url("+ url +")");
+        if (Pic==""){
+            $(".view1").css("background-image", "url("+ "/pic/no_Pic.jpg?"+ Math.random()+")");
+        }else{
+            $(".view1").css("background-image", "url("+ url+ Math.random()+")");
+        }
 
     });
 
@@ -278,7 +319,7 @@ background-color:#EAF2D3; float: top" >
         convertImgToBase64(url, function(base64Img){
             //转化后的base64
             $(".view1").css("background-image", "url("+ base64Img +")");
-            // return base64Img
+            return base64Img
         });
     }
     //实现将项目的图片转化成base64
@@ -320,8 +361,11 @@ background-color:#EAF2D3; float: top" >
             async:false,
             success:function(data){
                 if (data=="0"){
+                    $("#EditP").parent().html("");
                     alert("未截取照片，修改失败");
                 }else if (data=="1"){
+                    $("#EditP").parent().html("/pic/"+PicId+".jpg");
+                    $("#T_download").children().children("td.mPic").html("/pic/"+PicId+".jpg");
                     alert("修改成功");
                 }
             }
@@ -365,6 +409,7 @@ background-color:#EAF2D3; float: top" >
         var ing = document.getElementById('mIng').value;
         var price = document.getElementById('mPrice').value;
         var kName = document.getElementById('selectKind').value;
+        console.log("kName"+kName);
         $.ajax({
             type:'post',
             url:'/AddMenuInfo',
@@ -402,7 +447,7 @@ background-color:#EAF2D3; float: top" >
             var is_id = $(this).attr("class");
             if (!is_text.length&&is_id!="mId"&&is_id!="mPic"&& !is_select.length){//不是文本框且不是kId且不是下拉框
                 if(is_id!="kName"){
-                    $(this).html("<input size='13' type='text' value=' "+$(this).text()+" ' />");
+                    $(this).html("<input size='13' class='add_input' type='text' value=' "+$(this).text()+" ' />");
                 }
                 else if(is_id=="kName"){
                     var kName = $(this).text()

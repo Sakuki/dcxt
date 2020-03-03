@@ -21,11 +21,25 @@ public class UserController {
     @Autowired
     UserMapper userMapper;
 
-    @PostMapping("/Login")
+    @GetMapping("/Login")
+    public String Login( Model model){
+        model.addAttribute("message","0");
+        return "Login";
+    }
+
+    @GetMapping("/LogOut")
+    public String LogOut( Model model, HttpServletRequest request){
+        model.addAttribute("message","0");
+        request.getSession().removeAttribute("UserName");
+        request.getSession().removeAttribute("UserId");
+        request.getSession().invalidate();
+        return "Login";
+    }
+
+    @PostMapping("/UserLogin")
     public String user(User user, Model model, HttpServletRequest request){
         UUID uuid = UUID.randomUUID();
         System.out.println("uuid is "+uuid);
-
 
         String id,passwd;
         User user1;
@@ -41,9 +55,8 @@ public class UserController {
                     user1 = userMapper.selectByPrimaryKey(id);
                     session.setAttribute("UserId",user1.getuId());
                     session.setAttribute("UserName",user1.getuName());
-                    model.addAttribute("uId",user1.getuId());
-                    model.addAttribute("uName",user1.getuName());
-
+                    model.addAttribute("UserId",user1.getuId());
+                    model.addAttribute("UserName",user1.getuName());
                     return "redirect:/User_Home";
                 }
             }
@@ -55,22 +68,69 @@ public class UserController {
 
     @RequestMapping("/User_Home")
     public String User_Home(User user, Model model, HttpServletRequest request){
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+//            model.addAttribute("UserId",);
+            return "redirect:/Login";
+        }
         String uId,uName;
         uId = (String)session.getAttribute("UserId");
         uName = (String)session.getAttribute("UserName");
         System.out.println(uId+uName);
-        model.addAttribute("uName",uName);
+        model.addAttribute("UserName",uName);
+        model.addAttribute("UserId",uId);
         return "User_Home";
     }
 
+    @RequestMapping("/ChangePwd")
+    public String ChangePwd(User user, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
+        String uId,uName;
+        uId = (String)session.getAttribute("UserId");
+        uName = (String)session.getAttribute("UserName");
+        user = userMapper.selectByPrimaryKey(uId);
+        model.addAttribute("user",user);
+        model.addAttribute("UserName",uName);
+        model.addAttribute("UserId",uId);
+        return "ChangePwd";
+    }
+
+    @RequestMapping("/ChangeMsg")
+    public String ChangeMsg(User user, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
+        String uId = (String)session.getAttribute("UserId");
+        String uName = (String)session.getAttribute("UserName");
+        user.setuId(uId);
+        int getInfo = userMapper.updateByPrimaryKeySelective(user);
+        model.addAttribute("getInfo",getInfo);
+        model.addAttribute("UserName",uName);
+        model.addAttribute("UserId",uId);
+        return "ChangePwd";
+    }
+
     @RequestMapping("/AddEmpInfo")
-    public String AddEmpInfo(User user,Model model){
+    public String AddEmpInfo(User user,Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         String uId = user.getuId();
         if(user.getuId().equals("") || user.getuName().equals("") ||
                 user.getuAge().equals("") || user.getuPassword().equals("") ||
                 user.getuSex().equals(""))
         {
+            String UserId = (String)session.getAttribute("UserId");
+            model.addAttribute("UserId",UserId);
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
             return "EmpInfo";
@@ -79,12 +139,16 @@ public class UserController {
             List<User> userList = userMapper.selectAll();
             for (int i=0; i<userList.size(); i++){
                 if (userList.get(i).getuId().equals(uId)){
+                    String UserId = (String)session.getAttribute("UserId");
+                    model.addAttribute("UserId",UserId);
                     model.addAttribute("flag","2");
                     model.addAttribute("getInfo","1");
                     return "EmpInfo";
                 }
             }
             userMapper.insert(user);
+            String UserId = (String)session.getAttribute("UserId");
+            model.addAttribute("UserId",UserId);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");
             return "EmpInfo";
@@ -92,21 +156,35 @@ public class UserController {
     }
 
     @RequestMapping("/SearchEmpInfo")
-    public String SearchEmpInfo(User user, Model model){
+    public String SearchEmpInfo(User user, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         String id,name;
         id = user.getuId();
         name = user.getuName();
         List<User> userList;
         userList = userMapper.selectSome(id,name);
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("userList",userList);
         model.addAttribute("getInfo","2");
         return "EmpInfo";
     }
 
     @GetMapping("/EmpInfo")
-    public String findEmpInfo(User user, Model model,@RequestParam String getInfo){
+    public String findEmpInfo(User user, Model model,@RequestParam String getInfo, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         List<User> userList;
         userList = userMapper.selectAll();
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("userList",userList);
         model.addAttribute("getInfo",getInfo);
         return "EmpInfo";

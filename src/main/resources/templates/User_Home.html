@@ -3,17 +3,38 @@
 <head th:replace="nav::Tnav('主页')">
     <meta charset="UTF-8">
 </head>
+<style>
+    .div_body{
+        width: 80%;
+        margin: 0% 5% 5% 120px;
+        padding: 2%;
+        background: #dad6d6;
+        border-style: groove;
+    }
+</style>
 <body>
 <div th:include="nav::comNav"></div>
-<div>
+<div class="div_body">
 <!--        <p th:text="*{welcome}" type="text" name="welcome" ></p>-->
-    welcome <label th:text="*{uName}" type="text"></label> login this System
+    welcome <label th:text="*{UserName}" type="text"></label> login this System
     <p id="welcome"></p>
 </div>
-<div th:include="nav::comFooter"></div>
+<!--<div th:include="nav::comFooter"></div>-->
 </body>
-<!--<script th:inline="javascript" >-->
-<!--    var Name = sessionStorage.getItem("UserName");-->
-<!--    console.log(Name);-->
-<!--</script>-->
+<script type="text/javascript"  th:inline="javascript">
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
+</script>
 </html>

@@ -26,7 +26,14 @@ public class ExportController {
     MenuMapper menuMapper;
 
     @GetMapping("/Export_Turn")
-    public String Export_turn(Kind kind, Model model, @RequestParam String getInfo){
+    public String Export_turn(Kind kind, Model model, @RequestParam String getInfo, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
+        String  uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("getInfo",getInfo);
         return "Export_Turn";
     }

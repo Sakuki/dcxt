@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,9 +42,16 @@ public class OrderController {
     }
 
     @GetMapping("/Order_Use")
-    public String AllOrders(Model model, Order order, @RequestParam String getInfo){
+    public String AllOrders(Model model, Order order, @RequestParam String getInfo, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+            return "redirect:/Login";
+        }
         List<Order> orderList = orderMapper.selectAll();
         List<Order> nowOrder = NowOrders(orderList);
+        String uId = (String)session.getAttribute("UserId");
+        model.addAttribute("UserId",uId);
         model.addAttribute("orderList",orderList);
         model.addAttribute("getInfo",getInfo);
         model.addAttribute("nowOrder",nowOrder);

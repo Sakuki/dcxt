@@ -4,12 +4,21 @@
 <head th:replace="nav::Tnav('类别管理')">
     <meta charset="UTF-8">
 </head>
+<style>
+    .div_body{
+        width: 80%;
+        margin: 0% 5% 5% 120px;
+        padding: 2%;
+        background: #dad6d6;
+        border-style: groove;
+    }
+</style>
 <body>
 <div  th:include="nav::comNav"></div>
 <div>
     <div  style="float:left;" th:include="nav::KindNav"></div>
 
-    <div  style="float:left;" id="AddKind" hidden>
+    <div class="div_body" id="AddKind" hidden>
         <form name="" action="/AddKindInfo" method="post">
             <div>
                 类别号:  <input name="kId" /><br><br>
@@ -20,7 +29,7 @@
         </form>
     </div>
 
-    <div id="divInfo"  hidden>
+    <div class="div_body" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchKindInfo" method="post">
                 类别号: <input name="kId" /><br><br>
@@ -51,7 +60,7 @@ background-color:#EAF2D3; float: top">
             </table>
             <label id="btn0"></label>
             <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
-            <label> 条 </label> &nbsp;
+            <label> 8条 </label> &nbsp;
             <label id="sum"></label>&nbsp;
             <a  href="#" id="btn_first">首页</a>
             <a  href="#" id="btn_pre">上一页</a>
@@ -82,7 +91,7 @@ background-color:#EAF2D3; float: top">
         </table>
     </div>
 </div>
-<div style="width: 100%" th:include="nav::comFooter"></div>
+<!--<div style="width: 100%" th:include="nav::comFooter"></div>-->
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="/table_export_js/excel.js"></script>
@@ -106,7 +115,22 @@ background-color:#EAF2D3; float: top">
     else if(flag == "0")
         alert("添加失败，类别号、类名称、主用料不能为空。");
     else if(flag == "2")
-        alert("添加失败，此类别号已存在。")
+        alert("添加失败，此类别号、类名称已存在。");
+
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
 
     function btn_export() {     //导出
         var table = document.querySelector("#T_download");

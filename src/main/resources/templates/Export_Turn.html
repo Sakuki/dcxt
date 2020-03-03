@@ -18,12 +18,19 @@
         width: 77%;
         border-style: groove;
     }
+    .div_body{
+        width: 80%;
+        margin: 0% 5% 5% 120px;
+        padding: 2%;
+        background: #dad6d6;
+        border-style: groove;
+    }
 </style>
 <body>
 <div  th:include="nav::comNav"></div>
 <div>
     <div  style="float:left;" th:include="nav::ExportNav"></div>
-    <div id="Turn" class="Turn" hidden>
+    <div id="Turn" class="Turn div_body" hidden>
         <div style="margin: 5px;">
             <label id="11">日期：&nbsp;</label>
             <button id="select1" onclick="Select('1')">选择</button>
@@ -36,7 +43,7 @@
             <label id="Price"></label>
         </div>
     </div>
-    <div id="Export" class="Export" hidden>
+    <div id="Export" class="Export div_body" hidden>
         <div style="margin: 5px; text-align: center;">
             <label id="22">日期：&nbsp;</label>
             <button id="select2" onclick="Select('2')">选择</button>
@@ -57,7 +64,7 @@ background-color:#EAF2D3; float: top">
             </table>
             <label id="btn0"></label>
             <label id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"></label>
-            <label> 条 </label> &nbsp;
+            <label> 8条 </label> &nbsp;
             <label id="sum"></label>&nbsp;
             <a  href="#" id="btn_first">首页</a>
             <a  href="#" id="btn_pre">上一页</a>
@@ -102,6 +109,21 @@ background-color:#EAF2D3; float: top">
         Time("22");
         Select('2');
     }
+
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID === "1001"){
+        $("#EmpInfo").css("display","block");
+    }
+
+    $("#LogOut").click(function () {
+        sessionStorage.clear();
+        window.location.href="/LogOut";
+    });
+    $("#Change").click(function () {
+        window.location.href="/ChangePwd";
+    });
 
     function setTable(menu_numList) {       //自动生成菜品表格
         Table_tr();
@@ -241,6 +263,7 @@ background-color:#EAF2D3; float: top">
                         $("#table_page").html("");
                         //生成表格
                         setTable(data);
+                        displayPage(1);
                     }
                 });
             }
