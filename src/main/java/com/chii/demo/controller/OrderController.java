@@ -51,6 +51,8 @@ public class OrderController {
         List<Order> orderList = orderMapper.selectAll();
         List<Order> nowOrder = NowOrders(orderList);
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("orderList",orderList);
         model.addAttribute("getInfo",getInfo);

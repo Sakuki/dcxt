@@ -43,7 +43,7 @@ public class MenuController {
         {
             List<Menu> menuList = menuMapper.selectAll();
             for (int i=0; i<menuList.size(); i++){
-                if (menuList.get(i).getmId().equals(id)){
+                if (menuList.get(i).getmId().equals(id)||menuList.get(i).getmName().equals(name)){
                     return "2";
                 }
             }
@@ -89,6 +89,8 @@ public class MenuController {
         menuList = menuMapper.selectSome(id, name, "","","",kid);//获取模糊查询后的数据
         menuAndKindList = findMenuAndKind(menuList,kindList);
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("menuAndKindList",menuAndKindList);
         model.addAttribute("getInfo","2");
@@ -132,6 +134,8 @@ public class MenuController {
         menuAndKindList = findMenuAndKind(menuList,kindList);
 
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("menuAndKindList",menuAndKindList);
 //        model.addAttribute("kindList",kindList);

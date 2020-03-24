@@ -6,24 +6,48 @@
 </head>
 <style>
     .div_body{
-        width: 80%;
-        margin: 0% 5% 5% 120px;
-        padding: 2%;
-        background: #dad6d6;
-        border-style: groove;
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
     }
+	td{
+		height: 33px;
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
 </style>
-<body>
-<div  th:include="nav::comNav"></div>
-<div>
-    <div  style="float:left;" th:include="nav::KindNav"></div>
-
+<body style="background: #f0f2f5; margin: 0px;">
+<!-- <div  th:include="nav::comNav"></div> -->
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<div style="margin:20px;">
+    <!-- <div  style="float:left;" th:include="nav::KindNav"></div> -->
+	<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			菜单管理
+		</a>
+	</div>
     <div class="div_body" id="AddKind" hidden>
         <form name="" action="/AddKindInfo" method="post">
             <div>
-                类别号:  <input name="kId" /><br><br>
-                类名称:  <input name="kName"/><br><br>
-                主用料:  <input name="kMain" /><br><br>
+                <label style="color: red;">*</label>类别号:  <input name="kId" /><br><br>
+                <label style="color: red;">*</label>类名称:  <input name="kName"/><br><br>
+                <label style="color: red;">*</label>主用料:  <input name="kMain" /><br><br>
                 <input type="submit" name="Add" value="添加"/>
             </div>
         </form>
@@ -32,16 +56,15 @@
     <div class="div_body" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchKindInfo" method="post">
-                类别号: <input name="kId" /><br><br>
-                类名称: <input name="kName"/><br><br>
-                主用料: <input name="kMain"/><br><br>
-                <input type="submit" name="Search" value="查找"/><br><br>
+                类别号: <input name="kId" style="margin-right: 20px;"/>
+                类名称: <input name="kName" style="margin-right: 20px;"/>
+                主用料: <input name="kMain" style="margin-right: 20px;"/>
+                <input type="submit" name="Search" value="查找"/>
             </form>
         </div>
-        <div style="margin-left: 10%; width: 80%">
-            <table  id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
-background-color:#EAF2D3; float: top">
-                <tr>
+        <div style="margin-top: 25px;">
+            <table  id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;">
+                <tr style="font-weight: bold; color: #666666; background: #f9fafc;">
                     <td>类别号</td>
                     <td>类名称</td>
                     <td>主用料</td>
@@ -71,7 +94,7 @@ background-color:#EAF2D3; float: top">
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
         </div>
-        <div style="margin-left: 10%;">
+        <div style="margin-top: 10px;">
             <button id="Export" onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -97,23 +120,28 @@ background-color:#EAF2D3; float: top">
 <script src="/table_export_js/excel.js"></script>
 <script src="/table_export_js/xlsx.core.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
     var div_1=document.getElementById("AddKind");
     var div_2=document.getElementById("divInfo");
     console.log(getInfo);
     //辨别显示哪个div
-    if (getInfo == "1")
+    if (getInfo == "1"){
         div_1.removeAttribute("hidden");
-    else if (getInfo == "2")
+		addTree(getInfo);
+	}
+    else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
+		addTree(getInfo);
+	}
 //添加时，检测是否为空
     var flag = [[${flag}]];
     console.log(flag);
     if (flag == "1")
         alert("添加成功。");
     else if(flag == "0")
-        alert("添加失败，类别号、类名称、主用料不能为空。");
+        alert("添加失败，必填项不能为空。");
     else if(flag == "2")
         alert("添加失败，此类别号、类名称已存在。");
 
@@ -124,10 +152,6 @@ background-color:#EAF2D3; float: top">
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });
@@ -137,6 +161,20 @@ background-color:#EAF2D3; float: top">
         var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
         openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
+	
+	function addTree(getInfo){
+		var html = $("#tree_div").html();
+		$("#tree_div").html(html+">");
+		a = document.createElement("a");
+        a.setAttribute("id","KindInfo_"+getInfo);
+		if(getInfo=="1"){
+			a.innerText = "新增类别";
+		}else if(getInfo=="2"){
+			a.innerText = "查找类别";
+		}
+        document.getElementById("tree_div").appendChild(a);
+	}
+
 
     //按修改
     $(".modify").click(function () {

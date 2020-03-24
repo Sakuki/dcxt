@@ -1,0 +1,162 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="Tnav(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+	ul{
+		padding: 0px;
+		list-style: none;
+	}
+	li{
+		padding: 10px 0px 10px 35px;
+	}
+	a{
+		color: #fff;
+		font-size: 14px;
+		text-decoration: none;
+	}
+	.nav_body{
+		width: 160px;
+		float: left;
+	}
+	.the_right{
+		background: #f0f2f5;
+		height: -webkit-fill-available;
+		margin-left: 160px;
+	}
+	.first_a{
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.EmpInfo_a{
+		font-size: 16px;
+	}
+	.EmpInfo_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+	.list_a{
+		font-size: 16px;
+	}
+	.list_ul{
+		display: none;
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+	}
+	.kind_a{
+		font-size: 16px;
+	}
+	.kind_ul{
+		display: none;
+	}
+	.Menu_a{
+		font-size: 16px;
+	}
+	.Menu_ul{
+		display: none;
+	}
+	.Order_Use_a{
+		font-size: 16px;
+	}
+	.Order_Use_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+	.Export_Turn_a{
+		font-size: 16px;
+	}
+	.Export_Turn_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+</style>
+
+<body style="background: #000c17;">
+<div class="nav_body">
+	<div style="background: #001527; border-bottom: #000 solid; border-bottom-width: thin; ">
+		<div style="padding: 10px 0px 10px 15px;">
+			<a class="first_a">
+				自主点餐系统
+			</a>
+		</div>
+	</div>
+	
+	<div>
+		<ul>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<a id ="EmpInfo_a" class="EmpInfo_a">店员管理</a>
+				</div>
+				<ul id="EmpInfo_ul" class="EmpInfo_ul">
+					<li><a href="EmpInfo?getInfo=1">新增店员</a> </li>
+					<li><a href="EmpInfo?getInfo=2">查找店员</a></li>
+				</ul>
+			</li>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<a id="list_a" class="list_a">菜单管理</a>
+				</div>
+				<ul id="list_ul" class="list_ul">
+					<li><a href="KindInfo?getInfo=1">新增类别</a> </li>
+					<li><a href="KindInfo?getInfo=2">查找类别</a></li>
+					<li><a href="MenuInfo?getInfo=1">新增菜品</a> </li>
+					<li><a href="MenuInfo?getInfo=2">查找菜品</a></li>
+					</li>
+				</ul>
+			</li>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<a id="Order_Use_a" class="Order_Use_a">订单管理</a>
+				</div>
+				<ul id="Order_Use_ul" class="Order_Use_ul">
+					<li><a href="Order_Use?getInfo=1">当前订单</a></li>
+					<li><a href="Order_Use?getInfo=2">历史订单</a></li>
+				</ul>
+			</li>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<a id="Export_Turn_a" class="Export_Turn_a">营业报表</a>
+				</div>
+				<ul id="Export_Turn_ul" class="Export_Turn_ul">
+					<li><a href="Export_Turn?getInfo=1">营业额</a></li>
+					<li><a href="Export_Turn?getInfo=2">销量</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+</div>
+<div class="the_right">
+</div>
+
+</body>
+<script>
+	$("#EmpInfo_a").click(function () {
+		$("#EmpInfo_ul").toggle();
+    });
+	$("#list_a").click(function () {
+		$("#list_ul").toggle();
+    });
+	$("#Order_Use_a").click(function () {
+		$("#Order_Use_ul").toggle();
+    });
+	$("#Export_Turn_a").click(function () {
+		$("#Export_Turn_ul").toggle();
+    });
+	
+	
+	
+	
+</script>
+</html>

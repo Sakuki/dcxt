@@ -29,6 +29,8 @@ public class KindController {
         if(kind.getkId().equals("") || kind.getkName().equals("") || kind.getkMain().equals(""))
         {
             String uId = (String)session.getAttribute("UserId");
+			String uName = (String)session.getAttribute("UserName");
+			model.addAttribute("UserName",uName);
             model.addAttribute("UserId",uId);
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
@@ -39,6 +41,8 @@ public class KindController {
             for (int i=0; i<kindList.size(); i++){
                 if (kindList.get(i).getkId().equals(kId)||kindList.get(i).getkName().equals(kName)){
                     String uId = (String)session.getAttribute("UserId");
+					String uName = (String)session.getAttribute("UserName");
+					model.addAttribute("UserName",uName);
                     model.addAttribute("UserId",uId);
                     model.addAttribute("flag","2");
                     model.addAttribute("getInfo","1");
@@ -47,6 +51,8 @@ public class KindController {
             }
             kindMapper.insert(kind);
             String uId = (String)session.getAttribute("UserId");
+			String uName = (String)session.getAttribute("UserName");
+			model.addAttribute("UserName",uName);
             model.addAttribute("UserId",uId);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");
@@ -68,6 +74,8 @@ public class KindController {
         List<Kind> kindList;
         kindList = kindMapper.selectSome(id,name,main);
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo","2");
@@ -84,6 +92,8 @@ public class KindController {
         List<Kind> kindList;
         kindList = kindMapper.selectAll();
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("kindList",kindList);
         model.addAttribute("getInfo",getInfo);

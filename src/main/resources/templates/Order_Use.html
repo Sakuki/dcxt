@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
 </head>
 <style>
+	td{
+		height: 33px;
+	}
     .Order{
         /*border-style: groove;*/
         margin-left: 25%;
@@ -17,21 +20,27 @@
         top: 18%;
     }
     .Order1{
-        border-style: groove;
+        /*border-style: groove; */
         margin-top: 10px;
-        margin-left: 15%;
-        width: 70%;
+        margin-left: 25%;
+        width: 50%;
         overflow: hidden;
         background: #fff;
+		border: solid #d2cccc 1px;
         /*position: fixed;*/
      }
     .div_body{
-         width: 80%;
-         margin: 0% 5% 5% 120px;
-         padding: 2%;
-         background: #dad6d6;
-        border-style: groove;
-     }
+        padding: 20px;
+        background: #ffffff;
+		/*height: -webkit-fill-available;*/
+		border: solid #d2cccc 1px;
+    }
+	.div_body2{
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
+    }
     .food {
         /*width: 100%;*/
         height: 30px;
@@ -68,7 +77,7 @@
     .Clear{
         display:block;
         text-align:center;
-        background-color:#F03C03;
+        background-color:#039aff;
         padding:5px 15px 0px 15px;
         border-radius:40px;
         color:#fff;
@@ -76,14 +85,48 @@
         margin-top: 5px;
         height: 30px;
     }
+	a{
+		color: #337ab7;
+		<!-- font-size: 14px; -->
+		<!--下划线 -->
+		text-decoration: none;	
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
+	.Clear_li a:hover {
+	color: #fff;
+	text-decoration:none;
+	}
 </style>
-<body>
-<div  th:include="nav::comNav"></div>
-<div  style="float:left;" th:include="nav::OrderNav"></div>
+<body style="background: #f0f2f5; margin: 0px;">
+<!-- <div  th:include="nav::comNav"></div> -->
+<!-- <div  style="float:left;" th:include="nav::OrderNav"></div> -->
 
 <div class="up1"></div>
-<div>
-    <div id="Orders" class="div_body" hidden>
+
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<div style="margin:20px;">
+<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			订单管理
+		</a>
+	</div>
+    <div id="Orders" class="div_body"  hidden>
 <!--        <div class="Order1">-->
 <!--            <ul class="Car">-->
 <!--                <li class="desk">-->
@@ -146,11 +189,11 @@
 <!--            </ul>-->
 <!--        </div>-->
     </div>
-    <div id="divOrder" class="div_body" hidden>
-        <div style="text-align: center; margin-left:  15%; width: 70%">
-            <table id="table_page" border="1" style="border-collapse:collapse; width: 100%;
-background-color:#EAF2D3; " >
-                <tr id="tr_title">
+    <div id="divOrder" class="div_body2" hidden>
+        <!-- <div style="text-align: center; margin-left:  15%; width: 70%"> -->
+		<div style="margin-top: 25px;">
+            <table id="table_page" border="1" style="text-align: center; border-collapse:collapse; width: 100%;" >
+                <tr id="tr_title"  style="font-weight: bold; color: #666666; background: #f9fafc;">
                     <td>单号</td>
                     <td>时间</td>
                     <td>桌号</td>
@@ -184,7 +227,7 @@ background-color:#EAF2D3; " >
             <a  href="#" id="btn_turn">跳转</a>
         </div>
 
-        <div style="margin-left: 15%">
+        <div style="margin-top: 10px;">
             <button id="Export" onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -275,6 +318,7 @@ background-color:#EAF2D3; " >
 <script type="text/javascript" src="Paging.js"></script>
 <script src="/table_export_js/excel.js"></script>
 <script src="/table_export_js/xlsx.core.min.js"></script>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
     var orderList = [[${orderList}]];
@@ -290,10 +334,6 @@ background-color:#EAF2D3; " >
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });
@@ -303,11 +343,26 @@ background-color:#EAF2D3; " >
         var sheet = XLSX.utils.table_to_sheet(table); //将一个table对象转换成一个sheet对象
         openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
+	
+	
+	function addTree(getInfo){
+		var html = $("#tree_div").html();
+		$("#tree_div").html(html+">");
+		a = document.createElement("a");
+        a.setAttribute("id","EmpInfo_"+getInfo);
+		if(getInfo=="1"){
+			a.innerText = "当前订单";
+		}else if(getInfo=="2"){
+			a.innerText = "历史订单";
+		}
+        document.getElementById("tree_div").appendChild(a);
+	}
 
     // console.log(orderList[0].oDate);
     //辨别显示哪个div
     if (getInfo == "1"){
         div_1.removeAttribute("hidden");
+		addTree(getInfo);
         for (var i=0;i<nowOrder.length;i++) {
             TheOrder(i);
             var desk = nowOrder[i].oDesk;
@@ -339,6 +394,7 @@ background-color:#EAF2D3; " >
 
     }
     else if (getInfo == "2"){
+		addTree(getInfo);
         div_2.removeAttribute("hidden");
         for (var i=0; i<orderList.length; i++){
             if(orderList[i].oFlag === "1"){

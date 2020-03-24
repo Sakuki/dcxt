@@ -32,7 +32,9 @@ public class ExportController {
             System.out.println("LogOut!!!");
             return "redirect:/Login";
         }
-        String  uId = (String)session.getAttribute("UserId");
+        String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("getInfo",getInfo);
         return "Export_Turn";

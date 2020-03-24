@@ -7,30 +7,54 @@
 <style>
     .LoginDiv{
         width: 40%;
-        margin: 15% 0% 0% 30%;
-        background: #d0cece;
+        margin-left: 30%; 
+        background: #d0cece61;
         padding: 70px 0px;
         /*border: solid 1px #e7e7e7;*/
-        border-style: groove;
+		height: -webkit-fill-available;
     }
+	td{
+		padding: 23px 0px;
+	}
+	input::-webkit-input-placeholder {
+        /* placeholder颜色  */
+        color: #aab2bd;
+        /* placeholder字体大小  */
+        font-size: 16px;
+        /* placeholder位置  */
+        text-align: left;
+        padding: 10px;
+     }
+	input{
+		width: 300px;
+		height: 47px;
+        font-size: 16px;
+	}
+	h1{
+		text-align: center;
+		color: #666666;
+		margin-top: -10px;
+        font-family: KaiTi;
+	}
 </style>
-<body style="background: #f8f8f8;">
+<body style="background: #f3f1f4;">
 <div class="LoginDiv">
+	<h1>XX餐饮后台登录</h1>
     <form name="" action="/UserLogin" method="post">
         <table align="center" style="height: 100px;">
             <tr>
-                <td>
-                    账号：<input type="text" name="uId"/>
+                <td >
+                    <input type="text" name="uId" placeholder="账号"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    密码：<input type="password" name="uPassword"/>
+                    <input type="password" name="uPassword" placeholder="密码"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="submit" name="tijiao" value="登录"/>
+                    <input style="background: #0015299e; color: #fff;" type="submit" name="tijiao" value="登录"/>
                 </td>
             </tr>
         </table>
@@ -39,11 +63,14 @@
 </div>
 
 </body>
+
 <script th:inline="javascript" >
     var msg = [[${message}]];
     console.log(msg);
     if (msg === "1")
         alert("账号或密码输入错误");
+	if (msg === "2")
+        alert("账号、密码不能为空");
 
 </script>
 </html>

@@ -4,46 +4,62 @@
     <meta charset="UTF-8">
 </head>
 <style>
-    .ChangeDiv{
-        width: 50%;
-        margin: 10% 0% 0% 25%;
-        background: #d0cece;
-        padding: 35px 0px;
-        /*border: solid 1px #e7e7e7;*/
-        border-style: groove;
+	.div_body{
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
     }
-
-    .ChangeUl{
-        list-style: none;
-        margin-left: 30px;
-    }
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
 </style>
-<body>
-<div th:include="nav::comNav"></div>
-<div class="ChangeDiv">
-    <form name="" action="/ChangeMsg" method="post">
-        <ul class="ChangeUl">
-            <li>
-                姓名：<input type="text" name="uName" id="name" th:value="${user.getuName()}"><br><br>
-            </li>
-            <li>
-                密码：<input type="text" name="uPassword" id="pwd" th:value="${user.getuPassword()}"><br><br>
-            </li>
-            <li>
-                年龄：<input type="text" name="uAge" id="age" th:value="${user.getuAge()}"><br><br>
-            </li>
-            <li>
-                性别：<select name="uSex" id="sex" >
-                <option value="男">男</option>
-                <option value="女">女</option>
-            </select><br><br>
-            </li>
-            <button id="ChangePwd">修改</button>
-        </ul>
-    </form>
+<body style="background: #f0f2f5; margin: 0px;">
+<!-- <div th:include="nav::comNav"></div> -->
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
 </div>
-<div th:include="nav::comFooter"></div>
+<div style="margin: 20px;">
+	<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			修改信息
+		</a>
+	</div>
+	<div class=" div_body">
+		<form name="" action="/ChangeMsg" method="post">
+			<div>
+				<label style="color: red;">*</label>姓名：
+				<input type="text" name="uName" id="name" th:value="${user.getuName()}"><br><br>
+				<label style="color: red;">*</label>密码：
+				<input type="text" name="uPassword" id="pwd" th:value="${user.getuPassword()}"><br><br>
+				<label style="color: red;">*</label>年龄：
+				<input type="text" name="uAge" id="age" th:value="${user.getuAge()}"><br><br>
+				<label style="color: red;">*</label>性别：
+				<select name="uSex" id="sex" >
+					<option value="男">男</option>
+					<option value="女">女</option>
+				</select><br><br>
+				</li>
+				<button id="ChangePwd">修改</button>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- <div th:include="nav::comFooter"></div> -->
 </body>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"  th:inline="javascript">
     //是否显示店员管理
     var uID = [[${UserId}]];
@@ -53,16 +69,15 @@
     if (uID === "1001"){
         $("#EmpInfo").css("display","block");
     }
+	console.log("getInfo is "+getInfo);
     Sex();
 
     if (getInfo =="1"){
         alert("修改成功");
-    }
+    }else if(getInfo =="0"){
+		alert("修改失败，必填项不能为空");
+	}
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });

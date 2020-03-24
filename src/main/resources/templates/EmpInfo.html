@@ -6,27 +6,52 @@
 </head>
 <style>
     .div_body{
-        width: 80%;
-        margin: 0% 5% 5% 120px;
-        padding: 2%;
-        background: #dad6d6;
-        border-style: groove;
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
     }
+	td{
+		height: 33px;
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
 </style>
-<body>
-<div  th:include="nav::comNav"></div>
-<div>
+<body style="background: #f0f2f5; margin: 0px;">
+<!--<div  th:include="nav::comNav"></div>-->
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<div style="margin:20px;">
 
-    <div  style="float:left;" th:include="nav::UserNav"></div>
-
+<!--    <div  style="float:left;" th:include="nav::UserNav"></div>-->
+	<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			员工管理
+		</a>
+	</div>
     <div  class="div_body" id="AddInfo" hidden>
+		
         <form name="" action="/AddEmpInfo" method="post">
             <div>
-                工号:  <input name="uId" /><br><br>
-                姓名:  <input name="uName"/><br><br>
-                密码:  <input name="uPassword" /><br><br>
-                年龄:  <input name="uAge" /><br><br>
-                性别:  <select name="uSex" >
+                <label style="color: red;">*</label>工号:  <input name="uId" /><br><br>
+                <label style="color: red;">*</label>姓名:  <input name="uName"/><br><br>
+                <label style="color: red;">*</label>密码:  <input name="uPassword" /><br><br>
+                <label style="color: red;">*</label>年龄:  <input name="uAge" /><br><br>
+                <label style="color: red;">*</label>性别:  <select name="uSex" >
                 <option value="男">男</option>
                 <option value="女">女</option>
             </select><br><br>
@@ -38,15 +63,14 @@
     <div id="divInfo" class="div_body"  hidden>
         <div>
             <form name="" action="/SearchEmpInfo" method="post">
-                工号: <input name="uId" /><br><br>
-                姓名:  <input name="uName"/><br><br>
-                <input type="submit" name="Search" value="查找"/><br><br>
+                工号: <input name="uId" style="margin-right: 20px;" />
+                姓名:  <input name="uName"  style="margin-right: 20px;"/>
+                <input type="submit" name="Search" value="查找"/>
             </form>
         </div>
-        <div style="margin-left: 10%; width: 80%;">
-            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
-background-color:#EAF2D3; float: top">
-                <tr>
+        <div style="margin-top: 25px;">
+            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;">
+                <tr style="font-weight: bold; color: #666666; background: #f9fafc;">
                     <td>工号</td>
                     <td>姓名</td>
                     <td>密码</td>
@@ -81,7 +105,7 @@ background-color:#EAF2D3; float: top">
             <a  href="#" id="btn_turn">跳转</a>
         </div>
 
-        <div style="margin-left: 10%">
+        <div style="margin-top: 10px;">
             <button id="Export" onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -113,16 +137,21 @@ background-color:#EAF2D3; float: top">
 <script type="text/javascript" src="Paging.js"></script>
 <script src="/table_export_js/excel.js"></script>
 <script src="/table_export_js/xlsx.core.min.js"></script>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script  type="text/javascript"  th:inline="javascript" >
     var getInfo = [[${getInfo}]];
     var div_2=document.getElementById("divInfo");
     var div_1=document.getElementById("AddInfo");
     console.log(getInfo);
     //辨别显示哪个div
-    if (getInfo == "1")
+    if (getInfo == "1"){
         div_1.removeAttribute("hidden");
-    else if (getInfo == "2")
+		addTree(getInfo);
+	}
+    else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
+		addTree(getInfo);
+	}
 
     var flag = [[${flag}]];
     console.log(flag);
@@ -131,7 +160,7 @@ background-color:#EAF2D3; float: top">
     else if (flag == "2")
         alert("添加失败，此工号已存在。")
     else if(flag == "0")
-        alert("添加失败，不能为空。");
+        alert("添加失败，必填项不能为空。");
 
     //是否显示店员管理
     var uID = [[${UserId}]];
@@ -140,10 +169,6 @@ background-color:#EAF2D3; float: top">
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });
@@ -154,6 +179,19 @@ background-color:#EAF2D3; float: top">
         openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
 
+	
+	function addTree(getInfo){
+		var html = $("#tree_div").html();
+		$("#tree_div").html(html+">");
+		a = document.createElement("a");
+        a.setAttribute("id","EmpInfo_"+getInfo);
+		if(getInfo=="1"){
+			a.innerText = "新增店员";
+		}else if(getInfo=="2"){
+			a.innerText = "查找店员";
+		}
+        document.getElementById("tree_div").appendChild(a);
+	}
 
     //按修改
     $(".modify").click(function () {

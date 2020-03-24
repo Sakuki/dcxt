@@ -46,6 +46,10 @@ public class UserController {
         HttpSession session = request.getSession();
         id = user.getuId();
         passwd = user.getuPassword();
+		if(id.equals("")||passwd.equals("")){
+			model.addAttribute("message","2");
+			return "Login";
+		}
         List<User> userList;
         userList = userMapper.selectAll();
         for(int i =0; i < userList.size(); i++)
@@ -57,13 +61,30 @@ public class UserController {
                     session.setAttribute("UserName",user1.getuName());
                     model.addAttribute("UserId",user1.getuId());
                     model.addAttribute("UserName",user1.getuName());
-                    return "redirect:/User_Home";
+                    return "redirect:/Sys_Home";
                 }
             }
         }
         System.out.println("账号或密码错误");
         model.addAttribute("message","1");
         return "Login";
+    }
+
+    @RequestMapping("/Sys_Home")
+    public String Sys_Home(User user, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session==null){
+            System.out.println("LogOut!!!");
+//            model.addAttribute("UserId",);
+            return "redirect:/Login";
+        }
+        String uId,uName;
+        uId = (String)session.getAttribute("UserId");
+        uName = (String)session.getAttribute("UserName");
+        System.out.println(uId+uName);
+        model.addAttribute("UserName",uName);
+        model.addAttribute("UserId",uId);
+        return "Sys_Home";
     }
 
     @RequestMapping("/User_Home")
@@ -109,12 +130,22 @@ public class UserController {
         }
         String uId = (String)session.getAttribute("UserId");
         String uName = (String)session.getAttribute("UserName");
-        user.setuId(uId);
-        int getInfo = userMapper.updateByPrimaryKeySelective(user);
-        model.addAttribute("getInfo",getInfo);
-        model.addAttribute("UserName",uName);
-        model.addAttribute("UserId",uId);
-        return "ChangePwd";
+		if( user.getuName().equals("") || user.getuAge().equals("") || 
+		user.getuPassword().equals("") || user.getuSex().equals(""))
+        {
+			model.addAttribute("UserName",uName);
+            model.addAttribute("UserId",uId);
+            model.addAttribute("getInfo","0");
+			return "ChangePwd";
+		}else{
+			user.setuId(uId);
+			int getInfo = userMapper.updateByPrimaryKeySelective(user);
+			model.addAttribute("getInfo",getInfo);
+			model.addAttribute("UserName",uName);
+			model.addAttribute("UserId",uId);
+			return "ChangePwd";
+		}
+        
     }
 
     @RequestMapping("/AddEmpInfo")
@@ -130,6 +161,8 @@ public class UserController {
                 user.getuSex().equals(""))
         {
             String UserId = (String)session.getAttribute("UserId");
+			String uName = (String)session.getAttribute("UserName");
+			model.addAttribute("UserName",uName);
             model.addAttribute("UserId",UserId);
             model.addAttribute("flag","0");
             model.addAttribute("getInfo","1");
@@ -140,6 +173,8 @@ public class UserController {
             for (int i=0; i<userList.size(); i++){
                 if (userList.get(i).getuId().equals(uId)){
                     String UserId = (String)session.getAttribute("UserId");
+					String uName = (String)session.getAttribute("UserName");
+					model.addAttribute("UserName",uName);
                     model.addAttribute("UserId",UserId);
                     model.addAttribute("flag","2");
                     model.addAttribute("getInfo","1");
@@ -148,6 +183,8 @@ public class UserController {
             }
             userMapper.insert(user);
             String UserId = (String)session.getAttribute("UserId");
+			String uName = (String)session.getAttribute("UserName");
+			model.addAttribute("UserName",uName);
             model.addAttribute("UserId",UserId);
             model.addAttribute("flag","1");
             model.addAttribute("getInfo","1");
@@ -168,6 +205,8 @@ public class UserController {
         List<User> userList;
         userList = userMapper.selectSome(id,name);
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("userList",userList);
         model.addAttribute("getInfo","2");
@@ -184,6 +223,8 @@ public class UserController {
         List<User> userList;
         userList = userMapper.selectAll();
         String uId = (String)session.getAttribute("UserId");
+		String uName = (String)session.getAttribute("UserName");
+        model.addAttribute("UserName",uName);
         model.addAttribute("UserId",uId);
         model.addAttribute("userList",userList);
         model.addAttribute("getInfo",getInfo);

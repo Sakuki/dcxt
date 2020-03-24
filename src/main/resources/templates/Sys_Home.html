@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="nav::Tnav('点餐系统后台')">
+    <meta charset="UTF-8">
+</head>
+<style>
+    .div_body{
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
+    }
+	ul{
+		padding: 0px;
+		list-style: none;
+	}
+	li{
+		padding: 10px 0px 10px 35px;
+	}
+	a{
+		color: #ffffffc9;
+		font-size: 14px;
+		<!--下划线 -->
+		text-decoration: none;	
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
+	.nav_body{
+		width: 160px;
+		float: left;
+	}
+	.the_right{
+		background: #f0f2f5;
+		height: -webkit-fill-available;
+		margin-left: 160px;
+	}
+	.first_a{
+		color: #fff;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.EmpInfo_a{
+		color: #fff;
+		font-size: 15px;
+	}
+	.EmpInfo_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+	.list_a{
+		color: #fff;
+		font-size: 15px;
+	}
+	.list_ul{
+		display: none;
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+	}
+	.Order_Use_a{
+		color: #fff;
+		font-size: 15px;
+	}
+	.Order_Use_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+	.Export_Turn_a{
+		color: #fff;
+		font-size: 15px;
+	}
+	.Export_Turn_ul{
+		border-bottom: #000 solid ;
+		border-bottom-width: thin;
+		display: none;
+	}
+	.action{
+		background: #0b3861;
+	}
+</style>
+<body style="background: #000c17;">
+<div class="nav_body">
+	<div style="background: #001527; border-bottom: #000 solid; border-bottom-width: thin; ">
+		<div style="padding: 10px 0px 10px 15px;">
+			<a id="first_a" class="first_a">
+				点餐系统后台
+			</a>
+		</div>
+	</div>
+	
+	<div>
+		<ul>
+			<li id="EmpInfo_li" style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<i class="fa fa-users fa-lg fa-inverse" aria-hidden="true"></i>
+					<a id ="EmpInfo_a" class="EmpInfo_a">&nbsp;&nbsp;店员管理</a>
+				</div>
+				<ul id="EmpInfo_ul" class="EmpInfo_ul">
+					<li><a id="EmpInfo_1">新增店员</a> </li>
+					<li><a id="EmpInfo_2">查找店员</a></li>
+				</ul>
+			</li>
+			<li id="KindInfo_li" style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<i class="fa fa-book fa-lg fa-inverse" aria-hidden="true"></i>
+					<a id="list_a" class="list_a">&nbsp;&nbsp;菜单管理</a>
+				</div>
+				<ul id="list_ul" class="list_ul">
+					<li><a id="KindInfo_1">新增类别</a> </li>
+					<li><a id="KindInfo_2">查找类别</a></li>
+					<li><a id="MenuInfo_1">新增菜品</a> </li>
+					<li><a id="MenuInfo_2">查找菜品</a></li>
+					</li>
+				</ul>
+			</li>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<i class="fa fa-bullhorn fa-lg fa-inverse" aria-hidden="true"></i>
+					<a id="Order_Use_a" class="Order_Use_a">&nbsp;&nbsp;订单管理</a>
+				</div>
+				<ul id="Order_Use_ul" class="Order_Use_ul">
+					<li><a id="Order_Use_1">当前订单</a></li>
+					<li><a id="Order_Use_2">历史订单</a></li>
+				</ul>
+			</li>
+			<li style="padding: 0px; border-bottom: #000 solid; border-bottom-width: thin;">
+				<div style="background: #001527; padding: 10px 0px 10px 15px;">
+					<i class="fa fa-calendar fa-lg fa-inverse" aria-hidden="true"></i>
+					<a id="Export_Turn_a" class="Export_Turn_a">&nbsp;&nbsp;营业报表</a>
+				</div>
+				<ul id="Export_Turn_ul" class="Export_Turn_ul">
+					<li><a id="Export_Turn_1">营业额</a></li>
+					<li><a id="Export_Turn_2">销量</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+</div>
+<div class="the_right" style="overflow: hidden">
+	<iframe id="main_iframe" style="width: 100%; height:  -webkit-fill-available; border: 0px;"></iframe>
+</div>
+</body>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"  th:inline="javascript">
+    //是否显示店员管理
+    var uID = [[${UserId}]];
+    console.log("uID is "+uID);
+    if (uID !== "1001"){
+        $("#EmpInfo_li").css("display","none");
+		$("#KindInfo_li").css("display","none");
+    }
+
+	$("#main_iframe").attr("src","/User_Home");
+	
+	$("#EmpInfo_a").click(function () {
+		$("#EmpInfo_ul").toggle();
+    });
+	$("#list_a").click(function () {
+		$("#list_ul").toggle();
+    });
+	$("#Order_Use_a").click(function () {
+		$("#Order_Use_ul").toggle();
+    });
+	$("#Export_Turn_a").click(function () {
+		$("#Export_Turn_ul").toggle();
+    });
+	$("#first_a").click(function(){
+		$("#main_iframe").attr("src","/User_Home");
+	});
+	$("#EmpInfo_1").click(function(){
+		$("#main_iframe").attr("src","/EmpInfo?getInfo=1");
+		removeClass("#EmpInfo_1");
+	});
+	$("#EmpInfo_2").click(function(){
+		$("#main_iframe").attr("src","/EmpInfo?getInfo=2");
+		removeClass("#EmpInfo_2");
+	});
+	$("#KindInfo_1").click(function(){
+		$("#main_iframe").attr("src","/KindInfo?getInfo=1");
+		removeClass("#KindInfo_1");
+	});
+	$("#KindInfo_2").click(function(){
+		$("#main_iframe").attr("src","/KindInfo?getInfo=2");
+		removeClass("#KindInfo_2");
+	});
+	$("#MenuInfo_1").click(function(){
+		$("#main_iframe").attr("src","/MenuInfo?getInfo=1");
+		removeClass("#MenuInfo_1");
+	});
+	$("#MenuInfo_2").click(function(){
+		$("#main_iframe").attr("src","/MenuInfo?getInfo=2");
+		removeClass("#MenuInfo_2");
+	});
+	$("#Order_Use_1").click(function(){
+		$("#main_iframe").attr("src","/Order_Use?getInfo=1");
+		removeClass("#Order_Use_1");
+	});
+	$("#Order_Use_2").click(function(){
+		$("#main_iframe").attr("src","/Order_Use?getInfo=2");
+		removeClass("#Order_Use_2");
+	});
+	$("#Export_Turn_1").click(function(){
+		$("#main_iframe").attr("src","/Export_Turn?getInfo=1");
+		removeClass("#Export_Turn_1");
+	});
+	$("#Export_Turn_2").click(function(){
+		$("#main_iframe").attr("src","/Export_Turn?getInfo=2");
+		removeClass("#Export_Turn_2");
+	});
+	
+	function removeClass(data){
+		$("#EmpInfo_1").parent().removeClass("action");
+		$("#EmpInfo_2").parent().removeClass("action");
+		$("#KindInfo_1").parent().removeClass("action");
+		$("#KindInfo_2").parent().removeClass("action");
+		$("#MenuInfo_1").parent().removeClass("action");
+		$("#MenuInfo_2").parent().removeClass("action");
+		$("#Order_Use_1").parent().removeClass("action");
+		$("#Order_Use_2").parent().removeClass("action");
+		$("#Export_Turn_1").parent().removeClass("action");
+		$("#Export_Turn_2").parent().removeClass("action");
+		$(data).parent().addClass("action");
+	}
+	
+</script>
+</html>

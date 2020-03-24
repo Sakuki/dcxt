@@ -5,22 +5,44 @@
 </head>
 <style>
     .div_body{
-        width: 80%;
-        margin: 0% 5% 5% 120px;
-        padding: 2%;
-        background: #dad6d6;
-        border-style: groove;
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
     }
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
 </style>
-<body>
-<div th:include="nav::comNav"></div>
-<div class="div_body">
-<!--        <p th:text="*{welcome}" type="text" name="welcome" ></p>-->
-    welcome <label th:text="*{UserName}" type="text"></label> login this System
-    <p id="welcome"></p>
+<body style="background: #f0f2f5; margin: 0px;">
+<!-- <div th:include="nav::comNav"></div>-->
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<div style="margin:20px;">
+	<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+	</div>
+	<div class="div_body">
+       <label type="text" name="welcome" >welcome </label>
+     <label th:text="*{UserName}" type="text"></label> 
+    <label id="welcome">login this System</label>
+	
+	</div>
 </div>
 <!--<div th:include="nav::comFooter"></div>-->
 </body>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"  th:inline="javascript">
     //是否显示店员管理
     var uID = [[${UserId}]];
@@ -29,10 +51,6 @@
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });

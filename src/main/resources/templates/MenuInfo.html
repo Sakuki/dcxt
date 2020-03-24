@@ -10,7 +10,7 @@
         background: #000;
         opacity: 0.5;
         top: 0;
-        height: 2000px;
+        height: -webkit-fill-available;
         display: none;
         position: absolute;
         z-index: 2;
@@ -35,8 +35,22 @@
     }
     .view1 {
         /*margin: 0 auto;*/
-        left: 450px;
-        top: 50px;
+        left: 250px;
+        top: 100px;
+        width: 200px;
+        height: 200px;
+        display: none;
+        background-color: rgb(102, 102, 102);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        z-index: 3;
+        position: relative;
+    }
+	.view2 {
+        /*margin: 0 auto;*/
+        left: 350px;
+        top: 100px;
         width: 200px;
         height: 200px;
         display: none;
@@ -59,36 +73,61 @@
         z-index: 3;
         position: absolute;
         display: none;
-        left: 650px;
-        top: 120px;
+        left: 450px;
+        top: 145px;
     }
     .add_input{
         width: 90px;
     }
     .div_body{
-        width: 80%;
-        margin: 0% 5% 5% 120px;
-        padding: 2%;
-        background: #dad6d6;
-        border-style: groove;
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
     }
+	td{
+		height: 33px;
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
 </style>
-<body>
+<body style="background: #f0f2f5; margin: 0px;">
 <div class="up1"></div>
-<div  th:include="nav::comNav"></div>
-<div style="float: left; width: 100%;">
-    <div  style="float:left;" th:include="nav::MenuNav"></div>
-    <div  class="div_body" id="AddMenu" hidden>
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<!-- <div  th:include="nav::comNav"></div> -->
+<div style="margin:20px; float: left; width: 96%;">
+    <!-- <div  style="float:left;" th:include="nav::MenuNav"></div> -->
+    <div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			菜单管理
+		</a>
+	</div>
+	<div  class="div_body" id="AddMenu" hidden>
 <!--        <form name="" >-->
 <!--            action="/AddMenuInfo" method="post"-->
             <div>
-                菜号: <input id="mId" /><br><br>
-                名称: <input id="mName"/><br><br>
+                <label style="color: red;">*</label>菜号: <input id="mId" /><br><br>
+                <label style="color: red;">*</label>名称: <input id="mName"/><br><br>
                 做法: <input id="mWay"/><br><br>
                 口味: <input id="mFlavor"/><br><br>
                 主料: <input id="mIng"/><br><br>
                 价格: <input id="mPrice"/><br><br>
-                类别: <select name="kName" id="selectKind" class="selectKind" >
+                <label style="color: red;">*</label>类别: <select name="kName" id="selectKind" class="selectKind" >
                 <option>请选择</option>
             </select>
                 <br><br>
@@ -102,18 +141,17 @@
     <div class="div_body" id="divInfo"  hidden>
         <div>
             <form name="" action="/SearchMenuInfo" method="post">
-                菜号: <input name="mId" /><br><br>
-                名称: <input name="mName"/><br><br>
-                类别: <select name="kName" class="selectKind" >
+                菜号: <input name="mId" style="margin-right: 20px;" />
+                名称: <input name="mName" style="margin-right: 20px;"/>
+                类别: <select name="kName" style="margin-right: 20px;" class="selectKind" >
                 <option>请选择</option>
-            </select><br><br>
-                <input type="submit" name="Search" value="查找"/><br><br>
+            </select>
+                <input type="submit" name="Search" value="查找"/>
             </form>
         </div>
-        <div style="margin-left: 10%;">
-            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
-background-color:#EAF2D3; float: top" >
-                <tr>
+        <div  style="margin-top: 25px;">
+            <table id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;" >
+                <tr style="font-weight: bold; color: #666666; background: #f9fafc;">
                     <td>菜号</td>
                     <td>名称</td>
                     <td>做法</td>
@@ -133,7 +171,7 @@ background-color:#EAF2D3; float: top" >
                     <td class="mIng" th:text="${menu.getmIng()}"></td>
                     <td class="mPrice" th:text="${menu.getmPrice()}"></td>
                     <td style="display: none;" class="mPic" th:text="${menu.getmPic()}"></td>
-                    <td>
+                    <td class="mPic">
                         <button class="PicView">查看照片</button>
                         <button class="PicEdit">修改照片</button>
                     </td>
@@ -157,7 +195,7 @@ background-color:#EAF2D3; float: top" >
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
         </div>
-        <div style="margin-left: 10%;">
+        <div style="margin-top: 10px;">
             <button id="Export" onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -192,7 +230,7 @@ background-color:#EAF2D3; float: top" >
 <div style="z-index: 3; position: fixed;display: none;" id="SelectPicDiv">
     <!--        <div id="left" style="float: left;">-->
     <div id="clipArea"></div>
-    <input type="file" id="file">
+    <input type="file" style="background: #ffffffab;" id="file">
     <button id="clipBtn">截取</button>
     <!--        </div>-->
     <!--        <div id="right" style="float: left; margin-left: 10%;">-->
@@ -202,6 +240,7 @@ background-color:#EAF2D3; float: top" >
     <!--        </div>-->
 </div>
 <div class="view1"></div>
+<div class="view2"></div>
 <div id="div_close" class="div_close">
     <button id="Close" class="Close"></button>
 </div>
@@ -217,6 +256,7 @@ background-color:#EAF2D3; float: top" >
 <script src="pic_js/jquery.photoClip.js"></script>
 <script src="/table_export_js/excel.js"></script>
 <script src="/table_export_js/xlsx.core.min.js"></script>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script  type="text/javascript"  th:inline="javascript" >
     var j = 1,kindNameList,flag_edit = 1;
     var dataURL="";//照片的url
@@ -229,10 +269,12 @@ background-color:#EAF2D3; float: top" >
     //辨别显示哪个div
     if (getInfo == "1"){
         div_1.removeAttribute("hidden");
-    }
+		addTree(getInfo);
+	}
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
-    }
+		addTree(getInfo);
+	}
 
     //是否显示店员管理
     var uID = [[${UserId}]];
@@ -241,10 +283,6 @@ background-color:#EAF2D3; float: top" >
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });
@@ -255,6 +293,19 @@ background-color:#EAF2D3; float: top" >
         openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
 
+	function addTree(getInfo){
+		var html = $("#tree_div").html();
+		$("#tree_div").html(html+">");
+		a = document.createElement("a");
+        a.setAttribute("id","MenuInfo_"+getInfo);
+		if(getInfo=="1"){
+			a.innerText = "新增菜品";
+		}else if(getInfo=="2"){
+			a.innerText = "查找菜品";
+		}
+        document.getElementById("tree_div").appendChild(a);
+	}
+	
     //添加里的类别下拉菜单动态加载
     $(".selectKind").click(function () {
         $.ajax({
@@ -346,8 +397,8 @@ background-color:#EAF2D3; float: top" >
         $("#SelectPicDiv").hide();
         $("#PicSuccess").hide();
         if(PicData!=""){
-            $(".view1").toggle();
-            $(".view1").css("background-image", "url("+ PicData +")");
+            $(".view2").toggle();
+            $(".view2").css("background-image", "url("+ PicData +")");
         }
     });
     //修改时的修改
@@ -421,9 +472,9 @@ background-color:#EAF2D3; float: top" >
                 if (flag == "1")
                     alert("添加成功。");
                 else if (flag == "2")
-                    alert("添加失败，菜号已存在。");
+                    alert("添加失败，菜号、菜名称已存在。");
                 else if(flag == "0")
-                    alert("添加失败，菜号、名称、类别不能为空。");
+					alert("添加失败，必填项不能为空。");
             }
         })
     });

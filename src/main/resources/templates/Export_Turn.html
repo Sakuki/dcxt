@@ -18,19 +18,56 @@
         width: 77%;
         border-style: groove;
     }
-    .div_body{
-        width: 80%;
-        margin: 0% 5% 5% 120px;
-        padding: 2%;
-        background: #dad6d6;
-        border-style: groove;
+    <!-- .div_body{ -->
+        <!-- width: 80%; -->
+        <!-- margin: 0% 5% 5% 120px; -->
+        <!-- padding: 2%; -->
+        <!-- background: #dad6d6; -->
+        <!-- border-style: groove; -->
+    <!-- } -->
+	.div_body{
+        padding: 20px;
+        background: #ffffff;
+		height: 450px;
+		border: solid #d2cccc 1px;
+    }
+	td{
+		height: 33px;
+	}
+	a:hover {
+	color: #039aff;
+	text-decoration:none;
+	}
+    .table_tr{
+        font-weight: bold;
+        color: #666666;
+        background: #f9fafc;
     }
 </style>
-<body>
-<div  th:include="nav::comNav"></div>
-<div>
-    <div  style="float:left;" th:include="nav::ExportNav"></div>
-    <div id="Turn" class="Turn div_body" hidden>
+<body style="background: #f0f2f5; margin: 0px;">
+<!-- <div  th:include="nav::comNav"></div> -->
+<div style="position: relative; top: 0px; height:45px; background: #ffffff;">
+	<div style="padding: 10px; float:right;">
+		<span id="Change">
+		<i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+		<a th:text="*{UserName}"></a>
+		</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+	</div>
+</div>
+<div style="margin:20px;">
+    <!-- <div  style="float:left;" th:include="nav::ExportNav"></div> -->
+	<div style="margin-bottom:20px; border-left: #039aff solid 5px;" id="tree_div">
+		<a style="margin-left: 5px;" id="Home">
+			首页
+		</a>
+		>
+		<a>
+			营业报表
+		</a>
+	</div>
+    <div id="Turn" class=" div_body" hidden>
         <div style="margin: 5px;">
             <label id="11">日期：&nbsp;</label>
             <button id="select1" onclick="Select('1')">选择</button>
@@ -43,16 +80,15 @@
             <label id="Price"></label>
         </div>
     </div>
-    <div id="Export" class="Export div_body" hidden>
+    <div id="Export" class=" div_body" hidden>
         <div style="margin: 5px; text-align: center;">
             <label id="22">日期：&nbsp;</label>
             <button id="select2" onclick="Select('2')">选择</button>
             <!--            <input id="T_local" type="date" value="2020-02-16" />-->
         </div>
-        <div style="margin-left: 10%; width: 80%">
-            <table  id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;
-background-color:#EAF2D3; float: top">
-                <tr id="table_tr">
+        <div style="margin-top: 10px;">
+            <table  id="table_page" border="1" style="text-align: center; width: 100%; border-collapse:collapse;">
+                <tr class="table_tr" id="table_tr">
                     <td>菜号</td>
                     <td>名称</td>
                     <td>类别</td>
@@ -74,8 +110,8 @@ background-color:#EAF2D3; float: top">
             <input id="changePage" type="text" size="1" maxlength="4"/>
             <label>页&nbsp;</label>
             <a  href="#" id="btn_turn">跳转</a>
-        </div>
-        <div style="margin-left: 10%; margin-bottom: 5px;">
+		</div>
+        <div style="margin-top: 10px;">
             <button  onclick="btn_export()">导出Excle</button>
             <br />
         </div>
@@ -92,6 +128,7 @@ background-color:#EAF2D3; float: top">
 <script src="/table_export_js/excel.js"></script>
 <script src="/table_export_js/xlsx.core.min.js"></script>
 <script type="text/javascript" src="Paging.js"></script>
+<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 <script  type="text/javascript"  th:inline="javascript">
     var getInfo = [[${getInfo}]];
     var numList = null;
@@ -103,11 +140,13 @@ background-color:#EAF2D3; float: top">
         div_1.removeAttribute("hidden");
         Time("11");
         Select('1');
+		addTree(getInfo);
     }
     else if (getInfo == "2"){
         div_2.removeAttribute("hidden");
         Time("22");
         Select('2');
+		addTree(getInfo);
     }
 
     //是否显示店员管理
@@ -117,10 +156,6 @@ background-color:#EAF2D3; float: top">
         $("#EmpInfo").css("display","block");
     }
 
-    $("#LogOut").click(function () {
-        sessionStorage.clear();
-        window.location.href="/LogOut";
-    });
     $("#Change").click(function () {
         window.location.href="/ChangePwd";
     });
@@ -183,6 +218,7 @@ background-color:#EAF2D3; float: top">
         var data_tr = new Array("菜号","名称","类别","单价","销量","总额");
         var tr = document.createElement("tr");
         tr.setAttribute("id","table_tr");
+		tr.setAttribute("class","table_tr")
         document.getElementById("table_page").appendChild(tr);
         var tr2 = document.createElement("tr");
         tr2.setAttribute("id","table_tr2");
@@ -278,6 +314,20 @@ background-color:#EAF2D3; float: top">
         openDownloadDialog(sheet2blob(sheet), 'excel.xlsx');
     }
 
+	
+	function addTree(getInfo){
+		var html = $("#tree_div").html();
+		$("#tree_div").html(html+">");
+		a = document.createElement("a");
+        a.setAttribute("id","EmpInfo_"+getInfo);
+		if(getInfo=="1"){
+			a.innerText = "营业额";
+		}else if(getInfo=="2"){
+			a.innerText = "销量";
+		}
+        document.getElementById("tree_div").appendChild(a);
+	}
+	
     function nowDate(){     //获取当天年月日
         var myDate = new Date();
         var year=myDate.getFullYear();        //获取当前年
