@@ -19,6 +19,7 @@ public class KindController {
 
     @RequestMapping("/AddKindInfo")
     public String AddKindInfo(Kind kind,Model model, HttpServletRequest request){
+		System.out.println("aaaaaaaaaaa");
         HttpSession session = request.getSession(false);
         if (session==null){
             System.out.println("LogOut!!!");

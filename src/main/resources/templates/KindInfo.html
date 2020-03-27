@@ -28,7 +28,8 @@
 		<a th:text="*{UserName}"></a>
 		</span>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a>
+		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+		<!-- <a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a> -->
 	</div>
 </div>
 <div style="margin:20px;">
@@ -42,9 +43,9 @@
 			菜单管理
 		</a>
 	</div>
-    <div class="div_body" id="AddKind" hidden
-        <!-- <form name="" action="/AddKindInfo" method="post"> -->
-        <form name="" action="/dcxt_Sam/AddKindInfo" method="post">
+    <div class="div_body" id="AddKind" hidden>
+        <form name="" action="/AddKindInfo" method="post">
+        <!-- <form name="" action="/dcxt_Sam/AddKindInfo" method="post"> -->
             <div>
                 <label style="color: red;">*</label>类别号:  <input name="kId" /><br><br>
                 <label style="color: red;">*</label>类名称:  <input name="kName"/><br><br>
@@ -56,8 +57,8 @@
 
     <div class="div_body" id="divInfo"  hidden>
         <div>
-            <!-- <form name="" action="/SearchKindInfo" method="post"> -->
-            <form name="" action="/dcxt_Sam/SearchKindInfo" method="post">
+            <form name="" action="/SearchKindInfo" method="post">
+            <!-- <form name="" action="/dcxt_Sam/SearchKindInfo" method="post"> -->
                 类别号: <input name="kId" style="margin-right: 20px;"/>
                 类名称: <input name="kName" style="margin-right: 20px;"/>
                 主用料: <input name="kMain" style="margin-right: 20px;"/>

@@ -28,8 +28,8 @@ public class MenuController {
     MenuMapper menuMapper;
     @Autowired
     KindMapper kindMapper;
-    // private static String PATH = "D:/IDEA/IdeaProjects/dcxt/src/main/resources/static/pic
-	private static String PATH = "/www/server/tomcat/webapps/resources/image/Sam/pic/";
+     private static String PATH = "D:/IDEA/IdeaProjects/dcxt/src/main/resources/static/pic";
+	//private static String PATH = "/www/server/tomcat/webapps/resources/image/Sam/pic/";
 
     @RequestMapping("/AddMenuInfo")
     @ResponseBody
@@ -65,7 +65,7 @@ public class MenuController {
             return "0";
         }
         menu = menuMapper.selectByPrimaryKey(id);
-        menu.setmPic("/pic/"+id+".jpg");
+        menu.setmPic("pic/"+id+".jpg");
         menuMapper.updateByPrimaryKeySelective(menu);
         upload(dataUrl,id);
         return "1";
