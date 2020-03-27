@@ -79,11 +79,11 @@
     .divSelect dl dd.btn button.minus{display:none;}
     .divSelect dl dd.btn button{border:0;background:transparent;padding:0;}
     .divSelect dl dd.btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
-    .divSelect dl dd.btn button.minus strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .divSelect dl dd.btn button.minus strong{background:url(pic/minus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn i{display:none;width:22px;text-align:center;font-style:normal;verticawidth:40px;height:40px;l-align:top;margin-top:11px;line-height:18px;}
 
     .divSelect dl dd.btn button.plus{margin-right: 5px;}
-    .divSelect dl dd.btn button.plus strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+    .divSelect dl dd.btn button.plus strong{background:url(pic/plus.jpg) no-repeat;background-size:20px 20px;}
     .divSelect dl dd.btn .price{display:none;}
 
 
@@ -105,11 +105,11 @@
     .XiaDan .list-content_XD .food .btn button.less_XD{margin-right:-10px;display:none;}
     .XiaDan .list-content_XD .food .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
     .XiaDan .list-content_XD .food .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
-    .XiaDan .list-content_XD .food .btn button.less_XD strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .list-content_XD .food .btn button.less_XD strong{background:url(pic/minus.jpg) no-repeat;background-size:20px 20px;}
     .XiaDan .list-content_XD .food .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
 
     .XiaDan .list-content_XD .food .btn button.add_XD{margin-left:-10px;}
-    .XiaDan .list-content_XD .food .btn button.add_XD strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .list-content_XD .food .btn button.add_XD strong{background:url(pic/plus.jpg) no-repeat;background-size:20px 20px;}
     .XiaDan .list-content_XD .food .btn .price{display:none;}
 
     .XiaDan .people {height: 20px;display: flex;margin-bottom: 22%;}
@@ -117,11 +117,11 @@
     .XiaDan .people .btn button.less_P_XD{margin-right:-10px;display:none;}
     .XiaDan .people .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
     .XiaDan .people .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
-    .XiaDan .people .btn button.less_P_XD strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .people .btn button.less_P_XD strong{background:url(pic/minus.jpg) no-repeat;background-size:20px 20px;}
     .XiaDan .people .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
 
     .XiaDan .people .btn button.add_P_XD{margin-left:-10px;}
-    .XiaDan .people .btn button.add_P_XD strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+    .XiaDan .people .btn button.add_P_XD strong{background:url(pic/plus.jpg) no-repeat;background-size:20px 20px;}
 
     .XiaDan .footer_DC{display:block;position:fixed;padding:5px 0;width:100%;height:8%;z-index:3;bottom:0px;color: #2289f0;background:#fff;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
     .XiaDan .footer_DC .left{float: left;width: 45%;text-align: center;}
@@ -173,11 +173,11 @@
      .food .btn button.less{margin-right:-10px;display:none;}
      .food .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
      .food .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;height:20px;}
-     .food .btn button.less strong{background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;}
+     .food .btn button.less strong{background:url(pic/minus.jpg) no-repeat;background-size:20px 20px;}
      .food .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
 
      .food .btn button.add{margin-left:-10px;}
-     .food .btn button.add strong{background:url(/pic/plus.jpg) no-repeat;background-size:20px 20px;}
+     .food .btn button.add strong{background:url(pic/plus.jpg) no-repeat;background-size:20px 20px;}
      .food .btn .price{display:none;}
 
     /*.food div {*/
@@ -470,7 +470,8 @@
 <script src="jquery-3.3.1.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
 <script src="bootstrap.min.js"></script>
-<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="Url.js"></script>
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="bootstrap.min.css" />
 <!--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
 <!--<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
@@ -511,7 +512,7 @@
         if(data !== ""){
             $.ajax({
                 type:'post',
-                url:'/Search',
+                url:url+'/Search',
                 //传数据到XiaDanController的SearchLike上
                 data:{"data":data},
                 Type:"json",
@@ -630,7 +631,7 @@
         console.log("way : "+way);
         $.ajax({
             type:'post',
-            url:'/SearchLike',
+            url:url+'/SearchLike',
             //传数据到XiaDanController的SearchLike上
             data:{"way":way,"flavor":Flavor},
             Type:"json",
@@ -707,11 +708,11 @@
                     document.getElementById("dl_"+kID+"_"+j).appendChild(dd1);
                     var img = document.createElement("img");
                     if (menuList[j].mPic==""){
-                        img.setAttribute("src","/pic/01001.jpg");
+                        img.setAttribute("src",url2+"pic/no_Pic.jpg");
                     }else {
-                        img.setAttribute("src",menuList[j].mPic);
+                        img.setAttribute("src",url2+menuList[j].mPic);
                     }
-                    console.log(menuList[j].mPic);
+                    console.log(url2+menuList[j].mPic);
                     document.getElementById("dd_"+j+"_1").appendChild(img);
 
                     var dd2 = document.createElement("dd");
@@ -1266,7 +1267,7 @@
             console.log(data);
             $.ajax({
                 type:'post',
-                url:'/AddOrder',
+                url:url+'/AddOrder',
                 //传数据到XiaDanController的AddOrder上
                 data:{"desk":desk_id,"date":date,"data":data,"number":number,
                     "userId":userId,"totalprice":totalprice},
@@ -1276,7 +1277,7 @@
                     if(data!=null){
                         flag = 1;
                         // window.location.href="/Order?userId="+userId;
-                        window.location.href="/alipay?ID="+data;
+                        window.location.href=url+"/alipay?ID="+data;
                     }
                 }
             });
@@ -1325,7 +1326,7 @@
         // window.location.href="/XiaDan"+"&desk_id="+desk_id;
     });
     $("#top>#top_right").click(function () {//点击订单
-        window.location.href="/Order?userId="+userId+"&desk_id="+desk_id;
+        window.location.href=url+"/Order?userId="+userId+"&desk_id="+desk_id;
     });
 
 </script>

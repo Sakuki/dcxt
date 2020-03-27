@@ -63,7 +63,7 @@
     }
     .Close
     {
-        background:url(/pic/minus.jpg) no-repeat;background-size:20px 20px;
+        background:url(pic/minus.jpg) no-repeat;background-size:20px 20px;
         height: 25px;
         width: 25px;
         /*display: none;*/
@@ -102,7 +102,7 @@
 		<a th:text="*{UserName}"></a>
 		</span>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+		<a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a>
 	</div>
 </div>
 <!-- <div  th:include="nav::comNav"></div> -->
@@ -140,7 +140,8 @@
     </div>
     <div class="div_body" id="divInfo"  hidden>
         <div>
-            <form name="" action="/SearchMenuInfo" method="post">
+            <!-- <form name="" action="/SearchMenuInfo" method="post"> -->
+            <form name="" action="/dcxt_Sam/SearchMenuInfo" method="post">
                 菜号: <input name="mId" style="margin-right: 20px;" />
                 名称: <input name="mName" style="margin-right: 20px;"/>
                 类别: <select name="kName" style="margin-right: 20px;" class="selectKind" >
@@ -171,7 +172,7 @@
                     <td class="mIng" th:text="${menu.getmIng()}"></td>
                     <td class="mPrice" th:text="${menu.getmPrice()}"></td>
                     <td style="display: none;" class="mPic" th:text="${menu.getmPic()}"></td>
-                    <td class="mPic">
+                    <td class="mmPic">
                         <button class="PicView">查看照片</button>
                         <button class="PicEdit">修改照片</button>
                     </td>
@@ -254,13 +255,15 @@
 <script src="pic_js/iscroll-zoom.js"></script>
 <script src="pic_js/lrz.all.bundle.js"></script>
 <script src="pic_js/jquery.photoClip.js"></script>
-<script src="/table_export_js/excel.js"></script>
-<script src="/table_export_js/xlsx.core.min.js"></script>
-<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+<script src="table_export_js/excel.js"></script>
+<script src="table_export_js/xlsx.core.min.js"></script>
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="Url.js"></script>
 <script  type="text/javascript"  th:inline="javascript" >
     var j = 1,kindNameList,flag_edit = 1;
     var dataURL="";//照片的url
     var PicId=""//用以存放所修改的菜品id
+	var pic = ""//数据库中Pic的数据
     var getInfo = [[${getInfo}]];
     var div_1=document.getElementById("AddMenu");
     var div_2=document.getElementById("divInfo");
@@ -284,7 +287,7 @@
     }
 
     $("#Change").click(function () {
-        window.location.href="/ChangePwd";
+        window.location.href=url+"/ChangePwd";
     });
 
     function btn_export() {     //导出
@@ -309,7 +312,7 @@
     //添加里的类别下拉菜单动态加载
     $(".selectKind").click(function () {
         $.ajax({
-            url:'/findSelect',
+            url:url+'/findSelect',
             type:'post',
             success:function (kindNameList) {
                 if (j==1){
@@ -334,6 +337,7 @@
     //修改时的修改照片
     $(".PicEdit").click(function () {
         PicId = $(this).parent().parent().children("td.mId").text();
+		Pic = $(this).parent().parent().children("td.mPic").text();
         $(this).parent().parent().children("td.mPic").html("<input size='13' id='EditP' class='add_input' type='text' />");
         console.log("this id is "+PicId);
         $(".up1").toggle();
@@ -343,8 +347,10 @@
     //修改时的查看照片
     $(".PicView").click(function () {
         PicId = $(this).parent().parent().children("td.mId").text();
-        var Pic = $(this).parent().parent().children("td.mPic").text();
-        var path = "/pic/";
+        Pic = $(this).parent().parent().children("td.mPic").text();
+		console.log("Pic is "+Pic);
+        //var path = "pic/";
+        var path = url2+"pic/";
         $(".up1").toggle();
         $("#div_close").toggle();
         $(".view1").toggle();
@@ -359,9 +365,9 @@
         //     $(".view1").css("background-image", "url("+ path+PicId+".jpg" +")");
         // }
         if (Pic==""){
-            $(".view1").css("background-image", "url("+ "/pic/no_Pic.jpg?"+ Math.random()+")");
+            $(".view1").css("background-image", "url("+ path+"no_Pic.jpg?"+ Math.random()+")");
         }else{
-            $(".view1").css("background-image", "url("+ url+ Math.random()+")");
+            $(".view1").css("background-image", "url("+ url + Math.random()+")");
         }
 
     });
@@ -407,16 +413,24 @@
         console.log("PicData is "+PicData);
         $.ajax({
             type:'post',
-            url:'/EditPic',
+            url:url+'/EditPic',
             data: {"id":PicId,"dataUrl":PicData},
             async:false,
             success:function(data){
                 if (data=="0"){
-                    $("#EditP").parent().html("");
-                    alert("未截取照片，修改失败");
+					if (Pic == "")
+					{
+						console.log("1111");
+						$("#EditP").parent().html("");
+						alert("未截取照片，修改失败");
+					}else {
+						$("#EditP").parent().html("pic/"+PicId+".jpg");
+						alert("未截取照片，修改失败");
+					}
+                    
                 }else if (data=="1"){
-                    $("#EditP").parent().html("/pic/"+PicId+".jpg");
-                    $("#T_download").children().children("td.mPic").html("/pic/"+PicId+".jpg");
+                    $("#EditP").parent().html("pic/"+PicId+".jpg");
+                    $("#T_download").children().children("td.mPic").html("pic/"+PicId+".jpg");
                     alert("修改成功");
                 }
             }
@@ -463,7 +477,7 @@
         console.log("kName"+kName);
         $.ajax({
             type:'post',
-            url:'/AddMenuInfo',
+            url:url+'/AddMenuInfo',
             data:{"id":id,"name":name,"way":way,"flavor":flavor,"ing":ing,
                 "price":price,"kName":kName,"dataURL":PicData},
             async:false,
@@ -485,7 +499,7 @@
         console.log("12345");
         var PicData=null;
         $.ajax({
-            url:'/findSelect',
+            url:url+'/findSelect',
             type:'post',
             async:false,
             success:function (kindNameList1) {
@@ -496,7 +510,7 @@
             var is_text = $(this).find("input:text");//判断单元格下是否含有文本框
             var is_select = $(this).find("option:selected");//判断单元格下是否含有下拉框
             var is_id = $(this).attr("class");
-            if (!is_text.length&&is_id!="mId"&&is_id!="mPic"&& !is_select.length){//不是文本框且不是kId且不是下拉框
+            if (!is_text.length&&is_id!="mId"&&is_id!="mPic"&&is_id!="mmPic"&& !is_select.length){//不是文本框且不是kId且不是下拉框
                 if(is_id!="kName"){
                     $(this).html("<input size='13' class='add_input' type='text' value=' "+$(this).text()+" ' />");
                 }
@@ -547,7 +561,7 @@
         flag_edit=1;
         $.ajax({
             type:'post',
-            url:'/EditMenuInfo',
+            url:url+'/EditMenuInfo',
             Type:"json",
             //传数据到controller的EditKindInfo上
             data:{"id":id,"name":name,"way":way,"flavor":flavor,"ing":ing,
@@ -563,7 +577,7 @@
             $(this).parent().parent().remove();
             $.ajax({
                 type:'post',
-                url:'/DelMenuInfo',
+                url:url+'/DelMenuInfo',
                 Type:"json",
                 //传数据到controller的DelEmpInfo上
                 data:{"id":id}

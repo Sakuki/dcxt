@@ -13,6 +13,7 @@ import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,11 +28,12 @@ public class MenuController {
     MenuMapper menuMapper;
     @Autowired
     KindMapper kindMapper;
-    private static String PATH = "D:/IDEA/IdeaProjects/dcxt/src/main/resources/static/pic/";
+    // private static String PATH = "D:/IDEA/IdeaProjects/dcxt/src/main/resources/static/pic
+	private static String PATH = "/www/server/tomcat/webapps/resources/image/Sam/pic/";
 
     @RequestMapping("/AddMenuInfo")
     @ResponseBody
-    public String AddMenuInfo(Menu menu,Kind kind,Model model,HttpServletRequest request) throws IOException {
+    public String AddMenuInfo(Menu menu,HttpServletRequest request) throws IOException {
         String id,name,kName;
         id = request.getParameter("id");
         name = request.getParameter("name");
@@ -173,7 +175,14 @@ public class MenuController {
     @PostMapping("/DelMenuInfo")
     public String DelMenuInfo(Menu menu, HttpServletRequest request){
         String id = request.getParameter("id");
-        menuMapper.deleteByPrimaryKey(id);
+        menu = menuMapper.selectByPrimaryKey(id);
+        if (menu.getmPic().equals("")){
+			menuMapper.deleteByPrimaryKey(id);
+        }else{
+			File f1 = new File(PATH+id+".jpg");
+			f1.delete();
+			menuMapper.deleteByPrimaryKey(id);
+		}
         return "MenuInfo";
     }
 
@@ -209,7 +218,7 @@ public class MenuController {
         }
         data = request.getParameter("dataURL");
         if (data!=""){
-            pic = "/pic/"+id+".jpg";
+            pic = "pic/"+id+".jpg";
             menu.setmPic(pic);
             upload(data,id);
         }

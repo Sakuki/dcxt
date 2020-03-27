@@ -7,14 +7,16 @@ var page;            //总页数
 var begin;
 var end;
 
+var innerID = document.getElementById("btn0");
+
 $(document).ready(function display(){
     len =$("#table_page tr").length - 1;    // 求这个表的总行数，剔除第一行介绍
     page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
     // alert("page==="+page);
     curPage=1;    // 设置当前为第一页
     displayPage(1);//显示第一页
-
-    document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
+	
+    innerID.innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
     document.getElementById("sum").innerHTML="数据总量 " + len + "";        // 显示数据量
     document.getElementById("pageSize").value = pageSize;
 
@@ -76,7 +78,7 @@ function displayPage(){
     }
 
 
-    document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";        // 显示当前多少页
+    innerID.innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";        // 显示当前多少页
 
     begin=(curPage-1)*pageSize + 1;// 起始记录号
     end = begin + 1*pageSize - 1;    // 末尾记录号

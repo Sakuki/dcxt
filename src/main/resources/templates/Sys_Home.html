@@ -144,8 +144,16 @@
 	<iframe id="main_iframe" style="width: 100%; height:  -webkit-fill-available; border: 0px;"></iframe>
 </div>
 </body>
-<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+<!-- <script type="text/javascript" src="Paging.js"></script> -->
+<!-- <link rel="stylesheet" th:href="${'/Paging.js'}" href="/Paging.js"> -->
+<!-- <script type="text/javascript" src="139.199.11.57:8080/www/server/tomcat/webapps/dcxt_Sam/WEB-INF/classes/static/Paging.js"></script> -->
+<!-- <link rel="stylesheet" href="139.199.11.57:8080/www/server/tomcat/webapps/dcxt_Sam/WEB-INF/classes/static/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+<!-- <link rel="stylesheet" th:href="${'/font-awesome-4.7.0/css/font-awesome.min.css'}" href="/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="Url.js"></script>
 <script type="text/javascript"  th:inline="javascript">
+
     //是否显示店员管理
     var uID = [[${UserId}]];
     console.log("uID is "+uID);
@@ -154,7 +162,7 @@
 		$("#KindInfo_li").css("display","none");
     }
 
-	$("#main_iframe").attr("src","/User_Home");
+	$("#main_iframe").attr("src",url+"/User_Home");
 	
 	$("#EmpInfo_a").click(function () {
 		$("#EmpInfo_ul").toggle();
@@ -169,46 +177,46 @@
 		$("#Export_Turn_ul").toggle();
     });
 	$("#first_a").click(function(){
-		$("#main_iframe").attr("src","/User_Home");
+		$("#main_iframe").attr("src",url+"/User_Home");
 	});
 	$("#EmpInfo_1").click(function(){
-		$("#main_iframe").attr("src","/EmpInfo?getInfo=1");
+		$("#main_iframe").attr("src",url+"/EmpInfo?getInfo=1");
 		removeClass("#EmpInfo_1");
 	});
 	$("#EmpInfo_2").click(function(){
-		$("#main_iframe").attr("src","/EmpInfo?getInfo=2");
+		$("#main_iframe").attr("src",url+"/EmpInfo?getInfo=2");
 		removeClass("#EmpInfo_2");
 	});
 	$("#KindInfo_1").click(function(){
-		$("#main_iframe").attr("src","/KindInfo?getInfo=1");
+		$("#main_iframe").attr("src",url+"/KindInfo?getInfo=1");
 		removeClass("#KindInfo_1");
 	});
 	$("#KindInfo_2").click(function(){
-		$("#main_iframe").attr("src","/KindInfo?getInfo=2");
+		$("#main_iframe").attr("src",url+"/KindInfo?getInfo=2");
 		removeClass("#KindInfo_2");
 	});
 	$("#MenuInfo_1").click(function(){
-		$("#main_iframe").attr("src","/MenuInfo?getInfo=1");
+		$("#main_iframe").attr("src",url+"/MenuInfo?getInfo=1");
 		removeClass("#MenuInfo_1");
 	});
 	$("#MenuInfo_2").click(function(){
-		$("#main_iframe").attr("src","/MenuInfo?getInfo=2");
+		$("#main_iframe").attr("src",url+"/MenuInfo?getInfo=2");
 		removeClass("#MenuInfo_2");
 	});
 	$("#Order_Use_1").click(function(){
-		$("#main_iframe").attr("src","/Order_Use?getInfo=1");
+		$("#main_iframe").attr("src",url+"/Order_Use?getInfo=1");
 		removeClass("#Order_Use_1");
 	});
 	$("#Order_Use_2").click(function(){
-		$("#main_iframe").attr("src","/Order_Use?getInfo=2");
+		$("#main_iframe").attr("src",url+"/Order_Use?getInfo=2");
 		removeClass("#Order_Use_2");
 	});
 	$("#Export_Turn_1").click(function(){
-		$("#main_iframe").attr("src","/Export_Turn?getInfo=1");
+		$("#main_iframe").attr("src",url+"/Export_Turn?getInfo=1");
 		removeClass("#Export_Turn_1");
 	});
 	$("#Export_Turn_2").click(function(){
-		$("#main_iframe").attr("src","/Export_Turn?getInfo=2");
+		$("#main_iframe").attr("src",url+"/Export_Turn?getInfo=2");
 		removeClass("#Export_Turn_2");
 	});
 	

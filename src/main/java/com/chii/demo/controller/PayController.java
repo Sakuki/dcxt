@@ -36,8 +36,9 @@ public class PayController {
     @ResponseBody
     public ModelAndView visitUrl(HttpServletRequest request){
         String userAgent = request.getHeader("user-agent");
-        if (userAgent == null || (!userAgent.contains("AlipayClient")
-        && !userAgent.contains("MicroMessenger"))){
+        //if (userAgent == null || (!userAgent.contains("AlipayClient")
+        //&& !userAgent.contains("MicroMessenger"))){
+		if (userAgent == null || (!userAgent.contains("AlipayClient"))){
             return new ModelAndView("visit_return_url", "msg", "请使用支付宝扫码");
         }else {
             String desk_id = request.getParameter("desk_id");

@@ -24,7 +24,7 @@
 		<a th:text="*{UserName}"></a>
 		</span>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
+		<a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a>
 	</div>
 </div>
 <div style="margin: 20px;">
@@ -38,7 +38,8 @@
 		</a>
 	</div>
 	<div class=" div_body">
-		<form name="" action="/ChangeMsg" method="post">
+		<!-- <form name="" action="/ChangeMsg" method="post"> -->
+		<form name="" action="/dcxt_Sam/ChangeMsg" method="post">
 			<div>
 				<label style="color: red;">*</label>姓名：
 				<input type="text" name="uName" id="name" th:value="${user.getuName()}"><br><br>
@@ -59,7 +60,8 @@
 </div>
 <!-- <div th:include="nav::comFooter"></div> -->
 </body>
-<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="Url.js"></script>
 <script type="text/javascript"  th:inline="javascript">
     //是否显示店员管理
     var uID = [[${UserId}]];
@@ -79,7 +81,7 @@
 	}
 
     $("#Change").click(function () {
-        window.location.href="/ChangePwd";
+        window.location.href=url+"/ChangePwd";
     });
 
 
