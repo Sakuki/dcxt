@@ -28,8 +28,7 @@
 		<a th:text="*{UserName}"></a>
 		</span>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a target="_parent" href="/LogOut" id="LogOut">注销</a>
-		<!-- <a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a> -->
+		<a target="_parent" href="/dcxt_Sam/LogOut" id="LogOut">注销</a>
 	</div>
 </div>
 <div style="margin:20px;">
@@ -46,8 +45,8 @@
 	</div>
     <div  class="div_body" id="AddInfo" hidden>
 		
-        <form name="" action="/AddEmpInfo" method="post">
-        <!-- <form name="" action="/dcxt_Sam/AddEmpInfo" method="post"> -->
+        <!-- <form name="" action="/AddEmpInfo" method="post"> -->
+        <form name="" action="/dcxt_Sam/AddEmpInfo" method="post">
             <div>
                 <label style="color: red;">*</label>工号:  <input name="uId" /><br><br>
                 <label style="color: red;">*</label>姓名:  <input name="uName"/><br><br>
@@ -64,8 +63,8 @@
     </div>
     <div id="divInfo" class="div_body"  hidden>
         <div>
-            <form name="" action="/SearchEmpInfo" method="post">
-            <!-- <form name="" action="/dcxt_Sam/SearchEmpInfo" method="post"> -->
+            <!-- <form name="" action="/SearchEmpInfo" method="post"> -->
+            <form name="" action="/dcxt_Sam/SearchEmpInfo" method="post">
                 工号: <input name="uId" style="margin-right: 20px;" />
                 姓名:  <input name="uName"  style="margin-right: 20px;"/>
                 <input type="submit" name="Search" value="查找"/>
